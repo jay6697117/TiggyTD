@@ -44,6 +44,8 @@ var _spawning: bool = false
 var _prepare_timer: float = 0.0
 var _preparing: bool = false
 
+signal prepare_tick(seconds_left: int)
+
 func _ready() -> void:
 	add_to_group("wave_manager")
 
@@ -55,9 +57,13 @@ func setup(enemies_node: Node2D) -> void:
 
 func _process(delta: float) -> void:
 	if _preparing:
+		var prev_sec := int(_prepare_timer)
 		_prepare_timer -= delta
+		if int(_prepare_timer) != prev_sec:
+			prepare_tick.emit(max(0, int(_prepare_timer)))
 		if _prepare_timer <= 0.0:
 			_preparing = false
+			prepare_tick.emit(0)
 			_begin_spawn()
 		return
 	if _spawning and _spawn_queue.size() > 0:
@@ -79,8 +85,8 @@ func spawn_reinforcements(id: String, count: int, near_pos: Vector2) -> void:
 	for i in count:
 		var e := _create_enemy(id)
 		e.position = near_pos + Vector2(randf_range(-32, 32), randf_range(-32, 32))
-		e.died.connect(_on_enemy_left.bind(e))
-		e.reached_base.connect(_on_enemy_left.bind(e))
+		e.died.connect(_on_enemy_left)
+		e.reached_base.connect(_on_enemy_left)
 		_enemies_node.add_child(e)
 		_alive_count += 1
 
@@ -121,8 +127,8 @@ func _begin_spawn() -> void:
 func _spawn_enemy(id: String, pos: Vector2) -> void:
 	var e := _create_enemy(id)
 	e.position = pos
-	e.died.connect(_on_enemy_left.bind(e))
-	e.reached_base.connect(_on_enemy_left.bind(e))
+	e.died.connect(_on_enemy_left)
+	e.reached_base.connect(_on_enemy_left)
 	_enemies_node.add_child(e)
 
 
@@ -137,7 +143,7 @@ func _create_enemy(id: String) -> Enemy:
 	e.collision_layer = Constants.LAYER_ENEMIES
 	e.collision_mask  = Constants.LAYER_TOWERS | Constants.LAYER_PATH
 	e.call_deferred("setup", id)
-	return e
+	return e as Enemy
 
 
 func _on_enemy_left(_enemy: Enemy) -> void:

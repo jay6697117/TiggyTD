@@ -231,9 +231,21 @@ func take_damage(amount: float) -> void:
 	if "ice_armor" in _data["abilities"] and randf() < 0.20:
 		amount *= 0.5
 	hp -= amount
+	queue_redraw()
 	if hp <= 0.0:
 		hp = 0.0
 		_on_die()
+
+
+func _draw() -> void:
+	if hp >= max_hp or max_hp <= 0.0:
+		return
+	var bar_w := 40.0
+	var bar_h := 5.0
+	var offset := Vector2(-bar_w * 0.5, -28.0)
+	draw_rect(Rect2(offset, Vector2(bar_w, bar_h)), Color(0.2, 0.2, 0.2))
+	var fill := bar_w * clampf(hp / max_hp, 0.0, 1.0)
+	draw_rect(Rect2(offset, Vector2(fill, bar_h)), Color(0.9, 0.15, 0.15))
 
 
 func _on_die() -> void:

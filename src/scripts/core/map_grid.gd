@@ -56,7 +56,7 @@ func is_walkable(x: int, y: int) -> bool:
 	"""寻路/敌人使用：PATH/SPAWN/BASE 可通行。"""
 	if not _in_bounds(x, y):
 		return false
-	var t := _types[x][y]
+	var t: CellType = _types[x][y]
 	return t == CellType.PATH or t == CellType.SPAWN or t == CellType.BASE
 
 
@@ -98,8 +98,8 @@ func _apply_layout() -> void:
 		_mark_segment(WAYPOINTS[i], WAYPOINTS[i + 1])
 
 	# 2. 起点和终点
-	_set(WAYPOINTS[0].x, WAYPOINTS[0].y, CellType.SPAWN)
-	_set(WAYPOINTS[-1].x, WAYPOINTS[-1].y, CellType.BASE)
+	_set_cell(WAYPOINTS[0].x, WAYPOINTS[0].y, CellType.SPAWN)
+	_set_cell(WAYPOINTS[-1].x, WAYPOINTS[-1].y, CellType.BASE)
 
 	# 3. 路径边缘格（紧贴路径的格子）不可建造 → BLOCKED
 	for x in WIDTH:
@@ -108,33 +108,33 @@ func _apply_layout() -> void:
 				_set_cell(x, y, CellType.BLOCKED)
 
 	# 4. 四角装饰封锁区（2×2）
-	for corner in [Vector2i(0,0), Vector2i(18,0), Vector2i(0,13), Vector2i(18,13)]:
+	for corner: Vector2i in [Vector2i(0,0), Vector2i(18,0), Vector2i(0,13), Vector2i(18,13)]:
 		for dx in 2:
 			for dy in 2:
-				var cx := corner.x + dx
-				var cy := corner.y + dy
+				var cx: int = corner.x + dx
+				var cy: int = corner.y + dy
 				if _types[cx][cy] == CellType.BUILD:
-					_set(cx, cy, CellType.BLOCKED)
+					_set_cell(cx, cy, CellType.BLOCKED)
 
 
 func _mark_segment(from: Vector2i, to: Vector2i) -> void:
 	var x := from.x
 	var y := from.y
-	var dx := sign(to.x - from.x)
-	var dy := sign(to.y - from.y)
+	var dx: int = sign(to.x - from.x)
+	var dy: int = sign(to.y - from.y)
 	while x != to.x or y != to.y:
 		_set_cell(x, y, CellType.PATH)
 		x += dx
 		y += dy
-	_set(to.x, to.y, CellType.PATH)
+	_set_cell(to.x, to.y, CellType.PATH)
 
 
 func _adjacent_to_path(x: int, y: int) -> bool:
-	for offset in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
-		var nx := x + offset.x
-		var ny := y + offset.y
+	for offset: Vector2i in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
+		var nx: int = x + offset.x
+		var ny: int = y + offset.y
 		if _in_bounds(nx, ny):
-			var t := _types[nx][ny]
+			var t: CellType = _types[nx][ny]
 			if t == CellType.PATH or t == CellType.SPAWN or t == CellType.BASE:
 				return true
 	return false

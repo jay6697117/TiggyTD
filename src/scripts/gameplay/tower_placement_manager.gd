@@ -114,7 +114,7 @@ func _create_tower(animal_id: String, cell: Vector2i) -> Tower:
 	t.collision_mask  = Constants.LAYER_ENEMIES
 	t.position = _cell_center(cell)
 	t.call_deferred("setup", animal_id, cell)
-	return t
+	return t as Tower
 
 
 func _cell_center(cell: Vector2i) -> Vector2:

@@ -42,6 +42,29 @@ var grid_cell: Vector2i = Vector2i(-1, -1)
 
 signal tower_destroyed(tower: Tower)
 
+# 各动物占位色（无美术资源时可视区分）
+const ANIMAL_COLORS: Dictionary = {
+	"cheetah":     Color(0.95, 0.80, 0.20),
+	"wolf_pack":   Color(0.50, 0.50, 0.70),
+	"honey_badger":Color(0.30, 0.30, 0.30),
+	"elephant":    Color(0.60, 0.60, 0.65),
+	"pangolin":    Color(0.70, 0.55, 0.35),
+	"tiger":       Color(0.90, 0.50, 0.10),
+	"lion":        Color(0.95, 0.75, 0.30),
+	"eagle":       Color(0.30, 0.50, 0.90),
+	"owl":         Color(0.55, 0.40, 0.70),
+	"otter":       Color(0.40, 0.70, 0.60),
+	"peacock":     Color(0.10, 0.75, 0.60),
+	"chameleon":   Color(0.30, 0.80, 0.30),
+}
+
+
+func _draw() -> void:
+	var col: Color = ANIMAL_COLORS.get(animal_id, Color(0.8, 0.8, 0.8))
+	var half := Constants.TILE_SIZE * 0.5 - 6.0
+	draw_rect(Rect2(-half, -half, half * 2.0, half * 2.0), col)
+	draw_rect(Rect2(-half, -half, half * 2.0, half * 2.0), Color.WHITE, false, 2.0)
+
 
 func setup(id: String, cell: Vector2i) -> void:
 	animal_id = id

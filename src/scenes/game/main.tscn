@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://main_scene"]
+[gd_scene load_steps=10 format=3 uid="uid://main_scene"]
 
 [ext_resource type="Script" path="res://scripts/core/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/gameplay/map_renderer.gd" id="2_renderer"]
 [ext_resource type="Script" path="res://scripts/gameplay/wave_manager.gd" id="3_wave"]
 [ext_resource type="Script" path="res://scripts/gameplay/tower_placement_manager.gd" id="4_placement"]
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="5_hud"]
+[ext_resource type="Script" path="res://scripts/ui/build_panel.gd" id="6_build"]
+[ext_resource type="Script" path="res://scripts/ui/game_over_panel.gd" id="7_gameover"]
+[ext_resource type="Script" path="res://scripts/gameplay/hero.gd" id="8_hero"]
+[ext_resource type="Script" path="res://scripts/ui/wave_banner.gd" id="9_banner"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -23,12 +28,118 @@ script = ExtResource("2_renderer")
 [node name="Enemies" type="Node2D" parent="Entities"]
 
 [node name="Hero" type="Node2D" parent="Entities"]
+script = ExtResource("8_hero")
 
 [node name="Projectiles" type="Node2D" parent="Entities"]
 
 [node name="VFXLayer" type="Node2D" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("5_hud")
+
+[node name="Panel" type="Panel" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_top = 0.0
+offset_bottom = 64.0
+
+[node name="HBox" type="HBoxContainer" parent="UI/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 4.0
+offset_right = -12.0
+offset_bottom = -4.0
+theme_override_constants/separation = 24
+
+[node name="LabelHP" type="Label" parent="UI/Panel/HBox"]
+text = "基地：10 / 10"
+size_flags_horizontal = 3
+
+[node name="LabelGold" type="Label" parent="UI/Panel/HBox"]
+text = "金币：150"
+size_flags_horizontal = 3
+
+[node name="LabelWave" type="Label" parent="UI/Panel/HBox"]
+text = "波次：0 / 10"
+size_flags_horizontal = 3
+
+[node name="LabelCountdown" type="Label" parent="UI/Panel/HBox"]
+text = ""
+size_flags_horizontal = 3
+visible = false
+
+[node name="BtnStart" type="Button" parent="UI/Panel/HBox"]
+text = "开始下一波"
+custom_minimum_size = Vector2(120, 0)
+
+[node name="WaveBanner" type="Control" parent="UI"]
+anchor_left = 0.25
+anchor_top = 0.35
+anchor_right = 0.75
+anchor_bottom = 0.55
+script = ExtResource("9_banner")
+
+[node name="Label" type="Label" parent="UI/WaveBanner"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 56
+text = "第 1 波"
+
+[node name="BuildPanel" type="PanelContainer" parent="UI"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_bottom = 0.0
+script = ExtResource("6_build")
+
+[node name="HBox" type="HBoxContainer" parent="UI/BuildPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="GameOverPanel" type="CanvasLayer" parent="."]
+layer = 10
+script = ExtResource("7_gameover")
+
+[node name="Panel" type="PanelContainer" parent="GameOverPanel"]
+anchor_left = 0.25
+anchor_top = 0.2
+anchor_right = 0.75
+anchor_bottom = 0.8
+
+[node name="VBox" type="VBoxContainer" parent="GameOverPanel/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+theme_override_constants/separation = 16
+
+[node name="LabelTitle" type="Label" parent="GameOverPanel/Panel/VBox"]
+text = "胜利！"
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+
+[node name="LabelHP" type="Label" parent="GameOverPanel/Panel/VBox"]
+text = "基地残余 HP：10 / 10"
+horizontal_alignment = 1
+
+[node name="LabelKills" type="Label" parent="GameOverPanel/Panel/VBox"]
+text = "击杀数：0"
+horizontal_alignment = 1
+
+[node name="LabelWaves" type="Label" parent="GameOverPanel/Panel/VBox"]
+text = "抵御波次：0 / 10"
+horizontal_alignment = 1
+
+[node name="BtnRestart" type="Button" parent="GameOverPanel/Panel/VBox"]
+text = "再来一局"
+custom_minimum_size = Vector2(200, 48)
 
 [node name="WaveManager" type="Node" parent="."]
 script = ExtResource("3_wave")
