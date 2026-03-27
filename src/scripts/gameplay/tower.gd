@@ -119,9 +119,20 @@ func _find_target() -> void:
 
 
 func _fire() -> void:
-	_attack_timer = 1.0 / _atk_speed
+	var aura_bonus: float = _get_aura_bonus()
+	_attack_timer = 1.0 / (_atk_speed * (1.0 + aura_bonus))
 	var final_dmg := _atk * (1.0 - clampf(_current_target._armor_rate, 0.0, 1.0))
 	_current_target.take_damage(final_dmg)
+
+
+func _get_aura_bonus() -> float:
+	var heroes := get_tree().get_nodes_in_group("hero")
+	for h in heroes:
+		if h.has_method("get_aura_bonus_for"):
+			var bonus: float = h.get_aura_bonus_for(position)
+			if bonus > 0.0:
+				return bonus
+	return 0.0
 
 
 # ── 受伤（被敌人攻击） ──────────────────────────────────────────────────────

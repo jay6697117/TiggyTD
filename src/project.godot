@@ -27,6 +27,7 @@ SaveLoad="*res://autoloads/save_load.gd"
 AudioSystem="*res://autoloads/audio_system.gd"
 VFXSystem="*res://autoloads/vfx_system.gd"
 GridManager="*res://autoloads/grid_manager.gd"
+PathfindingSystem="*res://autoloads/pathfinding_system.gd"
 
 [display]
 
