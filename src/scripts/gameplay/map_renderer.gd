@@ -27,6 +27,11 @@ signal cell_clicked(cell: Vector2i, cell_type: MapGrid.CellType)
 signal cell_hovered(cell: Vector2i)
 
 
+func _ready() -> void:
+	_grid = GridManager.grid
+	queue_redraw()
+
+
 func setup(grid: MapGrid) -> void:
 	_grid = grid
 	queue_redraw()

@@ -105,7 +105,7 @@ func _apply_layout() -> void:
 	for x in WIDTH:
 		for y in HEIGHT:
 			if _types[x][y] == CellType.BUILD and _adjacent_to_path(x, y):
-				_set(x, y, CellType.BLOCKED)
+				_set_cell(x, y, CellType.BLOCKED)
 
 	# 4. 四角装饰封锁区（2×2）
 	for corner in [Vector2i(0,0), Vector2i(18,0), Vector2i(0,13), Vector2i(18,13)]:
@@ -123,7 +123,7 @@ func _mark_segment(from: Vector2i, to: Vector2i) -> void:
 	var dx := sign(to.x - from.x)
 	var dy := sign(to.y - from.y)
 	while x != to.x or y != to.y:
-		_set(x, y, CellType.PATH)
+		_set_cell(x, y, CellType.PATH)
 		x += dx
 		y += dy
 	_set(to.x, to.y, CellType.PATH)
@@ -140,7 +140,7 @@ func _adjacent_to_path(x: int, y: int) -> bool:
 	return false
 
 
-func _set(x: int, y: int, t: CellType) -> void:
+func _set_cell(x: int, y: int, t: CellType) -> void:
 	if _in_bounds(x, y):
 		_types[x][y] = t
 

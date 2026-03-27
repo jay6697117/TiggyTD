@@ -1,12 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://main_scene"]
+[gd_scene load_steps=5 format=3 uid="uid://main_scene"]
 
 [ext_resource type="Script" path="res://scripts/core/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/gameplay/map_renderer.gd" id="2_renderer"]
+[ext_resource type="Script" path="res://scripts/gameplay/wave_manager.gd" id="3_wave"]
+[ext_resource type="Script" path="res://scripts/gameplay/tower_placement_manager.gd" id="4_placement"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 480)
+
+[node name="MapRenderer" type="Node2D" parent="."]
+script = ExtResource("2_renderer")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 
@@ -23,3 +29,9 @@ position = Vector2(640, 480)
 [node name="VFXLayer" type="Node2D" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="WaveManager" type="Node" parent="."]
+script = ExtResource("3_wave")
+
+[node name="TowerPlacementManager" type="Node" parent="."]
+script = ExtResource("4_placement")
