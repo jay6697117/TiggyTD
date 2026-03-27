@@ -224,11 +224,11 @@ func _update_boss_phases() -> void:
 
 # ── 受伤/死亡 ───────────────────────────────────────────────────────────────
 
-func take_damage(amount: float) -> void:
+func take_damage(amount: float, ignore_armor: bool = false) -> void:
 	if hp <= 0.0:
 		return
-	# ice_armor（冰河巨熊）：20%概率伤害减半
-	if "ice_armor" in _data["abilities"] and randf() < 0.20:
+	# ice_armor（冰河巨熊）：20%概率伤害减半（无视护甲时跳过）
+	if not ignore_armor and "ice_armor" in _data["abilities"] and randf() < 0.20:
 		amount *= 0.5
 	hp -= amount
 	queue_redraw()

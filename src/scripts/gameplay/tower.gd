@@ -40,6 +40,9 @@ var _current_target: Enemy = null
 # 格子坐标（放置时记录，回收时用）
 var grid_cell: Vector2i = Vector2i(-1, -1)
 
+# buff 叠加字典：{ buff_id -> {duration, atk_mult, speed_mult} }
+var _buffs: Dictionary = {}
+
 signal tower_destroyed(tower: Tower)
 
 # 各动物占位色（无美术资源时可视区分）
@@ -67,6 +70,7 @@ func _draw() -> void:
 
 
 func setup(id: String, cell: Vector2i) -> void:
+	add_to_group("towers")
 	animal_id = id
 	grid_cell  = cell
 	_data = ANIMAL_DB[id]
@@ -81,12 +85,24 @@ func setup(id: String, cell: Vector2i) -> void:
 func _process(delta: float) -> void:
 	if hp <= 0.0:
 		return
+	_process_buffs(delta)
 	_attack_timer -= delta
 	if _attack_timer > 0.0:
 		return
 	_find_target()
 	if _current_target != null and is_instance_valid(_current_target):
 		_fire()
+
+
+func _process_buffs(delta: float) -> void:
+	for id in _buffs.keys():
+		_buffs[id]["duration"] -= delta
+		if _buffs[id]["duration"] <= 0.0:
+			_buffs.erase(id)
+
+
+func apply_buff(buff_id: String, duration: float, atk_mult: float = 1.0, speed_mult: float = 1.0) -> void:
+	_buffs[buff_id] = {"duration": duration, "atk_mult": atk_mult, "speed_mult": speed_mult}
 
 
 # ── 攻击 ────────────────────────────────────────────────────────────────────
@@ -120,8 +136,13 @@ func _find_target() -> void:
 
 func _fire() -> void:
 	var aura_bonus: float = _get_aura_bonus()
-	_attack_timer = 1.0 / (_atk_speed * (1.0 + aura_bonus))
-	var final_dmg := _atk * (1.0 - clampf(_current_target._armor_rate, 0.0, 1.0))
+	var eff_speed := _atk_speed * (1.0 + aura_bonus)
+	var eff_atk := _atk
+	for buff in _buffs.values():
+		eff_speed *= buff.get("speed_mult", 1.0)
+		eff_atk   *= buff.get("atk_mult",   1.0)
+	_attack_timer = 1.0 / eff_speed
+	var final_dmg := eff_atk * (1.0 - clampf(_current_target._armor_rate, 0.0, 1.0))
 	_current_target.take_damage(final_dmg)
 
 
