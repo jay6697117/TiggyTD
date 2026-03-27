@@ -18,9 +18,9 @@ Always cross-reference this directory before suggesting Godot API calls.
 
 | Version | Release | Risk Level | Key Theme |
 |---------|---------|------------|-----------|
-| 4.4 | ~Mid 2025 | MEDIUM | Jolt physics option, FileAccess return types, shader texture type changes |
-| 4.5 | ~Late 2025 | HIGH | Accessibility (AccessKit), variadic args, @abstract, shader baker, SMAA |
-| 4.6 | Jan 2026 | HIGH | Jolt default, glow rework, D3D12 default on Windows, IK restored |
+| 4.4 | ~Mid 2025 | MEDIUM | Universal UIDs, SceneTree overhaul, Jolt opt-in, typed dicts in GDScript |
+| 4.5 | ~Late 2025 | HIGH | NavigationServer2D independent, duplicate() deep copy rework, chunk TileMap collision, variadic args, shader baker |
+| 4.6 | Jan 2026 | HIGH | Jolt default (3D only), glow before tonemapping, D3D12 default on Windows, Unique Node IDs, JSON GDExtension |
 
 ## Verified Sources
 
