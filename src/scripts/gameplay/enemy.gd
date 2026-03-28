@@ -86,6 +86,8 @@ func setup(id: String) -> void:
 func _add_sprite() -> void:
 	var sprite := Sprite2D.new()
 	sprite.texture = load("res://assets/art/enemies/%s.png" % enemy_id)
+	var s := float(Constants.TILE_SIZE) / 256.0
+	sprite.scale = Vector2(s, s)
 	add_child(sprite)
 
 

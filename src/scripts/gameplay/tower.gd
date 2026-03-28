@@ -78,6 +78,8 @@ func setup(id: String, cell: Vector2i) -> void:
 func _add_sprite() -> void:
 	_sprite = Sprite2D.new()
 	_sprite.texture = load("res://assets/art/towers/%s.png" % animal_id)
+	var s := float(Constants.TILE_SIZE) / 256.0
+	_sprite.scale = Vector2(s, s)
 	add_child(_sprite)
 
 
