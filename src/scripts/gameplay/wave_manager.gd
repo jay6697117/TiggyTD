@@ -6,8 +6,8 @@ extends Node
 # 依赖：GameState, GridManager, Constants
 # ---------------------------------------------------------------------------
 
-const PREPARE_TIME_FIRST := 30.0
-const PREPARE_TIME       := 15.0
+const PREPARE_TIME_FIRST := 10.0
+const PREPARE_TIME       := 12.0
 const SPAWN_INTERVAL     := 1.5
 
 # 波次配置：每条为 [enemy_id, count]
@@ -104,7 +104,7 @@ func _start_wave_prep() -> void:
 		return
 	# 发放波次补贴（Boss 波不发）
 	if wave_idx < 9:
-		var bonus := 50 + wave_idx * 10
+		var bonus := 60 + wave_idx * 15
 		GameState.add_gold(bonus)
 	# 准备计时
 	_prepare_timer = PREPARE_TIME_FIRST if wave_idx == 0 else PREPARE_TIME

@@ -25,12 +25,30 @@ const ANIMALS: Array = [
 var _selected_id: String = ""
 var _buttons: Array = []
 
+# 升级提示标签（动态创建）
+var _info_label: Label = null
+
 
 func _ready() -> void:
 	_build_buttons()
+	_build_info_label()
 	GameState.gold_changed.connect(_on_gold_changed)
 	GameState.state_changed.connect(_on_state_changed)
 	_refresh_buttons()
+	call_deferred("_connect_placement_manager")
+
+
+func _connect_placement_manager() -> void:
+	var pm := get_tree().get_first_node_in_group("tower_placement")
+	if pm:
+		pm.tower_focused.connect(_on_tower_focused)
+
+
+func _build_info_label() -> void:
+	_info_label = Label.new()
+	_info_label.visible = false
+	_info_label.add_theme_font_size_override("font_size", 14)
+	add_child(_info_label)
 
 
 func _build_buttons() -> void:
@@ -85,6 +103,21 @@ func _refresh_buttons() -> void:
 			btn.modulate = Color(0.4, 1.0, 0.4)
 		else:
 			btn.modulate = Color.WHITE
+
+
+func _on_tower_focused(tower: Tower) -> void:
+	if not is_instance_valid(tower):
+		_info_label.visible = false
+		return
+	var cost := tower.upgrade_cost()
+	if tower.can_upgrade():
+		_info_label.text = "Lv%d → Lv%d  升级费用：%dg" % [tower.level, tower.level + 1, cost]
+	else:
+		_info_label.text = "Lv%d 已满级" % tower.level
+	_info_label.visible = true
+	# 3秒后自动隐藏
+	var t := get_tree().create_timer(3.0)
+	t.timeout.connect(func(): if is_instance_valid(_info_label): _info_label.visible = false)
 
 
 func _on_gold_changed(_amount: int) -> void:

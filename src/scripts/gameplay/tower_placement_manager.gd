@@ -19,6 +19,8 @@ var _towers_node: Node2D
 # cell → Tower 的映射
 var _placed_towers: Dictionary = {}  # Vector2i → Tower
 
+signal tower_focused(tower: Tower)
+
 func _ready() -> void:
 	add_to_group("tower_placement")
 
@@ -41,12 +43,18 @@ func cancel_placement() -> void:
 	_pending_animal_id = ""
 
 
-# 点击格子：放置或回收
+# 点击格子：放置 / 升级 / 出售
 func on_cell_clicked(cell: Vector2i, _cell_type: MapGrid.CellType) -> void:
 	if GameState.current_state != GameState.State.BUILD:
 		return
 	if _placed_towers.has(cell):
-		_sell_tower(cell)
+		if _pending_animal_id != "":
+			# 选中动物时点击已有塔 → 出售
+			_sell_tower(cell)
+		else:
+			# 未选中动物时点击已有塔 → 发出信息信号，再升级
+			tower_focused.emit(_placed_towers[cell])
+			_try_upgrade(cell)
 		return
 	if _pending_animal_id != "":
 		_try_place(_pending_animal_id, cell)
@@ -89,6 +97,16 @@ func _try_place(animal_id: String, cell: Vector2i) -> void:
 	GridManager.grid.occupy(cell.x, cell.y, _tower_id(tower))
 	GridManager.obstacle_changed.emit()
 	_pending_animal_id = ""  # 放置后清空选择
+
+
+func _try_upgrade(cell: Vector2i) -> void:
+	var tower: Tower = _placed_towers[cell]
+	if not tower.can_upgrade():
+		return  # 已满级
+	var cost := tower.upgrade_cost()
+	if not GameState.spend_gold(cost):
+		return  # 金币不足
+	tower.upgrade()
 
 
 func _sell_tower(cell: Vector2i) -> void:

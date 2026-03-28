@@ -33,7 +33,7 @@
 - [x] S3-04 自然之召（hero.gd `_do_natures_call`）
 - [x] S3-05 纪元审判（hero.gd `_try_era_judgement_target` + enemy.gd `ignore_armor`）
 - [x] S3-06 技能UI（hud.gd + main.tscn SkillBar）
-- [ ] S3-07 MVP集成验收
+- [x] S3-07 MVP集成验收
 
 ## 修改文件
 - `src/scripts/gameplay/tower.gd` — 加入 `_buffs` 字典、`apply_buff()`、`_process_buffs()`，`_fire()` 应用buff乘数，`setup()` 加入 "towers" group
