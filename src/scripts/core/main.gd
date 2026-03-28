@@ -31,6 +31,7 @@ func _connect_signals() -> void:
 	GameState.state_changed.connect(_on_state_changed)
 	GameState.base_hp_changed.connect(_on_base_hp_changed)
 	map_renderer.cell_clicked.connect(tower_placement.on_cell_clicked)
+	tower_placement.tower_focused.connect(func(t): get_tree().call_group("hud", "show_skill_tree", t))
 
 
 func _on_state_changed(new_state: GameState.State) -> void:

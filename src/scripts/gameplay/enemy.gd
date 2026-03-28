@@ -81,6 +81,7 @@ signal reached_base(enemy: Enemy)
 
 
 func setup(id: String) -> void:
+	add_to_group("enemies")
 	enemy_id = id
 	_data = ENEMY_DB[id]
 	hp           = float(_data["hp"])

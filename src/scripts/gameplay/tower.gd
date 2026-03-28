@@ -23,6 +23,24 @@ const ANIMAL_DB: Dictionary = {
 	"pangolin":   {"cost": 160, "hp": 350, "atk": 40,  "atk_speed": 0.7, "range": 1.5, "armor_rate": 0.45, "ability": "armor_break"},
 }
 
+const SKILL_TREE_DB: Dictionary = {
+	"cheetah": [
+		{"id": "cheetah_A",  "label": "攻速+15%",         "cost": 40, "prereq": "",          "mutex": ""},
+		{"id": "cheetah_B1", "label": "暴击率20% 伤害×2",  "cost": 60, "prereq": "cheetah_A", "mutex": "cheetah_B2"},
+		{"id": "cheetah_B2", "label": "命中30%概率减速2秒", "cost": 60, "prereq": "cheetah_A", "mutex": "cheetah_B1"},
+	],
+	"elephant": [
+		{"id": "elephant_A",  "label": "攻击范围+1格",    "cost": 50, "prereq": "",           "mutex": ""},
+		{"id": "elephant_B1", "label": "攻击附加恐惧2秒",  "cost": 80, "prereq": "elephant_A", "mutex": "elephant_B2"},
+		{"id": "elephant_B2", "label": "踩踏群体减速",    "cost": 80, "prereq": "elephant_A", "mutex": "elephant_B1"},
+	],
+	"wolf_pack": [
+		{"id": "wolf_A",  "label": "攻击力+20%",           "cost": 60, "prereq": "",       "mutex": ""},
+		{"id": "wolf_B1", "label": "攻速+20%",             "cost": 80, "prereq": "wolf_A", "mutex": "wolf_B2"},
+		{"id": "wolf_B2", "label": "群殴：33%触发+50%伤害", "cost": 80, "prereq": "wolf_A", "mutex": "wolf_B1"},
+	],
+}
+
 # ── 运行时状态 ──────────────────────────────────────────────────────────────
 var animal_id: String = "cheetah"
 var _data: Dictionary
@@ -49,6 +67,14 @@ var _synergy_armor_bonus: float = 0.0
 # 协同特殊标记
 var synergy_stun_chance: float = 0.0
 var synergy_on_hit_slow: bool = false
+
+# 技能树
+var unlocked_skills: Array[String] = []
+var _skill_crit_chance: float = 0.0
+var _skill_slow_on_hit_chance: float = 0.0
+var _skill_trample_fear: bool = false
+var _skill_trample_aoe_slow: bool = false
+var _skill_wolf_rampage_chance: float = 0.0
 
 # 升级
 const MAX_LEVEL := 3
@@ -198,6 +224,10 @@ func _fire() -> void:
 	_attack_timer = 1.0 / eff_speed
 	var eff_armor := clampf(_current_target._armor_rate - _synergy_armor_bonus, 0.0, 1.0)
 	var final_dmg := eff_atk * (1.0 - eff_armor)
+	if _skill_crit_chance > 0.0 and randf() < _skill_crit_chance:
+		final_dmg *= 2.0
+	if _skill_wolf_rampage_chance > 0.0 and randf() < _skill_wolf_rampage_chance:
+		final_dmg *= 1.5
 	_current_target.take_damage(final_dmg)
 	_apply_on_hit_effect()
 
@@ -223,6 +253,36 @@ func _apply_on_hit_effect() -> void:
 		_current_target.apply_status("stun", 0.5)
 	if synergy_on_hit_slow:
 		_current_target.apply_status("slow", 2.0)
+	if _skill_slow_on_hit_chance > 0.0 and randf() < _skill_slow_on_hit_chance:
+		_current_target.apply_status("slow", 2.0)
+	if _skill_trample_fear:
+		_current_target.apply_status("fear", 2.0)
+	if _skill_trample_aoe_slow:
+		var hit_pos := _current_target.position
+		for e in get_tree().get_nodes_in_group("enemies"):
+			if e.position.distance_to(hit_pos) < Constants.TILE_SIZE * 2.0:
+				e.apply_status("slow", 2.0)
+
+
+func unlock_skill(node_id: String) -> void:
+	if node_id in unlocked_skills:
+		return
+	unlocked_skills.append(node_id)
+	_apply_skill_effect(node_id)
+	queue_redraw()
+
+
+func _apply_skill_effect(node_id: String) -> void:
+	match node_id:
+		"cheetah_A":  _atk_speed *= 1.15
+		"cheetah_B1": _skill_crit_chance = 0.20
+		"cheetah_B2": _skill_slow_on_hit_chance = 0.30
+		"elephant_A": _range_px += Constants.TILE_SIZE
+		"elephant_B1": _skill_trample_fear = true
+		"elephant_B2": _skill_trample_aoe_slow = true
+		"wolf_A":  _atk *= 1.20
+		"wolf_B1": _atk_speed *= 1.20
+		"wolf_B2": _skill_wolf_rampage_chance = 0.33
 
 
 func _get_aura_bonus() -> float:

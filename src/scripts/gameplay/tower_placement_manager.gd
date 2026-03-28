@@ -52,9 +52,8 @@ func on_cell_clicked(cell: Vector2i, _cell_type: MapGrid.CellType) -> void:
 			# 选中动物时点击已有塔 → 出售
 			_sell_tower(cell)
 		else:
-			# 未选中动物时点击已有塔 → 发出信息信号，再升级
+			# 未选中动物时点击已有塔 → 打开技能树/升级面板
 			tower_focused.emit(_placed_towers[cell])
-			_try_upgrade(cell)
 		return
 	if _pending_animal_id != "":
 		_try_place(_pending_animal_id, cell)

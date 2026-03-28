@@ -196,3 +196,18 @@ func on_boss_shield_changed(active: bool) -> void:
 func _on_boss_died(_enemy: Enemy) -> void:
 	if _boss_bar_container != null:
 		_boss_bar_container.visible = false
+
+
+# ── 技能树面板 ──────────────────────────────────────────────────────────────
+
+const SkillTreePanelScript := preload("res://scripts/ui/skill_tree_panel.gd")
+var _skill_tree_panel: Control = null
+
+
+func show_skill_tree(tower: Tower) -> void:
+	if _skill_tree_panel == null:
+		_skill_tree_panel = Control.new()
+		_skill_tree_panel.set_script(SkillTreePanelScript)
+		_skill_tree_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		add_child(_skill_tree_panel)
+	_skill_tree_panel.show_for(tower)
