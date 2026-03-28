@@ -160,7 +160,10 @@ func _try_era_judgement_target(world_pos: Vector2) -> void:
 
 func _do_era_judgement() -> void:
 	if _era_target != null and is_instance_valid(_era_target):
-		_era_target.take_damage(300.0, true)  # true = 无视护甲
+		if _era_target.has_method("break_shield") and _era_target._shield_active:
+			_era_target.break_shield()
+		else:
+			_era_target.take_damage(300.0, true)  # true = 无视护甲
 	_era_target = null
 
 

@@ -135,3 +135,64 @@ func _on_skill_cd_updated(skill: String, remaining: float, max_cd: float) -> voi
 func _on_btn_start_pressed() -> void:
 	if GameState.current_state == GameState.State.BUILD:
 		GameState.change_state(GameState.State.WAVE)
+
+
+# ── Boss HP 条 ──────────────────────────────────────────────────────────────
+
+var _boss_bar_container: PanelContainer = null
+var _boss_hp_bar: ProgressBar = null
+var _boss_name_label: Label = null
+var _boss_enemy: Enemy = null
+
+
+func show_boss_bar(enemy: Enemy) -> void:
+	_boss_enemy = enemy
+	if _boss_bar_container == null:
+		_build_boss_bar()
+	_boss_hp_bar.max_value = enemy.max_hp
+	_boss_hp_bar.value = enemy.hp
+	_boss_name_label.text = "沧龙霸主"
+	_boss_bar_container.visible = true
+	enemy.died.connect(_on_boss_died)
+
+
+func _build_boss_bar() -> void:
+	_boss_bar_container = PanelContainer.new()
+	_boss_bar_container.anchor_left = 0.2
+	_boss_bar_container.anchor_right = 0.8
+	_boss_bar_container.anchor_top = 0.0
+	_boss_bar_container.anchor_bottom = 0.0
+	_boss_bar_container.offset_top = 4.0
+	_boss_bar_container.offset_bottom = 44.0
+	add_child(_boss_bar_container)
+	var vbox := VBoxContainer.new()
+	_boss_bar_container.add_child(vbox)
+	_boss_name_label = Label.new()
+	_boss_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_boss_name_label.add_theme_font_size_override("font_size", 14)
+	vbox.add_child(_boss_name_label)
+	_boss_hp_bar = ProgressBar.new()
+	_boss_hp_bar.custom_minimum_size = Vector2(0, 18)
+	_boss_hp_bar.show_percentage = false
+	vbox.add_child(_boss_hp_bar)
+
+
+func update_boss_bar(hp: float) -> void:
+	if _boss_hp_bar != null:
+		_boss_hp_bar.value = hp
+
+
+func on_boss_shield_changed(active: bool) -> void:
+	if _boss_hp_bar == null:
+		return
+	if active:
+		_boss_hp_bar.modulate = Color(0.3, 0.6, 1.0)
+		_boss_name_label.text = "沧龙霸主  【护盾中】"
+	else:
+		_boss_hp_bar.modulate = Color.WHITE
+		_boss_name_label.text = "沧龙霸主"
+
+
+func _on_boss_died(_enemy: Enemy) -> void:
+	if _boss_bar_container != null:
+		_boss_bar_container.visible = false

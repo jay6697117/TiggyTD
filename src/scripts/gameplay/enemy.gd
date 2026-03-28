@@ -63,6 +63,9 @@ var _charge_triggered: bool = false
 
 # boss 阶段（霸王龙王）
 var _boss_phase: int = 0
+var is_boss: bool = false
+var _shield_active: bool = false
+var _shield_timer: float = 0.0
 
 # 状态效果
 var active_effects: Array = []  # Array[StatusEffect]
@@ -88,6 +91,7 @@ func setup(id: String) -> void:
 	_armor_rate  = float(_data["armor_rate"])
 	_base_dmg    = int(_data["base_dmg"])
 	is_flying    = "fly" in _data["abilities"]
+	is_boss      = (id == "trex_king")
 	_waypoint_index = 0
 	# 起点位置
 	position = _cell_center(WAYPOINTS[0])
@@ -211,7 +215,7 @@ func _update_abilities(delta: float) -> void:
 		_check_charge()
 
 	if "boss_phase" in abilities:
-		_update_boss_phases()
+		_update_boss_phases(delta)
 
 
 func _check_charge() -> void:
@@ -330,16 +334,36 @@ func _tick_status_effects(delta: float) -> void:
 		_on_status_removed(eff.effect_id)
 
 
-func _update_boss_phases() -> void:
+func _update_boss_phases(delta: float) -> void:
 	var hp_pct := hp / max_hp
 	if _boss_phase == 0 and hp_pct <= 0.5:
 		_boss_phase = 1
-		_speed_current = _speed_base * 1.5
-		_atk *= 1.3
-	if _boss_phase == 1 and hp_pct <= 0.25:
-		_boss_phase = 2
-		# 召唤2只迅猛龙援军
-		get_tree().call_group("wave_manager", "spawn_reinforcements", "raptor", 2, position)
+		_shield_active = true
+		_shield_timer = Constants.BOSS_SHIELD_DURATION
+		queue_redraw()
+		get_tree().call_group("hud", "show_synergy_banner", "远古护盾已激活！")
+		get_tree().call_group("hud", "on_boss_shield_changed", true)
+	elif _boss_phase == 1 and _shield_active:
+		_shield_timer -= delta
+		if _shield_timer <= 0.0:
+			_shield_active = false
+			_speed_current *= 1.2
+			_boss_phase = 2
+			queue_redraw()
+			get_tree().call_group("hud", "on_boss_shield_changed", false)
+
+
+func break_shield() -> void:
+	if not _shield_active:
+		return
+	_shield_active = false
+	_boss_phase = 2
+	queue_redraw()
+	get_tree().call_group("hud", "on_boss_shield_changed", false)
+
+
+func _notify_hud_boss_bar() -> void:
+	get_tree().call_group("hud", "show_boss_bar", self)
 
 
 # ── 受伤/死亡 ───────────────────────────────────────────────────────────────
@@ -347,12 +371,17 @@ func _update_boss_phases() -> void:
 func take_damage(amount: float, ignore_armor: bool = false) -> void:
 	if hp <= 0.0:
 		return
+	# Boss 护盾：免疫所有非 ignore_armor 伤害
+	if _shield_active and not ignore_armor:
+		return
 	# ice_armor（冰河巨熊）：20%概率伤害减半（无视护甲时跳过）
 	if not ignore_armor and "ice_armor" in _data["abilities"] and randf() < 0.20:
 		amount *= 0.5
 	hp -= amount
 	queue_redraw()
 	_spawn_damage_label(amount)
+	if is_boss:
+		get_tree().call_group("hud", "update_boss_bar", hp)
 	if hp <= 0.0:
 		hp = 0.0
 		_on_die()
@@ -396,6 +425,9 @@ func _draw() -> void:
 		dot_x += 8.0
 	if _armor_broken:
 		draw_circle(Vector2(dot_x, dot_y), 3.0, Color(1.0, 0.5, 0.1))
+	# Boss 护盾光圈
+	if _shield_active:
+		draw_arc(Vector2.ZERO, float(Constants.TILE_SIZE) * 0.55, 0.0, TAU, 32, Color(0.3, 0.6, 1.0, 0.85), 3.0)
 
 
 func _on_die() -> void:

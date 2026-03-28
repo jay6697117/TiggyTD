@@ -130,6 +130,9 @@ func _spawn_enemy(id: String, pos: Vector2) -> void:
 	e.died.connect(_on_enemy_left)
 	e.reached_base.connect(_on_enemy_left)
 	_enemies_node.add_child(e)
+	if id == "trex_king":
+		get_tree().call_group("hud", "show_synergy_banner", "沧龙霸主降临！")
+		e.call_deferred("_notify_hud_boss_bar")
 
 
 func _create_enemy(id: String) -> Enemy:
