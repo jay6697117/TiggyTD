@@ -7,8 +7,9 @@ extends CanvasLayer
 # ---------------------------------------------------------------------------
 
 @onready var label_gold: Label       = $Panel/HBox/LabelGold
-@onready var label_wave: Label       = $Panel/HBox/LabelWave
 @onready var label_hp: Label         = $Panel/HBox/LabelHP
+@onready var label_wave: Label       = $Panel/HBox/LabelWave
+@onready var label_marks: Label      = $Panel/HBox/LabelMarks
 @onready var label_countdown: Label  = $Panel/HBox/LabelCountdown
 @onready var btn_start: Button       = $Panel/HBox/BtnStart
 @onready var btn_q: Button           = $SkillBar/HBox/SkillQ/BtnApexRoar
@@ -24,6 +25,7 @@ func _ready() -> void:
 	GameState.base_hp_changed.connect(_on_hp_changed)
 	GameState.wave_changed.connect(_on_wave_changed)
 	GameState.state_changed.connect(_on_state_changed)
+	GameState.ancient_marks_changed.connect(_on_marks_changed)
 	btn_start.pressed.connect(_on_btn_start_pressed)
 	call_deferred("_connect_wave_manager")
 	call_deferred("_connect_hero")
@@ -48,9 +50,10 @@ func _connect_hero() -> void:
 
 
 func _refresh() -> void:
-	label_gold.text = "金币：%d" % GameState.gold
-	label_wave.text = "波次：%d / %d" % [GameState.current_wave, GameState.total_waves]
-	label_hp.text   = "基地：%d / %d" % [GameState.base_hp, GameState.base_hp_max]
+	label_gold.text  = "金币：%d" % GameState.gold
+	label_hp.text    = "基地：%d / %d" % [GameState.base_hp, GameState.base_hp_max]
+	label_wave.text  = "波次：%d / %d" % [GameState.current_wave, GameState.total_waves]
+	label_marks.text = "印记：%d" % GameState.ancient_marks
 	_update_btn_visibility()
 
 
@@ -68,6 +71,10 @@ func _on_hp_changed(new_hp: int) -> void:
 
 func _on_wave_changed(new_wave: int) -> void:
 	label_wave.text = "波次：%d / %d" % [new_wave, GameState.total_waves]
+
+
+func _on_marks_changed(amount: int) -> void:
+	label_marks.text = "印记：%d" % amount
 
 
 func _on_prepare_tick(seconds_left: int) -> void:

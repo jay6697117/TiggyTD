@@ -164,6 +164,15 @@ func _do_era_judgement() -> void:
 	_era_target = null
 
 
+func reset_cooldowns() -> void:
+	_cd_apex_roar     = 0.0
+	_cd_natures_call  = 0.0
+	_cd_era_judgement = 0.0
+	skill_cd_updated.emit("apex_roar",     0.0, CD_APEX_ROAR)
+	skill_cd_updated.emit("natures_call",  0.0, CD_NATURES_CALL)
+	skill_cd_updated.emit("era_judgement", 0.0, CD_ERA_JUDGEMENT)
+
+
 # 供 Tower 查询光环加成
 func get_aura_bonus_for(tower_pos: Vector2) -> float:
 	if position.distance_to(tower_pos) <= AURA_RADIUS_PX:

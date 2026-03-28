@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://main_scene"]
+[gd_scene load_steps=11 format=3 uid="uid://main_scene"]
 
 [ext_resource type="Script" path="res://scripts/core/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/gameplay/map_renderer.gd" id="2_renderer"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/ui/game_over_panel.gd" id="7_gameover"]
 [ext_resource type="Script" path="res://scripts/gameplay/hero.gd" id="8_hero"]
 [ext_resource type="Script" path="res://scripts/ui/wave_banner.gd" id="9_banner"]
+[ext_resource type="Script" path="res://scripts/ui/shop_panel.gd" id="10_shop"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -62,6 +63,10 @@ size_flags_horizontal = 3
 
 [node name="LabelWave" type="Label" parent="UI/Panel/HBox"]
 text = "波次：0 / 10"
+size_flags_horizontal = 3
+
+[node name="LabelMarks" type="Label" parent="UI/Panel/HBox"]
+text = "印记：0"
 size_flags_horizontal = 3
 
 [node name="LabelCountdown" type="Label" parent="UI/Panel/HBox"]
@@ -188,6 +193,46 @@ custom_minimum_size = Vector2(96, 40)
 [node name="LabelCdE" type="Label" parent="UI/SkillBar/HBox/SkillE"]
 text = ""
 horizontal_alignment = 1
+
+[node name="ShopPanel" type="CanvasLayer" parent="."]
+layer = 9
+script = ExtResource("10_shop")
+
+[node name="Panel" type="PanelContainer" parent="ShopPanel"]
+anchor_left = 0.25
+anchor_top = 0.15
+anchor_right = 0.75
+anchor_bottom = 0.85
+
+[node name="VBox" type="VBoxContainer" parent="ShopPanel/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+theme_override_constants/separation = 16
+
+[node name="LabelMarks" type="Label" parent="ShopPanel/Panel/VBox"]
+text = "古代印记：0"
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+
+[node name="BtnHpUp" type="Button" parent="ShopPanel/Panel/VBox"]
+text = "全场塔 HP+20%  （2印记）"
+custom_minimum_size = Vector2(0, 52)
+
+[node name="BtnGoldUp" type="Button" parent="ShopPanel/Panel/VBox"]
+text = "下波金币+50    （1印记）"
+custom_minimum_size = Vector2(0, 52)
+
+[node name="BtnCdReset" type="Button" parent="ShopPanel/Panel/VBox"]
+text = "技能CD全重置   （3印记）"
+custom_minimum_size = Vector2(0, 52)
+
+[node name="BtnClose" type="Button" parent="ShopPanel/Panel/VBox"]
+text = "关闭商店"
+custom_minimum_size = Vector2(0, 52)
 
 [node name="WaveManager" type="Node" parent="."]
 script = ExtResource("3_wave")

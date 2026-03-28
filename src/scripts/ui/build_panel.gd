@@ -8,11 +8,18 @@ extends PanelContainer
 const Tower := preload("res://scripts/gameplay/tower.gd")
 
 const ANIMALS: Array = [
-	{"id": "cheetah",     "name": "猎豹"},
-	{"id": "wolf_pack",   "name": "狼群"},
-	{"id": "honey_badger","name": "蜜獾"},
-	{"id": "elephant",   "name": "大象"},
-	{"id": "pangolin",   "name": "穿山甲"},
+	{"id": "cheetah",      "name": "猎豹"},
+	{"id": "wolf_pack",    "name": "狼群"},
+	{"id": "honey_badger", "name": "蜜獾"},
+	{"id": "elephant",    "name": "大象"},
+	{"id": "pangolin",    "name": "穿山甲"},
+	{"id": "tiger",       "name": "老虎"},
+	{"id": "lion",        "name": "狮子"},
+	{"id": "eagle",       "name": "鹰"},
+	{"id": "owl",         "name": "猫头鹰"},
+	{"id": "otter",       "name": "水獭"},
+	{"id": "peacock",     "name": "孔雀"},
+	{"id": "chameleon",   "name": "变色龙"},
 ]
 
 var _selected_id: String = ""

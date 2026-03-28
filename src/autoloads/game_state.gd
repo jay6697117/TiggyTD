@@ -32,6 +32,7 @@ signal state_changed(new_state: State)
 signal gold_changed(new_amount: int)
 signal base_hp_changed(new_hp: int)
 signal wave_changed(new_wave: int)
+signal ancient_marks_changed(new_amount: int)
 
 
 func change_state(new_state: State) -> void:
@@ -52,6 +53,19 @@ func spend_gold(amount: int) -> bool:
 	return true
 
 
+func add_ancient_marks(amount: int) -> void:
+	ancient_marks += amount
+	ancient_marks_changed.emit(ancient_marks)
+
+
+func spend_ancient_marks(amount: int) -> bool:
+	if ancient_marks < amount:
+		return false
+	ancient_marks -= amount
+	ancient_marks_changed.emit(ancient_marks)
+	return true
+
+
 func damage_base(amount: int) -> void:
 	base_hp = max(0, base_hp - amount)
 	base_hp_changed.emit(base_hp)
@@ -65,4 +79,16 @@ func reset_run() -> void:
 	current_wave = 0
 	kills_this_run = 0
 	enemies_leaked = 0
+	ancient_marks = 0
 	change_state(State.BUILD)
+
+
+# 仅重置数值，不发信号（reload_current_scene 前调用）
+func reset_run_data() -> void:
+	gold = 150
+	base_hp = base_hp_max
+	current_wave = 0
+	kills_this_run = 0
+	enemies_leaked = 0
+	ancient_marks = 0
+	current_state = State.BUILD

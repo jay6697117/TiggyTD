@@ -40,4 +40,5 @@ func _show(is_win: bool) -> void:
 
 func _on_restart_pressed() -> void:
 	visible = false
-	GameState.reset_run()
+	GameState.reset_run_data()
+	get_tree().reload_current_scene()

@@ -156,10 +156,12 @@ func _wave_cleared() -> void:
 	var wave_idx := GameState.current_wave
 	GameState.current_wave += 1
 	GameState.wave_changed.emit(GameState.current_wave)
-	if wave_idx >= 9:  # 最终波清场（胜负由 GameState.damage_base 或敌人死亡处理）
+	GameState.add_ancient_marks(1)
+	if wave_idx >= 9:  # 最终波清场
+		GameState.add_ancient_marks(3)  # boss 额外奖励
 		GameState.change_state(GameState.State.WIN)
 	else:
-		GameState.change_state(GameState.State.BUILD)
+		GameState.change_state(GameState.State.SHOP)
 
 
 func _get_spawn_position() -> Vector2:
