@@ -80,6 +80,13 @@ func setup(id: String) -> void:
 	_waypoint_index = 0
 	# 起点位置
 	position = _cell_center(WAYPOINTS[0])
+	_add_sprite()
+
+
+func _add_sprite() -> void:
+	var sprite := Sprite2D.new()
+	sprite.texture = load("res://assets/art/enemies/%s.png" % enemy_id)
+	add_child(sprite)
 
 
 func _physics_process(delta: float) -> void:

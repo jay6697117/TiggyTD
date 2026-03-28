@@ -47,37 +47,16 @@ var _buffs: Dictionary = {}
 const MAX_LEVEL := 3
 var level: int = 1
 
+var _sprite: Sprite2D
+
 signal tower_destroyed(tower: Tower)
 
-# 各动物占位色（无美术资源时可视区分）
-const ANIMAL_COLORS: Dictionary = {
-	"cheetah":     Color(0.95, 0.80, 0.20),
-	"wolf_pack":   Color(0.50, 0.50, 0.70),
-	"honey_badger":Color(0.30, 0.30, 0.30),
-	"elephant":    Color(0.60, 0.60, 0.65),
-	"pangolin":    Color(0.70, 0.55, 0.35),
-	"tiger":       Color(0.90, 0.50, 0.10),
-	"lion":        Color(0.95, 0.75, 0.30),
-	"eagle":       Color(0.30, 0.50, 0.90),
-	"owl":         Color(0.55, 0.40, 0.70),
-	"otter":       Color(0.40, 0.70, 0.60),
-	"peacock":     Color(0.10, 0.75, 0.60),
-	"chameleon":   Color(0.30, 0.80, 0.30),
-}
 
 
 func _draw() -> void:
-	var col: Color = ANIMAL_COLORS.get(animal_id, Color(0.8, 0.8, 0.8))
-	# 高等级颜色加深
-	if level == 2:
-		col = col.darkened(0.25)
-	elif level == 3:
-		col = col.darkened(0.45)
-	var half := Constants.TILE_SIZE * 0.5 - 6.0
-	draw_rect(Rect2(-half, -half, half * 2.0, half * 2.0), col)
-	draw_rect(Rect2(-half, -half, half * 2.0, half * 2.0), Color.WHITE, false, 2.0)
 	# 等级角标（右上角小圆点）
 	if level > 1:
+		var half := Constants.TILE_SIZE * 0.5 - 6.0
 		for i in level:
 			draw_circle(Vector2(half - 5.0 - i * 9.0, -half + 5.0), 4.0, Color.YELLOW)
 
@@ -93,6 +72,13 @@ func setup(id: String, cell: Vector2i) -> void:
 	_atk_speed = float(_data["atk_speed"])
 	_range_px  = float(_data["range"]) * Constants.TILE_SIZE
 	armor_rate = float(_data["armor_rate"])
+	_add_sprite()
+
+
+func _add_sprite() -> void:
+	_sprite = Sprite2D.new()
+	_sprite.texture = load("res://assets/art/towers/%s.png" % animal_id)
+	add_child(_sprite)
 
 
 func upgrade_cost() -> int:
@@ -110,7 +96,17 @@ func upgrade() -> void:
 	_atk   *= 1.3
 	max_hp *= 1.2
 	hp      = minf(hp * 1.2, max_hp)
+	_update_sprite_modulate()
 	queue_redraw()
+
+
+func _update_sprite_modulate() -> void:
+	if _sprite == null:
+		return
+	match level:
+		2: _sprite.modulate = Color(0.75, 0.75, 0.75)
+		3: _sprite.modulate = Color(0.55, 0.55, 0.55)
+		_: _sprite.modulate = Color.WHITE
 
 
 func _process(delta: float) -> void:
