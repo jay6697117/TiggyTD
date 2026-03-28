@@ -9,18 +9,18 @@ class_name Tower
 
 # 内嵌动物数据库（MVP 占位，后期替换为 AnimalDB autoload）
 const ANIMAL_DB: Dictionary = {
-	"tiger":      {"cost": 120, "hp": 300, "atk": 60,  "atk_speed": 1.2, "range": 2.0, "armor_rate": 0.20},
-	"lion":       {"cost": 150, "hp": 260, "atk": 80,  "atk_speed": 0.8, "range": 2.5, "armor_rate": 0.15},
-	"elephant":   {"cost": 130, "hp": 450, "atk": 45,  "atk_speed": 0.5, "range": 1.5, "armor_rate": 0.30},
-	"cheetah":    {"cost": 100, "hp": 150, "atk": 25,  "atk_speed": 2.5, "range": 3.0, "armor_rate": 0.05},
-	"eagle":      {"cost": 160, "hp": 130, "atk": 50,  "atk_speed": 1.0, "range": 7.0, "armor_rate": 0.0},
-	"wolf_pack":  {"cost": 110, "hp": 150, "atk": 22,  "atk_speed": 1.8, "range": 2.5, "armor_rate": 0.0},
-	"owl":        {"cost": 110, "hp": 140, "atk": 20,  "atk_speed": 1.0, "range": 5.0, "armor_rate": 0.0},
-	"otter":      {"cost": 80,  "hp": 160, "atk": 10,  "atk_speed": 1.5, "range": 3.0, "armor_rate": 0.10},
-	"peacock":    {"cost": 90,  "hp": 120, "atk": 15,  "atk_speed": 0.8, "range": 3.5, "armor_rate": 0.0},
-	"chameleon":  {"cost": 80,  "hp": 120, "atk": 12,  "atk_speed": 1.8, "range": 2.0, "armor_rate": 0.0},
-	"honey_badger":{"cost": 110,"hp": 250, "atk": 35,  "atk_speed": 1.2, "range": 1.5, "armor_rate": 0.25},
-	"pangolin":   {"cost": 160, "hp": 350, "atk": 40,  "atk_speed": 0.7, "range": 1.5, "armor_rate": 0.45},
+	"tiger":      {"cost": 120, "hp": 300, "atk": 60,  "atk_speed": 1.2, "range": 2.0, "armor_rate": 0.20, "ability": "stun"},
+	"lion":       {"cost": 150, "hp": 260, "atk": 80,  "atk_speed": 0.8, "range": 2.5, "armor_rate": 0.15, "ability": ""},
+	"elephant":   {"cost": 130, "hp": 450, "atk": 45,  "atk_speed": 0.5, "range": 1.5, "armor_rate": 0.30, "ability": ""},
+	"cheetah":    {"cost": 100, "hp": 150, "atk": 25,  "atk_speed": 2.5, "range": 3.0, "armor_rate": 0.05, "ability": ""},
+	"eagle":      {"cost": 160, "hp": 130, "atk": 50,  "atk_speed": 1.0, "range": 7.0, "armor_rate": 0.0,  "ability": ""},
+	"wolf_pack":  {"cost": 110, "hp": 150, "atk": 22,  "atk_speed": 1.8, "range": 2.5, "armor_rate": 0.0,  "ability": "fear"},
+	"owl":        {"cost": 110, "hp": 140, "atk": 20,  "atk_speed": 1.0, "range": 5.0, "armor_rate": 0.0,  "ability": "slow"},
+	"otter":      {"cost": 80,  "hp": 160, "atk": 10,  "atk_speed": 1.5, "range": 3.0, "armor_rate": 0.10, "ability": "slow"},
+	"peacock":    {"cost": 90,  "hp": 120, "atk": 15,  "atk_speed": 0.8, "range": 3.5, "armor_rate": 0.0,  "ability": ""},
+	"chameleon":  {"cost": 80,  "hp": 120, "atk": 12,  "atk_speed": 1.8, "range": 2.0, "armor_rate": 0.0,  "ability": "poison"},
+	"honey_badger":{"cost": 110,"hp": 250, "atk": 35,  "atk_speed": 1.2, "range": 1.5, "armor_rate": 0.25, "ability": "armor_break"},
+	"pangolin":   {"cost": 160, "hp": 350, "atk": 40,  "atk_speed": 0.7, "range": 1.5, "armor_rate": 0.45, "ability": "armor_break"},
 }
 
 # ── 运行时状态 ──────────────────────────────────────────────────────────────
@@ -42,6 +42,13 @@ var grid_cell: Vector2i = Vector2i(-1, -1)
 
 # buff 叠加字典：{ buff_id -> {duration, atk_mult, speed_mult} }
 var _buffs: Dictionary = {}
+# 协同 buff：{ buff_id -> {speed_mult, atk_mult} }（持续整局，无 duration）
+var _synergy_buffs: Dictionary = {}
+# 协同护甲加成
+var _synergy_armor_bonus: float = 0.0
+# 协同特殊标记
+var synergy_stun_chance: float = 0.0
+var synergy_on_hit_slow: bool = false
 
 # 升级
 const MAX_LEVEL := 3
@@ -134,6 +141,21 @@ func apply_buff(buff_id: String, duration: float, atk_mult: float = 1.0, speed_m
 	_buffs[buff_id] = {"duration": duration, "atk_mult": atk_mult, "speed_mult": speed_mult}
 
 
+func apply_synergy_buff(buff_id: String, speed_mult: float, atk_mult: float) -> void:
+	_synergy_buffs[buff_id] = {"speed_mult": speed_mult, "atk_mult": atk_mult}
+
+
+func apply_synergy_armor(buff_id: String, bonus: float) -> void:
+	_synergy_armor_bonus += bonus
+
+
+func clear_synergy_buffs() -> void:
+	_synergy_buffs.clear()
+	_synergy_armor_bonus = 0.0
+	synergy_stun_chance = 0.0
+	synergy_on_hit_slow = false
+
+
 # ── 攻击 ────────────────────────────────────────────────────────────────────
 
 func _find_target() -> void:
@@ -170,9 +192,37 @@ func _fire() -> void:
 	for buff in _buffs.values():
 		eff_speed *= buff.get("speed_mult", 1.0)
 		eff_atk   *= buff.get("atk_mult",   1.0)
+	for sbuff in _synergy_buffs.values():
+		eff_speed *= sbuff.get("speed_mult", 1.0)
+		eff_atk   *= sbuff.get("atk_mult",   1.0)
 	_attack_timer = 1.0 / eff_speed
-	var final_dmg := eff_atk * (1.0 - clampf(_current_target._armor_rate, 0.0, 1.0))
+	var eff_armor := clampf(_current_target._armor_rate - _synergy_armor_bonus, 0.0, 1.0)
+	var final_dmg := eff_atk * (1.0 - eff_armor)
 	_current_target.take_damage(final_dmg)
+	_apply_on_hit_effect()
+
+
+func _apply_on_hit_effect() -> void:
+	if not is_instance_valid(_current_target):
+		return
+	var ability: String = _data.get("ability", "")
+	match ability:
+		"slow":
+			_current_target.apply_status("slow", Constants.SLOW_DURATION)
+		"fear":
+			_current_target.apply_status("fear", Constants.FEAR_DURATION)
+		"stun":
+			if randf() < 0.15:
+				_current_target.apply_status("stun", Constants.PETRIFY_DURATION)
+		"poison":
+			_current_target.apply_status("poison", 5.0)
+		"armor_break":
+			_current_target.apply_status("armor_break", Constants.ARMOR_BREAK_DURATION)
+	# 协同特殊效果
+	if synergy_stun_chance > 0.0 and randf() < synergy_stun_chance:
+		_current_target.apply_status("stun", 0.5)
+	if synergy_on_hit_slow:
+		_current_target.apply_status("slow", 2.0)
 
 
 func _get_aura_bonus() -> float:
@@ -195,17 +245,6 @@ func take_damage(amount: float, _source = null) -> void:
 		_on_destroyed()
 
 
-func apply_bleed(dps: float, duration: float) -> void:
-	# 简单实现：创建一次性 Timer 每秒造成伤害
-	var elapsed := 0.0
-	var ticks := int(duration)
-	for i in ticks:
-		var t := Timer.new()
-		t.wait_time = float(i + 1)
-		t.one_shot = true
-		add_child(t)
-		t.timeout.connect(func(): take_damage(dps); t.queue_free())
-		t.start()
 
 
 func _on_destroyed() -> void:

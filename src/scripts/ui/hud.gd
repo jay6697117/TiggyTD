@@ -20,7 +20,32 @@ extends CanvasLayer
 @onready var label_cd_e: Label       = $SkillBar/HBox/SkillE/LabelCdE
 
 
+@onready var _synergy_banner: Label = _make_synergy_banner()
+
+func _make_synergy_banner() -> Label:
+	var lbl := Label.new()
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 28)
+	lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.1))
+	lbl.anchor_left = 0.0
+	lbl.anchor_right = 1.0
+	lbl.anchor_top = 0.3
+	lbl.anchor_bottom = 0.45
+	lbl.visible = false
+	add_child(lbl)
+	return lbl
+
+
+func show_synergy_banner(text: String) -> void:
+	_synergy_banner.text = text
+	_synergy_banner.visible = true
+	var t := get_tree().create_timer(1.5)
+	t.timeout.connect(func(): _synergy_banner.visible = false)
+
+
 func _ready() -> void:
+	add_to_group("hud")
 	GameState.gold_changed.connect(_on_gold_changed)
 	GameState.base_hp_changed.connect(_on_hp_changed)
 	GameState.wave_changed.connect(_on_wave_changed)

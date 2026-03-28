@@ -7,6 +7,8 @@ class_name Enemy
 # 依赖：GridManager, GameState, Constants
 # ---------------------------------------------------------------------------
 
+const DamageLabelScene := preload("res://scripts/ui/damage_label.gd")
+
 # 内嵌敌人数据库（MVP 占位，后期替换为 EnemyDB autoload）
 const ENEMY_DB: Dictionary = {
 	"raptor":     {"hp": 80,   "atk": 15, "speed": 90.0,  "armor_rate": 0.0,  "abilities": ["dash"],         "reward": 10, "base_dmg": 1},
@@ -62,6 +64,15 @@ var _charge_triggered: bool = false
 # boss 阶段（霸王龙王）
 var _boss_phase: int = 0
 
+# 状态效果
+var active_effects: Array = []  # Array[StatusEffect]
+var _is_slowed: bool = false
+var _is_feared: bool = false
+var _is_stunned: bool = false
+var _armor_broken: bool = false
+var _poison_stacks: int = 0
+var _poison_tick_timer: float = 0.0
+
 signal died(enemy: Enemy)
 signal reached_base(enemy: Enemy)
 
@@ -94,6 +105,7 @@ func _add_sprite() -> void:
 func _physics_process(delta: float) -> void:
 	if hp <= 0.0:
 		return
+	_tick_status_effects(delta)
 	_update_abilities(delta)
 	if _is_attacking:
 		_do_attack(delta)
@@ -105,19 +117,33 @@ func _physics_process(delta: float) -> void:
 # ── 移动 ────────────────────────────────────────────────────────────────────
 
 func _move_along_path(delta: float) -> void:
+	if _is_stunned:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 	if _waypoint_index >= WAYPOINTS.size():
 		_on_reach_base()
 		return
-	var target_world := _cell_center(WAYPOINTS[_waypoint_index])
+	var target_world: Vector2
+	if _is_feared:
+		# 恐惧：朝起点方向逃跑
+		var flee_idx := maxi(0, _waypoint_index - 1)
+		target_world = _cell_center(WAYPOINTS[flee_idx])
+	else:
+		target_world = _cell_center(WAYPOINTS[_waypoint_index])
 	var dir := (target_world - position)
 	if dir.length() < 4.0:
-		_waypoint_index += 1
-		if _waypoint_index >= WAYPOINTS.size():
-			_on_reach_base()
-			return
-		target_world = _cell_center(WAYPOINTS[_waypoint_index])
-		dir = target_world - position
-	velocity = dir.normalized() * _speed_current
+		if not _is_feared:
+			_waypoint_index += 1
+			if _waypoint_index >= WAYPOINTS.size():
+				_on_reach_base()
+				return
+			target_world = _cell_center(WAYPOINTS[_waypoint_index])
+			dir = target_world - position
+	var spd := _speed_current
+	if _is_slowed:
+		spd = _speed_base * Constants.SLOW_FACTOR
+	velocity = dir.normalized() * spd
 	move_and_slide()
 
 
@@ -142,6 +168,8 @@ func _check_attack_range() -> void:
 
 
 func _do_attack(delta: float) -> void:
+	if _is_stunned:
+		return
 	if not is_instance_valid(_attack_target):
 		_attack_target = null
 		_is_attacking = false
@@ -213,10 +241,93 @@ func _get_move_direction() -> Vector2i:
 func _apply_on_hit_ability() -> void:
 	var abilities: Array = _data["abilities"]
 	if "bleed" in abilities and is_instance_valid(_attack_target):
-		_attack_target.apply_bleed(_atk * 0.3, 3.0)
+		# 剑齿虎流血：对塔每秒造成 atk*0.3 真实伤害，持续3秒
+		var bleed_dps := _atk * 0.3
+		for i in 3:
+			var t := Timer.new()
+			t.wait_time = float(i + 1)
+			t.one_shot = true
+			add_child(t)
+			t.timeout.connect(func():
+				if is_instance_valid(_attack_target):
+					_attack_target.take_damage(bleed_dps)
+				t.queue_free())
+			t.start()
 	if "steel_bite" in abilities and is_instance_valid(_attack_target):
 		var dmg := _atk * (1.0 - maxf(0.0, _attack_target.armor_rate - 0.2))
 		_attack_target.take_damage(dmg - _calc_damage(_atk, 0.0), self)  # 额外的穿甲差值
+
+
+# ── 状态效果 ────────────────────────────────────────────────────────────────
+
+func apply_status(effect_id: String, duration: float, stacks: int = 1) -> void:
+	# 查找是否已有同类效果
+	for eff in active_effects:
+		if eff.effect_id == effect_id:
+			eff.duration_remaining = duration  # 刷新计时
+			if effect_id == "poison" and eff.stack_count < Constants.POISON_MAX_STACKS:
+				eff.stack_count += stacks
+				eff.stack_count = mini(eff.stack_count, Constants.POISON_MAX_STACKS)
+				_poison_stacks = eff.stack_count
+			return
+	# 新建效果
+	var eff := StatusEffect.new()
+	eff.init(effect_id, duration, stacks)
+	active_effects.append(eff)
+	_on_status_applied(effect_id)
+
+
+func _on_status_applied(effect_id: String) -> void:
+	match effect_id:
+		"slow":
+			_is_slowed = true
+			_speed_current = _speed_base * Constants.SLOW_FACTOR
+		"fear":
+			_is_feared = true
+		"stun":
+			_is_stunned = true
+		"poison":
+			_poison_stacks = 1
+		"armor_break":
+			_armor_broken = true
+			_armor_rate *= Constants.ARMOR_BREAK_FACTOR
+	queue_redraw()
+
+
+func _on_status_removed(effect_id: String) -> void:
+	match effect_id:
+		"slow":
+			_is_slowed = false
+			_speed_current = _speed_base
+		"fear":
+			_is_feared = false
+		"stun":
+			_is_stunned = false
+		"poison":
+			_poison_stacks = 0
+		"armor_break":
+			_armor_broken = false
+			_armor_rate = float(_data["armor_rate"])  # 恢复原始值
+	queue_redraw()
+
+
+func _tick_status_effects(delta: float) -> void:
+	var to_remove: Array = []
+	for eff in active_effects:
+		if eff.is_permanent:
+			continue
+		if eff.effect_id == "poison":
+			eff._poison_tick_timer += delta
+			if eff._poison_tick_timer >= 1.0:
+				eff._poison_tick_timer -= 1.0
+				var poison_dmg := Constants.POISON_DPS * float(_poison_stacks)
+				take_damage(poison_dmg, true)  # 真实伤害，忽略护甲
+		eff.duration_remaining -= delta
+		if eff.duration_remaining <= 0.0:
+			to_remove.append(eff)
+	for eff in to_remove:
+		active_effects.erase(eff)
+		_on_status_removed(eff.effect_id)
 
 
 func _update_boss_phases() -> void:
@@ -241,27 +352,97 @@ func take_damage(amount: float, ignore_armor: bool = false) -> void:
 		amount *= 0.5
 	hp -= amount
 	queue_redraw()
+	_spawn_damage_label(amount)
 	if hp <= 0.0:
 		hp = 0.0
 		_on_die()
 
 
-func _draw() -> void:
-	if hp >= max_hp or max_hp <= 0.0:
+func _spawn_label(text: String, color: Color, world_pos: Vector2, parent: Node) -> void:
+	var lbl := DamageLabelScene.new()
+	lbl.init(text, color, world_pos)
+	parent.add_child(lbl)
+
+
+func _spawn_damage_label(amount: float) -> void:
+	var parent := get_parent()
+	if parent == null:
 		return
+	_spawn_label(str(int(amount)), Color.WHITE, position, parent)
+
+
+func _draw() -> void:
 	var bar_w := 40.0
 	var bar_h := 5.0
 	var offset := Vector2(-bar_w * 0.5, -28.0)
-	draw_rect(Rect2(offset, Vector2(bar_w, bar_h)), Color(0.2, 0.2, 0.2))
-	var fill := bar_w * clampf(hp / max_hp, 0.0, 1.0)
-	draw_rect(Rect2(offset, Vector2(fill, bar_h)), Color(0.9, 0.15, 0.15))
+	if hp < max_hp and max_hp > 0.0:
+		draw_rect(Rect2(offset, Vector2(bar_w, bar_h)), Color(0.2, 0.2, 0.2))
+		var fill := bar_w * clampf(hp / max_hp, 0.0, 1.0)
+		draw_rect(Rect2(offset, Vector2(fill, bar_h)), Color(0.9, 0.15, 0.15))
+	# 状态颜色点（HP条右侧）
+	var dot_x := bar_w * 0.5 + 6.0
+	var dot_y := -26.0
+	if _is_slowed:
+		draw_circle(Vector2(dot_x, dot_y), 3.0, Color(0.2, 0.4, 1.0))
+		dot_x += 8.0
+	if _is_stunned:
+		draw_circle(Vector2(dot_x, dot_y), 3.0, Color(0.6, 0.6, 0.6))
+		dot_x += 8.0
+	if _poison_stacks > 0:
+		draw_circle(Vector2(dot_x, dot_y), 3.0, Color(0.2, 0.8, 0.2))
+		dot_x += 8.0
+	if _is_feared:
+		draw_circle(Vector2(dot_x, dot_y), 3.0, Color(0.6, 0.1, 0.8))
+		dot_x += 8.0
+	if _armor_broken:
+		draw_circle(Vector2(dot_x, dot_y), 3.0, Color(1.0, 0.5, 0.1))
 
 
 func _on_die() -> void:
-	GameState.add_gold(int(_data["reward"]))
+	var reward := int(_data["reward"])
+	GameState.add_gold(reward)
 	GameState.kills_this_run += 1
+	var parent := get_parent()
+	if parent != null:
+		_spawn_label("+%d" % reward, Color(1.0, 0.85, 0.1), position, parent)
+		_spawn_death_particles(parent)
 	died.emit(self)
 	queue_free()
+
+
+static var _death_vfx_this_frame: int = 0
+static var _death_vfx_frame: int = -1
+
+func _spawn_death_particles(parent: Node) -> void:
+	# 同帧超过上限时随机跳过50%（GDD vfx.md 边缘情况）
+	var cur_frame := Engine.get_process_frames()
+	if cur_frame != Enemy._death_vfx_frame:
+		Enemy._death_vfx_frame = cur_frame
+		Enemy._death_vfx_this_frame = 0
+	if Enemy._death_vfx_this_frame >= Constants.MAX_DEATH_VFX_PER_FRAME and randf() < 0.5:
+		return
+	Enemy._death_vfx_this_frame += 1
+	_do_spawn_death_particles(parent)
+
+
+func _do_spawn_death_particles(parent: Node) -> void:
+	# 像素粒子：8个2×2色点向外散开，约20帧消失
+	var dirs := [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1),
+				 Vector2(1,1).normalized(), Vector2(-1,1).normalized(),
+				 Vector2(1,-1).normalized(), Vector2(-1,-1).normalized()]
+	for d in dirs:
+		var p := ColorRect.new()
+		p.size = Vector2(4, 4)
+		p.color = Color(0.9, 0.5, 0.1)
+		p.position = position - Vector2(2, 2)
+		p.z_index = 9
+		parent.add_child(p)
+		var vel: Vector2 = d * randf_range(40.0, 90.0)
+		# tween 驱动位移和淡出
+		var tween := p.create_tween()
+		tween.tween_property(p, "position", p.position + vel * 0.33, 0.33)
+		tween.parallel().tween_property(p, "modulate:a", 0.0, 0.33)
+		tween.tween_callback(p.queue_free)
 
 
 func _on_reach_base() -> void:

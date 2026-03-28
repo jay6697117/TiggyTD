@@ -97,6 +97,7 @@ func _try_place(animal_id: String, cell: Vector2i) -> void:
 	GridManager.grid.occupy(cell.x, cell.y, _tower_id(tower))
 	GridManager.obstacle_changed.emit()
 	_pending_animal_id = ""  # 放置后清空选择
+	SynergyManager.recalculate()
 
 
 func _try_upgrade(cell: Vector2i) -> void:
@@ -118,6 +119,7 @@ func _sell_tower(cell: Vector2i) -> void:
 	_placed_towers.erase(cell)
 	tower.queue_free()
 	GridManager.obstacle_changed.emit()
+	SynergyManager.recalculate()
 
 
 func _create_tower(animal_id: String, cell: Vector2i) -> Tower:
