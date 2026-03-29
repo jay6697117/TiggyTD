@@ -36,6 +36,22 @@ func _show(is_win: bool) -> void:
 	label_kills.text  = "击杀数：%d" % GameState.kills_this_run
 	label_waves.text  = "抵御波次：%d / %d" % [GameState.current_wave, GameState.total_waves]
 	visible = true
+	_save_result(is_win)
+
+
+func _save_result(is_win: bool) -> void:
+	var levels: Array = SaveLoad.get_value("level_progress", [])
+	for entry in levels:
+		if entry.get("level_id") == "ancient_savanna":
+			var best: Dictionary = entry.get("best_result", {})
+			var prev_waves: int = best.get("waves_survived", 0)
+			var cur_waves: int = GameState.current_wave
+			var cur_hp: int = GameState.base_hp if is_win else GameState.base_hp
+			if cur_waves > prev_waves or (cur_waves == prev_waves and cur_hp > best.get("base_hp_remaining", -1)):
+				entry["best_result"] = {"waves_survived": cur_waves, "base_hp_remaining": cur_hp}
+			break
+	SaveLoad.set_value("level_progress", levels)
+	SaveLoad.save_game()
 
 
 func _on_restart_pressed() -> void:

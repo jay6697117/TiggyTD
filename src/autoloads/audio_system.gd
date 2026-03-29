@@ -70,15 +70,29 @@ func stop_bgm(fade_duration: float = 0.5) -> void:
 func set_master_volume(value: float) -> void:
 	_master_volume = clampf(value / 100.0, 0.0, 1.0)
 	_apply_bgm_volume()
+	_save_audio_settings()
 
 
 func set_sfx_volume(value: float) -> void:
 	_sfx_volume = clampf(value / 100.0, 0.0, 1.0)
+	_save_audio_settings()
 
 
 func set_bgm_volume(value: float) -> void:
 	_bgm_volume = clampf(value / 100.0, 0.0, 1.0)
 	_apply_bgm_volume()
+	_save_audio_settings()
+
+
+func _save_audio_settings() -> void:
+	var settings: Dictionary = SaveLoad.get_value("settings", {})
+	settings["audio"] = {
+		"master_volume": int(_master_volume * 100),
+		"sfx_volume": int(_sfx_volume * 100),
+		"bgm_volume": int(_bgm_volume * 100)
+	}
+	SaveLoad.set_value("settings", settings)
+	SaveLoad.save_game()
 
 
 func _apply_bgm_volume() -> void:

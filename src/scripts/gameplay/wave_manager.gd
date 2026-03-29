@@ -160,11 +160,17 @@ func _wave_cleared() -> void:
 	GameState.current_wave += 1
 	GameState.wave_changed.emit(GameState.current_wave)
 	GameState.add_ancient_marks(1)
+	var marks_gained := 1
 	if wave_idx >= 9:  # 最终波清场
 		GameState.add_ancient_marks(3)  # boss 额外奖励
+		marks_gained += 3
 		GameState.change_state(GameState.State.WIN)
 	else:
 		GameState.change_state(GameState.State.SHOP)
+	var meta: Dictionary = SaveLoad.get_value("meta_progression", {})
+	meta["total_marks_earned"] = meta.get("total_marks_earned", 0) + marks_gained
+	SaveLoad.set_value("meta_progression", meta)
+	SaveLoad.save_game()
 
 
 func _get_spawn_position() -> Vector2:
