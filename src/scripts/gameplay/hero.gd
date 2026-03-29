@@ -59,6 +59,7 @@ var selected_talents: Array[String] = []
 signal skill_cd_updated(skill: String, remaining: float, max_cd: float)
 signal level_up_ready(choices: Array[String])
 signal exp_changed(cur: int, threshold: int)
+signal hero_moved
 
 
 func _ready() -> void:
@@ -292,6 +293,7 @@ func _set_destination(world_pos: Vector2) -> void:
 func _move_along_path(delta: float) -> void:
 	if _path_idx >= _path.size():
 		_state = State.IDLE
+		hero_moved.emit()
 		return
 	var target := _path[_path_idx]
 	var diff   := target - position

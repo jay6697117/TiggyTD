@@ -43,8 +43,15 @@ func set_vfx_layer(layer: Node2D) -> void:
 	_vfx_layer = layer
 
 
+# 纯代码实现的特效（无需 .tscn 文件）
+const _CODE_VFX: Array = ["victory", "defeat", "base_damage"]
+
+
 # 播放一次性特效
 func play(effect_id: String, position: Vector2, parent: Node2D = null) -> void:
+	if effect_id in _CODE_VFX:
+		_play_code_vfx(effect_id, position, parent)
+		return
 	var path: String = VFX_REGISTRY.get(effect_id, "")
 	if path.is_empty():
 		push_warning("VFXSystem: unknown effect_id '%s'" % effect_id)
@@ -86,6 +93,38 @@ func screen_shake(intensity: float, duration: float, camera: Camera2D) -> void:
 	_screen_shake_tween.tween_callback(func():
 		camera.offset = origin
 	).set_delay(duration)
+
+
+func _play_code_vfx(effect_id: String, position: Vector2, parent: Node2D = null) -> void:
+	var target := parent if parent else _vfx_layer
+	if target == null:
+		return
+	match effect_id:
+		"victory":
+			_vfx_burst(target, position, Color(1.0, 0.9, 0.1), 24, 120.0)
+			_vfx_burst(target, Vector2(320, 240), Color(0.2, 1.0, 0.4), 16, 100.0)
+			_vfx_burst(target, Vector2(960, 240), Color(0.2, 0.6, 1.0), 16, 100.0)
+		"defeat":
+			_vfx_burst(target, position, Color(1.0, 0.2, 0.1), 20, 90.0)
+		"base_damage":
+			_vfx_burst(target, position, Color(1.0, 0.4, 0.0), 8, 60.0)
+
+
+func _vfx_burst(parent: Node2D, origin: Vector2, color: Color, count: int, speed: float) -> void:
+	for i in count:
+		var p := ColorRect.new()
+		p.size = Vector2(6, 6)
+		p.color = color
+		p.position = origin - Vector2(3, 3)
+		p.z_index = 20
+		parent.add_child(p)
+		var angle := TAU * i / count
+		var vel := Vector2(cos(angle), sin(angle)) * randf_range(speed * 0.6, speed)
+		var dur := randf_range(0.4, 0.8)
+		var tw := p.create_tween()
+		tw.tween_property(p, "position", p.position + vel * dur, dur)
+		tw.parallel().tween_property(p, "modulate:a", 0.0, dur)
+		tw.tween_callback(p.queue_free)
 
 
 # 死亡特效并发控制（最多10个/帧）

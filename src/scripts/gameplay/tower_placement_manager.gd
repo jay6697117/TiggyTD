@@ -20,6 +20,7 @@ var _towers_node: Node2D
 var _placed_towers: Dictionary = {}  # Vector2i → Tower
 
 signal tower_focused(tower: Tower)
+signal tower_placed(cell: Vector2i)
 
 func _ready() -> void:
 	add_to_group("tower_placement")
@@ -97,6 +98,7 @@ func _try_place(animal_id: String, cell: Vector2i) -> void:
 	GridManager.obstacle_changed.emit()
 	_pending_animal_id = ""  # 放置后清空选择
 	SynergyManager.recalculate()
+	tower_placed.emit(cell)
 
 
 func _try_upgrade(cell: Vector2i) -> void:

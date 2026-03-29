@@ -21,10 +21,11 @@ func _ready() -> void:
 	_connect_signals()
 	# 根据存档决定首次进入状态
 	var tutorial_done: bool = SaveLoad.get_value("tutorial", {}).get("tutorial_completed", false)
+	GameState.change_state(GameState.State.BUILD)
 	if not tutorial_done:
-		GameState.change_state(GameState.State.BUILD)  # TODO: 替换为 TUTORIAL
-	else:
-		GameState.change_state(GameState.State.BUILD)
+		var overlay := Node.new()
+		overlay.set_script(load("res://scripts/ui/tutorial_overlay.gd"))
+		add_child(overlay)
 
 
 func _connect_signals() -> void:

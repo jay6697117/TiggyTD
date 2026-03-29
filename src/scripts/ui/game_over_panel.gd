@@ -12,11 +12,29 @@ extends CanvasLayer
 @onready var label_waves: Label     = $Panel/VBox/LabelWaves
 @onready var btn_restart: Button    = $Panel/VBox/BtnRestart
 
+var _label_marks: Label
+var _btn_temple: Button
+
 
 func _ready() -> void:
 	visible = false
 	GameState.state_changed.connect(_on_state_changed)
 	btn_restart.pressed.connect(_on_restart_pressed)
+	# 动态插入印记结算标签（在 BtnRestart 前）
+	_label_marks = Label.new()
+	_label_marks.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_label_marks.add_theme_color_override("font_color", Color(1.0, 0.85, 0.1))
+	_label_marks.add_theme_font_size_override("font_size", 18)
+	var vbox := $Panel/VBox
+	vbox.add_child(_label_marks)
+	vbox.move_child(_label_marks, btn_restart.get_index())
+	# 图腾神殿入口按钮
+	_btn_temple = Button.new()
+	_btn_temple.text = "图腾神殿"
+	_btn_temple.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2))
+	_btn_temple.pressed.connect(_open_totem_temple)
+	vbox.add_child(_btn_temple)
+	vbox.move_child(_btn_temple, btn_restart.get_index())
 
 
 func _on_state_changed(new_state: GameState.State) -> void:
@@ -35,8 +53,37 @@ func _show(is_win: bool) -> void:
 	label_hp.text     = "基地残余 HP：%d / %d" % [GameState.base_hp, GameState.base_hp_max]
 	label_kills.text  = "击杀数：%d" % GameState.kills_this_run
 	label_waves.text  = "抵御波次：%d / %d" % [GameState.current_wave, GameState.total_waves]
+	var marks_earned := _settle_marks(is_win)
+	_label_marks.text = "获得古代印记：+%d（共 %d）" % [marks_earned, GameState.ancient_marks]
 	visible = true
 	_save_result(is_win)
+
+
+func _settle_marks(is_win: bool) -> int:
+	# GDD meta-progression.md 结算规则
+	var earned: int = 0
+	if is_win:
+		earned += 30
+		# Boss 击杀（第10波通关即击杀了 boss）
+		earned += 15
+		# 首次通关额外奖励
+		var levels: Array = SaveLoad.get_value("level_progress", [])
+		for entry in levels:
+			if entry.get("level_id") == "ancient_savanna":
+				if entry.get("best_result", {}).get("waves_survived", 0) < GameState.total_waves:
+					earned += 20
+			break
+	else:
+		if GameState.current_wave >= 5:
+			earned += 10
+		else:
+			earned += 5
+	GameState.add_ancient_marks(earned)
+	var meta: Dictionary = SaveLoad.get_value("meta_progression", {})
+	meta["ancient_marks"] = GameState.ancient_marks
+	meta["total_marks_earned"] = meta.get("total_marks_earned", 0) + earned
+	SaveLoad.set_value("meta_progression", meta)
+	return earned
 
 
 func _save_result(is_win: bool) -> void:
@@ -52,6 +99,12 @@ func _save_result(is_win: bool) -> void:
 			break
 	SaveLoad.set_value("level_progress", levels)
 	SaveLoad.save_game()
+
+
+func _open_totem_temple() -> void:
+	var temple := Node.new()
+	temple.set_script(load("res://scripts/ui/totem_temple_panel.gd"))
+	get_tree().root.add_child(temple)
 
 
 func _on_restart_pressed() -> void:
