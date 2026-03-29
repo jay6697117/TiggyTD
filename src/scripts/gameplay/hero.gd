@@ -31,13 +31,40 @@ var _cd_apex_roar: float     = 0.0
 var _cd_natures_call: float  = 0.0
 var _cd_era_judgement: float = 0.0
 
+# 运行时可被天赋修改的参数
+var _apex_roar_duration: float    = 8.0
+var _apex_roar_cd_max: float      = CD_APEX_ROAR
+var _natures_call_atk_mult: float = 1.3
+var _natures_call_radius: float   = NATURES_CALL_RADIUS_PX
+var _era_dmg: float               = 300.0
+var _era_cd_max: float            = CD_ERA_JUDGEMENT
+var _aura_radius: float           = AURA_RADIUS_PX
+var _aura_bonus: float            = 0.20
+var _hero_speed: float            = SPEED
+var _gold_kill_counter: int       = 0
+
+# EXP / 天赋
+const EXP_THRESHOLDS: Array[int] = [50, 120, 250]
+const ALL_TALENTS: Array[String] = [
+	"apex_duration", "apex_cd", "natures_atk", "natures_range",
+	"era_dmg", "era_cd", "aura_range", "aura_bonus",
+	"speed", "vision", "gold_touch", "base_hp"
+]
+var exp: int = 0
+var hero_level: int = 1
+var _talent_pool: Array[String] = []
+var selected_talents: Array[String] = []
+
 # HUD 订阅此信号更新按钮显示
 signal skill_cd_updated(skill: String, remaining: float, max_cd: float)
+signal level_up_ready(choices: Array[String])
+signal exp_changed(cur: int, threshold: int)
 
 
 func _ready() -> void:
 	add_to_group("hero")
 	position = Vector2(64 * 1 + 32, 64 * 7 + 32)
+	_talent_pool = ALL_TALENTS.duplicate()
 
 
 func _process(delta: float) -> void:
@@ -113,28 +140,28 @@ func _execute_skill(skill: String) -> void:
 	match skill:
 		"apex_roar":
 			_do_apex_roar()
-			_cd_apex_roar = CD_APEX_ROAR
-			skill_cd_updated.emit("apex_roar", _cd_apex_roar, CD_APEX_ROAR)
+			_cd_apex_roar = _apex_roar_cd_max
+			skill_cd_updated.emit("apex_roar", _cd_apex_roar, _apex_roar_cd_max)
 		"natures_call":
 			_do_natures_call()
 			_cd_natures_call = CD_NATURES_CALL
 			skill_cd_updated.emit("natures_call", _cd_natures_call, CD_NATURES_CALL)
 		"era_judgement":
 			_do_era_judgement()
-			_cd_era_judgement = CD_ERA_JUDGEMENT
-			skill_cd_updated.emit("era_judgement", _cd_era_judgement, CD_ERA_JUDGEMENT)
+			_cd_era_judgement = _era_cd_max
+			skill_cd_updated.emit("era_judgement", _cd_era_judgement, _era_cd_max)
 
 
 func _do_apex_roar() -> void:
 	for t in get_tree().get_nodes_in_group("towers"):
 		if t is Tower:
-			t.apply_buff("apex_roar", 8.0, 1.0, 1.5)
+			t.apply_buff("apex_roar", _apex_roar_duration, 1.0, 1.5)
 
 
 func _do_natures_call() -> void:
 	for t in get_tree().get_nodes_in_group("towers"):
-		if t is Tower and position.distance_to(t.position) <= NATURES_CALL_RADIUS_PX:
-			t.apply_buff("natures_call", 10.0, 1.3, 1.0)
+		if t is Tower and position.distance_to(t.position) <= _natures_call_radius:
+			t.apply_buff("natures_call", 10.0, _natures_call_atk_mult, 1.0)
 
 
 func _try_era_judgement_target(world_pos: Vector2) -> void:
@@ -163,7 +190,7 @@ func _do_era_judgement() -> void:
 		if _era_target.has_method("break_shield") and _era_target._shield_active:
 			_era_target.break_shield()
 		else:
-			_era_target.take_damage(300.0, true)  # true = 无视护甲
+			_era_target.take_damage(_era_dmg, true)
 	_era_target = null
 
 
@@ -176,10 +203,80 @@ func reset_cooldowns() -> void:
 	skill_cd_updated.emit("era_judgement", 0.0, CD_ERA_JUDGEMENT)
 
 
+func gain_exp(amount: int) -> void:
+	if hero_level >= 4:
+		return
+	exp += amount
+	var threshold := EXP_THRESHOLDS[hero_level - 1]
+	exp_changed.emit(exp, threshold)
+	if exp >= threshold:
+		exp -= threshold
+		hero_level += 1
+		_trigger_level_up()
+
+
+func _trigger_level_up() -> void:
+	var count := mini(3, _talent_pool.size())
+	if count == 0:
+		return
+	var pool_copy := _talent_pool.duplicate()
+	pool_copy.shuffle()
+	var choices := pool_copy.slice(0, count)
+	level_up_ready.emit(choices)
+
+
+func apply_talent(id: String) -> void:
+	if id in selected_talents:
+		return
+	selected_talents.append(id)
+	_talent_pool.erase(id)
+	match id:
+		"apex_duration": _apex_roar_duration += 4.0
+		"apex_cd":       _apex_roar_cd_max = maxf(_apex_roar_cd_max - 10.0, 5.0)
+		"natures_atk":   _natures_call_atk_mult += 0.1
+		"natures_range":  _natures_call_radius += 2.0 * Constants.TILE_SIZE
+		"era_dmg":        _era_dmg += 150.0
+		"era_cd":         _era_cd_max = maxf(_era_cd_max - 30.0, 10.0)
+		"aura_range":     _aura_radius += 2.0 * Constants.TILE_SIZE
+		"aura_bonus":     _aura_bonus += 0.10
+		"speed":          _hero_speed *= 1.3
+		"vision":         pass  # MVP 无战争迷雾，无实际效果
+		"gold_touch":     _gold_kill_counter = 0  # 激活计数（enemy.gd 侧检测）
+		"base_hp":        GameState.base_hp_max += 2
+	# 选完天赋后检查是否积累的EXP已达到下一级阈值
+	gain_exp(0)
+
+
+func on_enemy_killed() -> void:
+	if "gold_touch" in selected_talents:
+		_gold_kill_counter += 1
+		if _gold_kill_counter >= 10:
+			_gold_kill_counter = 0
+			GameState.add_gold(5)
+
+
+func reset_hero() -> void:
+	_apex_roar_duration    = 8.0
+	_apex_roar_cd_max      = CD_APEX_ROAR
+	_natures_call_atk_mult = 1.3
+	_natures_call_radius   = NATURES_CALL_RADIUS_PX
+	_era_dmg               = 300.0
+	_era_cd_max            = CD_ERA_JUDGEMENT
+	_aura_radius           = AURA_RADIUS_PX
+	_aura_bonus            = 0.20
+	_hero_speed            = SPEED
+	_gold_kill_counter     = 0
+	exp            = 0
+	hero_level     = 1
+	_talent_pool   = ALL_TALENTS.duplicate()
+	selected_talents.clear()
+	reset_cooldowns()
+
+
 # 供 Tower 查询光环加成
 func get_aura_bonus_for(tower_pos: Vector2) -> float:
-	if position.distance_to(tower_pos) <= AURA_RADIUS_PX:
-		return 0.20
+	if position.distance_to(tower_pos) <= _aura_radius:
+		return _aura_bonus
 	return 0.0
 
 
@@ -201,7 +298,7 @@ func _move_along_path(delta: float) -> void:
 	if diff.length() < ARRIVAL_DIST:
 		_path_idx += 1
 		return
-	position += diff.normalized() * SPEED * delta
+	position += diff.normalized() * _hero_speed * delta
 
 
 func _draw() -> void:
@@ -212,4 +309,4 @@ func _draw() -> void:
 	if _state == State.TARGET_SELECT:
 		draw_arc(Vector2.ZERO, 24.0, 0.0, TAU, 32, Color.RED, 3.0)
 	# 光环范围圆圈
-	draw_arc(Vector2.ZERO, AURA_RADIUS_PX, 0.0, TAU, 64, Color(1.0, 0.85, 0.0, 0.25), 1.5)
+	draw_arc(Vector2.ZERO, _aura_radius, 0.0, TAU, 64, Color(1.0, 0.85, 0.0, 0.25), 1.5)

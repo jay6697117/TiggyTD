@@ -435,6 +435,15 @@ func _on_die() -> void:
 	var reward := int(_data["reward"])
 	GameState.add_gold(reward)
 	GameState.kills_this_run += 1
+	var exp_gain: int
+	if enemy_id == "trex_king":
+		exp_gain = 50
+	elif reward >= 30:
+		exp_gain = 15
+	else:
+		exp_gain = 5
+	get_tree().call_group("hero", "gain_exp", exp_gain)
+	get_tree().call_group("hero", "on_enemy_killed")
 	var parent := get_parent()
 	if parent != null:
 		_spawn_label("+%d" % reward, Color(1.0, 0.85, 0.1), position, parent)

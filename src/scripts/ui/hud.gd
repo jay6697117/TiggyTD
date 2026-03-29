@@ -63,15 +63,66 @@ func _connect_wave_manager() -> void:
 		wm.prepare_tick.connect(_on_prepare_tick)
 
 
+const TalentPanelScript := preload("res://scripts/ui/talent_panel.gd")
+var _talent_panel: Control = null
+var _exp_bar: ProgressBar = null
+var _level_label: Label = null
+
+
 func _connect_hero() -> void:
 	var heroes := get_tree().get_nodes_in_group("hero")
 	if heroes.is_empty():
 		return
 	var hero := heroes[0]
 	hero.skill_cd_updated.connect(_on_skill_cd_updated)
+	hero.exp_changed.connect(_on_exp_changed)
+	hero.level_up_ready.connect(func(choices): _show_talent_panel(choices, hero))
 	btn_q.pressed.connect(func(): hero.activate_skill("apex_roar"))
 	btn_w.pressed.connect(func(): hero.activate_skill("natures_call"))
 	btn_e.pressed.connect(func(): hero.activate_skill("era_judgement"))
+	_build_exp_bar()
+
+
+func _build_exp_bar() -> void:
+	var container := HBoxContainer.new()
+	container.anchor_left   = 0.0
+	container.anchor_right  = 0.3
+	container.anchor_top    = 1.0
+	container.anchor_bottom = 1.0
+	container.offset_top    = -26.0
+	container.offset_bottom = -4.0
+	container.offset_left   = 4.0
+	add_child(container)
+	_level_label = Label.new()
+	_level_label.text = "Lv1"
+	_level_label.add_theme_font_size_override("font_size", 12)
+	container.add_child(_level_label)
+	_exp_bar = ProgressBar.new()
+	_exp_bar.min_value = 0.0
+	_exp_bar.max_value = 50.0
+	_exp_bar.value = 0.0
+	_exp_bar.show_percentage = false
+	_exp_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_exp_bar.custom_minimum_size = Vector2(0.0, 18.0)
+	container.add_child(_exp_bar)
+
+
+func _on_exp_changed(cur: int, threshold: int) -> void:
+	if _exp_bar == null:
+		return
+	_exp_bar.max_value = threshold
+	_exp_bar.value = cur
+	var heroes := get_tree().get_nodes_in_group("hero")
+	if not heroes.is_empty():
+		_level_label.text = "Lv%d" % heroes[0].hero_level
+
+
+func _show_talent_panel(choices: Array[String], hero: Hero) -> void:
+	if _talent_panel == null:
+		_talent_panel = Control.new()
+		_talent_panel.set_script(TalentPanelScript)
+		add_child(_talent_panel)
+	_talent_panel.show_choices(choices, hero)
 
 
 func _refresh() -> void:
