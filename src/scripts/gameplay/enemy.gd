@@ -448,6 +448,7 @@ func _on_die() -> void:
 	if parent != null:
 		_spawn_label("+%d" % reward, Color(1.0, 0.85, 0.1), position, parent)
 		_spawn_death_particles(parent)
+	CollectionManager.on_enemy_killed(enemy_id)
 	died.emit(self)
 	queue_free()
 

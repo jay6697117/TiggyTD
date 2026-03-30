@@ -14,6 +14,7 @@ extends CanvasLayer
 
 var _label_marks: Label
 var _btn_temple: Button
+var _label_unlock: Label = null
 
 
 func _ready() -> void:
@@ -53,10 +54,22 @@ func _show(is_win: bool) -> void:
 	label_hp.text     = "基地残余 HP：%d / %d" % [GameState.base_hp, GameState.base_hp_max]
 	label_kills.text  = "击杀数：%d" % GameState.kills_this_run
 	label_waves.text  = "抵御波次：%d / %d" % [GameState.current_wave, GameState.total_waves]
+	_unlocked_level_name = ""
+	if _label_unlock != null:
+		_label_unlock.queue_free()
+		_label_unlock = null
 	var marks_earned := _settle_marks(is_win)
 	_label_marks.text = "获得古代印记：+%d（共 %d）" % [marks_earned, GameState.ancient_marks]
 	visible = true
 	_save_result(is_win)
+	if _unlocked_level_name != "":
+		_label_unlock = Label.new()
+		_label_unlock.text = "新关卡解锁：%s！" % _unlocked_level_name
+		_label_unlock.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		_label_unlock.add_theme_font_size_override("font_size", 18)
+		_label_unlock.add_theme_color_override("font_color", Color(0.3, 1.0, 0.5))
+		$Panel/VBox.add_child(_label_unlock)
+		$Panel/VBox.move_child(_label_unlock, _label_marks.get_index() + 1)
 
 
 func _settle_marks(is_win: bool) -> int:
@@ -86,17 +99,35 @@ func _settle_marks(is_win: bool) -> int:
 	return earned
 
 
+const _LEVEL_ORDER := ["ancient_savanna", "lava_canyon", "frozen_tundra"]
+const _LEVEL_NAMES := {"lava_canyon": "熔岩峡谷", "frozen_tundra": "冰封冻原"}
+
+var _unlocked_level_name: String = ""
+
+
 func _save_result(is_win: bool) -> void:
+	var lid: String = GameState.current_level_id
 	var levels: Array = SaveLoad.get_value("level_progress", [])
 	for entry in levels:
-		if entry.get("level_id") == "ancient_savanna":
+		if entry.get("level_id") == lid:
 			var best: Dictionary = entry.get("best_result", {})
 			var prev_waves: int = best.get("waves_survived", 0)
 			var cur_waves: int = GameState.current_wave
-			var cur_hp: int = GameState.base_hp if is_win else GameState.base_hp
+			var cur_hp: int = GameState.base_hp
 			if cur_waves > prev_waves or (cur_waves == prev_waves and cur_hp > best.get("base_hp_remaining", -1)):
 				entry["best_result"] = {"waves_survived": cur_waves, "base_hp_remaining": cur_hp}
+			if is_win:
+				entry["status"] = "CLEARED"
 			break
+	if is_win:
+		var idx: int = _LEVEL_ORDER.find(lid)
+		if idx >= 0 and idx + 1 < _LEVEL_ORDER.size():
+			var next_id: String = _LEVEL_ORDER[idx + 1]
+			for entry in levels:
+				if entry.get("level_id") == next_id and entry.get("status") == "LOCKED":
+					entry["status"] = "UNLOCKED"
+					_unlocked_level_name = _LEVEL_NAMES.get(next_id, next_id)
+					break
 	SaveLoad.set_value("level_progress", levels)
 	SaveLoad.save_game()
 

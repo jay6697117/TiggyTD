@@ -76,6 +76,17 @@ var _skill_trample_fear: bool = false
 var _skill_trample_aoe_slow: bool = false
 var _skill_wolf_rampage_chance: float = 0.0
 
+# 道具装备（1槽位）
+var equipped_item: String = ""
+var _item_atk_bonus: float = 0.0
+var _item_speed_bonus: float = 0.0
+var _item_crit_chance: float = 0.0
+var _item_crit_mult_bonus: float = 0.0
+var _item_pierce_rate: float = 0.0
+var _item_on_hit_poison: bool = false
+var _item_on_hit_slow: bool = false
+var _item_on_hit_armor_break: bool = false
+
 # 升级
 const MAX_LEVEL := 3
 var level: int = 1
@@ -175,6 +186,35 @@ func apply_synergy_armor(buff_id: String, bonus: float) -> void:
 	_synergy_armor_bonus += bonus
 
 
+func equip_item(item_id: String) -> bool:
+	if equipped_item != "":
+		return false  # 槽位已满
+	var item: Dictionary = ItemDB.get_item(item_id)
+	if item.is_empty():
+		return false
+	equipped_item = item_id
+	_apply_item_effects(item)
+	return true
+
+
+func _apply_item_effects(item: Dictionary) -> void:
+	for effect in item.get("effects", []):
+		var t: String = effect.get("type", "")
+		var v: float  = float(effect.get("value", 0))
+		match t:
+			"base_atk":         _item_atk_bonus += v
+			"atk_speed":        _item_speed_bonus += v
+			"hp":               max_hp += v; hp += v
+			"armor_rate":       armor_rate = minf(armor_rate + v, 0.9)
+			"range":            _range_px += v * Constants.TILE_SIZE
+			"crit_chance":      _item_crit_chance = minf(_item_crit_chance + v, 0.75)
+			"crit_mult":        _item_crit_mult_bonus += v
+			"pierce_rate":      _item_pierce_rate = minf(_item_pierce_rate + v, 1.0)
+			"on_hit_poison":    _item_on_hit_poison = true
+			"on_hit_slow":      _item_on_hit_slow = true
+			"on_hit_armor_break": _item_on_hit_armor_break = true
+
+
 func clear_synergy_buffs() -> void:
 	_synergy_buffs.clear()
 	_synergy_armor_bonus = 0.0
@@ -213,19 +253,22 @@ func _find_target() -> void:
 
 func _fire() -> void:
 	var aura_bonus: float = _get_aura_bonus()
-	var eff_speed := _atk_speed * (1.0 + aura_bonus)
-	var eff_atk := _atk
+	var eff_speed := (_atk_speed + _item_speed_bonus) * (1.0 + aura_bonus)
+	var eff_atk := _atk + _item_atk_bonus
 	for buff in _buffs.values():
 		eff_speed *= buff.get("speed_mult", 1.0)
 		eff_atk   *= buff.get("atk_mult",   1.0)
 	for sbuff in _synergy_buffs.values():
 		eff_speed *= sbuff.get("speed_mult", 1.0)
 		eff_atk   *= sbuff.get("atk_mult",   1.0)
-	_attack_timer = 1.0 / eff_speed
-	var eff_armor := clampf(_current_target._armor_rate - _synergy_armor_bonus, 0.0, 1.0)
+	_attack_timer = 1.0 / maxf(eff_speed, 0.1)
+	var eff_pierce := minf(_item_pierce_rate, 1.0)
+	var eff_armor := clampf(_current_target._armor_rate * (1.0 - eff_pierce) - _synergy_armor_bonus, 0.0, 1.0)
 	var final_dmg := eff_atk * (1.0 - eff_armor)
-	if _skill_crit_chance > 0.0 and randf() < _skill_crit_chance:
-		final_dmg *= 2.0
+	var crit_chance := maxf(_skill_crit_chance, _item_crit_chance)
+	if crit_chance > 0.0 and randf() < crit_chance:
+		var crit_mult := 2.0 + _item_crit_mult_bonus
+		final_dmg *= crit_mult
 	if _skill_wolf_rampage_chance > 0.0 and randf() < _skill_wolf_rampage_chance:
 		final_dmg *= 1.5
 	_current_target.take_damage(final_dmg)
@@ -248,6 +291,13 @@ func _apply_on_hit_effect() -> void:
 			_current_target.apply_status("poison", 5.0)
 		"armor_break":
 			_current_target.apply_status("armor_break", Constants.ARMOR_BREAK_DURATION)
+	# 道具命中效果
+	if _item_on_hit_poison:
+		_current_target.apply_status("poison", 5.0)
+	if _item_on_hit_slow:
+		_current_target.apply_status("slow", 2.0)
+	if _item_on_hit_armor_break:
+		_current_target.apply_status("armor_break", Constants.ARMOR_BREAK_DURATION)
 	# 协同特殊效果
 	if synergy_stun_chance > 0.0 and randf() < synergy_stun_chance:
 		_current_target.apply_status("stun", 0.5)

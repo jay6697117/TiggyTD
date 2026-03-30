@@ -29,6 +29,9 @@ VFXSystem="*res://autoloads/vfx_system.gd"
 GridManager="*res://autoloads/grid_manager.gd"
 PathfindingSystem="*res://autoloads/pathfinding_system.gd"
 SynergyManager="*res://autoloads/synergy_manager.gd"
+CollectionManager="*res://autoloads/collection_manager.gd"
+ItemDB="*res://autoloads/item_db.gd"
+Inventory="*res://autoloads/inventory.gd"
 
 [display]
 

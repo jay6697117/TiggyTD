@@ -23,6 +23,9 @@ var base_hp_max: int = 10
 var current_wave: int = 0
 var total_waves: int = 10
 
+# 当前关卡
+var current_level_id: String = "ancient_savanna"
+
 # 击杀统计
 var kills_this_run: int = 0
 var enemies_leaked: int = 0

@@ -19,13 +19,11 @@ func _ready() -> void:
 	wave_manager.setup(enemies_node)
 	tower_placement.setup(towers_node)
 	_connect_signals()
-	# 根据存档决定首次进入状态
-	var tutorial_done: bool = SaveLoad.get_value("tutorial", {}).get("tutorial_completed", false)
-	GameState.change_state(GameState.State.BUILD)
-	if not tutorial_done:
-		var overlay := Node.new()
-		overlay.set_script(load("res://scripts/ui/tutorial_overlay.gd"))
-		add_child(overlay)
+	# 主菜单
+	var menu := Node.new()
+	menu.set_script(load("res://scripts/ui/main_menu.gd"))
+	add_child(menu)
+	GameState.change_state(GameState.State.MAIN_MENU)
 
 
 func _connect_signals() -> void:
@@ -35,8 +33,19 @@ func _connect_signals() -> void:
 	tower_placement.tower_focused.connect(func(t): get_tree().call_group("hud", "show_skill_tree", t))
 
 
+var _tutorial_launched: bool = false
+
+
 func _on_state_changed(new_state: GameState.State) -> void:
 	match new_state:
+		GameState.State.BUILD:
+			if not _tutorial_launched:
+				_tutorial_launched = true
+				var tutorial_done: bool = SaveLoad.get_value("tutorial", {}).get("tutorial_completed", false)
+				if not tutorial_done:
+					var overlay := Node.new()
+					overlay.set_script(load("res://scripts/ui/tutorial_overlay.gd"))
+					add_child(overlay)
 		GameState.State.WIN:
 			AudioSystem.play_bgm("victory")
 			VFXSystem.play("victory", Vector2(640, 480))

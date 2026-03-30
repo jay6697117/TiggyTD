@@ -42,14 +42,32 @@ func select_animal(animal_id: String) -> void:
 # 取消放置
 func cancel_placement() -> void:
 	_pending_animal_id = ""
+	_pending_equip_item = ""
 
 
-# 点击格子：放置 / 升级 / 出售
+# 进入装备模式（由背包 UI 调用）
+var _pending_equip_item: String = ""
+
+func enter_equip_mode(item_id: String) -> void:
+	if GameState.current_state != GameState.State.BUILD:
+		return
+	_pending_equip_item = item_id
+	_pending_animal_id = ""
+
+
+# 点击格子：放置 / 升级 / 出售 / 装备
 func on_cell_clicked(cell: Vector2i, _cell_type: MapGrid.CellType) -> void:
 	if GameState.current_state != GameState.State.BUILD:
 		return
 	if _placed_towers.has(cell):
-		if _pending_animal_id != "":
+		if _pending_equip_item != "":
+			# 装备模式：点击已有塔 → 装备道具
+			var tower: Tower = _placed_towers[cell]
+			if tower.equip_item(_pending_equip_item):
+				Inventory.remove_item(_pending_equip_item)
+				tower_focused.emit(tower)
+			_pending_equip_item = ""
+		elif _pending_animal_id != "":
 			# 选中动物时点击已有塔 → 出售
 			_sell_tower(cell)
 		else:
@@ -98,6 +116,7 @@ func _try_place(animal_id: String, cell: Vector2i) -> void:
 	GridManager.obstacle_changed.emit()
 	_pending_animal_id = ""  # 放置后清空选择
 	SynergyManager.recalculate()
+	CollectionManager.on_animal_placed(animal_id)
 	tower_placed.emit(cell)
 
 
