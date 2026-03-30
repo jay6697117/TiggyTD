@@ -139,7 +139,8 @@ func _try_upgrade(cell: Vector2i) -> void:
 		return  # 已满级
 	var cost := tower.upgrade_cost()
 	if not GameState.spend_gold(cost):
-		return  # 金币不足
+		placement_failed.emit("金币不足")
+		return
 	tower.upgrade()
 
 

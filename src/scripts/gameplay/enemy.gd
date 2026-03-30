@@ -88,6 +88,8 @@ func setup(id: String) -> void:
 	hp           = float(_data["hp"])
 	max_hp       = hp
 	_speed_base  = float(_data["speed"])
+	if GameState.current_level_id == "frozen_tundra":
+		_speed_base *= 1.1
 	_speed_current = _speed_base
 	_atk         = float(_data["atk"])
 	_armor_rate  = float(_data["armor_rate"])
