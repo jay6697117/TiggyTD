@@ -29,6 +29,12 @@ signal cell_hovered(cell: Vector2i)
 
 func _ready() -> void:
 	_grid = GridManager.grid
+	GridManager.obstacle_changed.connect(_on_grid_changed)
+	queue_redraw()
+
+
+func _on_grid_changed() -> void:
+	_grid = GridManager.grid
 	queue_redraw()
 
 

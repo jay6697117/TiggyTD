@@ -44,6 +44,21 @@ func show_synergy_banner(text: String) -> void:
 	t.timeout.connect(func(): _synergy_banner.visible = false)
 
 
+func show_toast(text: String) -> void:
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 20)
+	lbl.add_theme_color_override("font_color", Color(1.0, 0.3, 0.3))
+	lbl.anchor_left = 0.0
+	lbl.anchor_right = 1.0
+	lbl.anchor_top = 0.55
+	lbl.anchor_bottom = 0.65
+	add_child(lbl)
+	var t := get_tree().create_timer(1.5)
+	t.timeout.connect(lbl.queue_free)
+
+
 func _ready() -> void:
 	add_to_group("hud")
 	GameState.gold_changed.connect(_on_gold_changed)

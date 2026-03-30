@@ -21,9 +21,22 @@ var _placed_towers: Dictionary = {}  # Vector2i → Tower
 
 signal tower_focused(tower: Tower)
 signal tower_placed(cell: Vector2i)
+signal placement_failed(reason: String)
 
 func _ready() -> void:
 	add_to_group("tower_placement")
+	GameState.state_changed.connect(_on_state_changed)
+
+
+func _on_state_changed(new_state: GameState.State) -> void:
+	if new_state == GameState.State.BUILD and GameState.current_wave == 0:
+		_clear_all_towers()
+
+
+func _clear_all_towers() -> void:
+	for cell in _placed_towers.keys():
+		_placed_towers[cell].queue_free()
+	_placed_towers.clear()
 
 
 func setup(towers_node: Node2D) -> void:
@@ -107,7 +120,7 @@ func _try_place(animal_id: String, cell: Vector2i) -> void:
 		return
 	var cost: int = Tower.ANIMAL_DB[animal_id]["cost"]
 	if not GameState.spend_gold(cost):
-		# 金币不足：UI 系统负责提示（TODO: 信号通知 UI）
+		placement_failed.emit("金币不足")
 		return
 	var tower := _create_tower(animal_id, cell)
 	_towers_node.add_child(tower)

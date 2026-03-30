@@ -174,7 +174,7 @@ func _wave_cleared() -> void:
 
 
 func _get_spawn_position() -> Vector2:
-	var spawn_cell := MapGrid.WAYPOINTS[0]
+	var spawn_cell := GridManager.grid.waypoints[0]
 	return Vector2(
 		spawn_cell.x * Constants.TILE_SIZE + Constants.TILE_SIZE * 0.5,
 		spawn_cell.y * Constants.TILE_SIZE + Constants.TILE_SIZE * 0.5

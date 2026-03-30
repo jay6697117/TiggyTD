@@ -11,8 +11,8 @@ const WIDTH  := Constants.MAP_WIDTH   # 20
 const HEIGHT := Constants.MAP_HEIGHT  # 15
 const TILE   := Constants.TILE_SIZE   # 64 px
 
-# 路径 waypoints（格子坐标）
-const WAYPOINTS: Array[Vector2i] = [
+# 路径 waypoints（格子坐标）— 运行时由 GridManager 按关卡注入
+var waypoints: Array[Vector2i] = [
 	Vector2i(0,  2),
 	Vector2i(7,  2),
 	Vector2i(7,  9),
@@ -26,7 +26,9 @@ var _types: Array         # Array[Array[CellType]]  [x][y]
 var _occupied: Array      # Array[Array[int]]  tower_id or -1
 
 
-func _init() -> void:
+func _init(custom_waypoints: Array[Vector2i] = []) -> void:
+	if custom_waypoints.size() >= 2:
+		waypoints = custom_waypoints
 	_types    = []
 	_occupied = []
 	for x in WIDTH:
@@ -85,7 +87,7 @@ func cell_to_world(cell: Vector2i) -> Vector2:
 
 func waypoint_world_positions() -> Array[Vector2]:
 	var result: Array[Vector2] = []
-	for wp in WAYPOINTS:
+	for wp in waypoints:
 		result.append(cell_to_world(wp))
 	return result
 
@@ -94,12 +96,12 @@ func waypoint_world_positions() -> Array[Vector2]:
 
 func _apply_layout() -> void:
 	# 1. 标记路径格（连接相邻 waypoint 的线段）
-	for i in WAYPOINTS.size() - 1:
-		_mark_segment(WAYPOINTS[i], WAYPOINTS[i + 1])
+	for i in waypoints.size() - 1:
+		_mark_segment(waypoints[i], waypoints[i + 1])
 
 	# 2. 起点和终点
-	_set_cell(WAYPOINTS[0].x, WAYPOINTS[0].y, CellType.SPAWN)
-	_set_cell(WAYPOINTS[-1].x, WAYPOINTS[-1].y, CellType.BASE)
+	_set_cell(waypoints[0].x, waypoints[0].y, CellType.SPAWN)
+	_set_cell(waypoints[-1].x, waypoints[-1].y, CellType.BASE)
 
 	# 3. 路径边缘格（紧贴路径的格子）不可建造 → BLOCKED
 	for x in WIDTH:

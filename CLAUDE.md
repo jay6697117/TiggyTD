@@ -1,3 +1,7 @@
+# 语言要求
+
+> **最高优先级：回复一律使用中文。**
+
 # Claude Code Game Studios -- Game Studio Agent Architecture
 
 Indie game development managed through 48 coordinated Claude Code subagents.

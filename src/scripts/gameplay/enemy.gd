@@ -38,7 +38,8 @@ var _base_dmg: int
 
 # 路径跟随
 var _waypoint_index: int = 0
-const WAYPOINTS := MapGrid.WAYPOINTS
+var WAYPOINTS: Array[Vector2i]:
+	get: return GridManager.grid.waypoints
 
 # 攻击计时
 var _attack_timer: float = 0.0
