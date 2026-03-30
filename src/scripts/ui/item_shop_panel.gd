@@ -196,6 +196,40 @@ func _refresh_slot_states() -> void:
 		_btn_refresh.disabled = GameState.gold < REFRESH_COST
 
 
+func _describe_effects(effects: Array) -> String:
+	var parts: Array = []
+	for ef in effects:
+		var t: String = ef.get("type", "")
+		match t:
+			"base_atk":           parts.append("攻击 +%d" % ef.get("value", 0))
+			"atk_speed":          parts.append("攻速 +%.0f%%" % (ef.get("value", 0) * 100))
+			"hp":                 parts.append("生命 +%d" % ef.get("value", 0))
+			"range":              parts.append("射程 +%.1f" % ef.get("value", 0))
+			"armor_rate":         parts.append("护甲 +%.0f%%" % (ef.get("value", 0) * 100))
+			"pierce_rate":        parts.append("穿透 +%.0f%%" % (ef.get("value", 0) * 100))
+			"crit_rate":          parts.append("暴击率 +%.0f%%" % (ef.get("value", 0) * 100))
+			"crit_mult":          parts.append("暴伤 +%.0f%%" % (ef.get("value", 0) * 100))
+			"on_hit_poison":      parts.append("攻击附毒(%.0f/s)" % ef.get("dps", 0))
+			"on_hit_slow":        parts.append("攻击减速 %.0f%%" % (ef.get("ratio", 0) * 100))
+			"on_hit_armor_break": parts.append("攻击破甲")
+			"on_hit_chain":       parts.append("连锁攻击 %.0f%%" % (ef.get("chance", 0) * 100))
+			"on_hit_double":      parts.append("双击 %.0f%%" % (ef.get("chance", 0) * 100))
+			"on_hit_mark":        parts.append("标记+伤害")
+			"aoe_attack":         parts.append("范围攻击")
+			"thorns":             parts.append("反伤 %.0f%%" % (ef.get("ratio", 0) * 100))
+			"regen":              parts.append("回血 %d/%.0fs" % [ef.get("hp", 0), ef.get("interval", 5)])
+			"ally_aura":          parts.append("光环:攻击+%.0f%%" % (ef.get("atk_bonus", 0) * 100))
+			"on_kill_gold":       parts.append("击杀+%d金" % ef.get("value", 0))
+			"cooldown_reduction": parts.append("技能CD -%.0f%%" % (ef.get("value", 0) * 100))
+			"move_speed":         parts.append("移速 +%.1f" % ef.get("value", 0))
+			"last_stand":         parts.append("绝地反击")
+			"taunt":              parts.append("嘲讽")
+			"soul_link":          parts.append("灵魂链接")
+			"wild_instinct":      parts.append("野性本能")
+			_:                    parts.append(t)
+	return "\n".join(parts)
+
+
 func _on_buy_pressed(index: int) -> void:
 	if index >= _shop_items.size():
 		return
