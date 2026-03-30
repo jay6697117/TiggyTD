@@ -49,6 +49,17 @@ func _build_ui() -> void:
 	var sep := HSeparator.new()
 	vbox.add_child(sep)
 
+	# 已装备道具
+	var equip_lbl := Label.new()
+	if _tower.equipped_item != "":
+		var item: Dictionary = ItemDB.get_item(_tower.equipped_item)
+		equip_lbl.text = "装备：%s" % item.get("name", _tower.equipped_item)
+		equip_lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))
+	else:
+		equip_lbl.text = "装备：（无）"
+		equip_lbl.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
+	vbox.add_child(equip_lbl)
+
 	# 升级按钮
 	var upgrade_btn := Button.new()
 	if _tower.can_upgrade():

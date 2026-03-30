@@ -202,9 +202,14 @@ func get_shop_pool() -> Array:
 	return pool
 
 
+func get_all_ids() -> Array:
+	return ITEMS.keys()
+
+
 func get_crafting_recipes() -> Array:
 	var recipes: Array = []
 	for id in ITEMS:
 		if ITEMS[id]["tier"] == 2:
-			recipes.append({"result": id, "materials": ITEMS[id]["recipe"]})
+			var mats: Array = ITEMS[id]["recipe"]
+			recipes.append({"result": id, "mat_a": mats[0] if mats.size() > 0 else "", "mat_b": mats[1] if mats.size() > 1 else mats[0] if mats.size() > 0 else ""})
 	return recipes

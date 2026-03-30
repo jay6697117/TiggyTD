@@ -20,9 +20,17 @@ func _ready() -> void:
 	tower_placement.setup(towers_node)
 	_connect_signals()
 	# 主菜单
-	var menu := Node.new()
+	var menu := CanvasLayer.new()
 	menu.set_script(load("res://scripts/ui/main_menu.gd"))
 	add_child(menu)
+	# 道具商店
+	var item_shop := CanvasLayer.new()
+	item_shop.set_script(load("res://scripts/ui/item_shop_panel.gd"))
+	add_child(item_shop)
+	# 背包面板
+	var inv_panel := CanvasLayer.new()
+	inv_panel.set_script(load("res://scripts/ui/inventory_panel.gd"))
+	add_child(inv_panel)
 	GameState.change_state(GameState.State.MAIN_MENU)
 
 
@@ -43,7 +51,7 @@ func _on_state_changed(new_state: GameState.State) -> void:
 				_tutorial_launched = true
 				var tutorial_done: bool = SaveLoad.get_value("tutorial", {}).get("tutorial_completed", false)
 				if not tutorial_done:
-					var overlay := Node.new()
+					var overlay := CanvasLayer.new()
 					overlay.set_script(load("res://scripts/ui/tutorial_overlay.gd"))
 					add_child(overlay)
 		GameState.State.WIN:

@@ -35,14 +35,16 @@ const ENEMIES: Array = [
 	{"id": "trex_king",   "name": "霸王龙王"},
 ]
 
-var _tab: int = 0  # 0=动物 1=敌人
+var _tab: int = 0  # 0=动物 1=敌人 2=道具
 var _unlocked: Array = []
+var _seen_items: Array = []
 
 
 func _ready() -> void:
 	layer = 80
 	var col: Dictionary = SaveLoad.get_value("collection", {})
 	_unlocked = col.get("unlocked_entries", [])
+	_seen_items = col.get("seen_items", [])
 	_build_ui()
 
 
@@ -104,6 +106,11 @@ func _build_ui() -> void:
 	btn_enemies.add_theme_font_size_override("font_size", 16)
 	tab_hbox.add_child(btn_enemies)
 
+	var btn_items := Button.new()
+	btn_items.text = "道具（%d）" % ItemDB.get_all_ids().size()
+	btn_items.add_theme_font_size_override("font_size", 16)
+	tab_hbox.add_child(btn_items)
+
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vbox.add_child(scroll)
@@ -124,6 +131,10 @@ func _build_ui() -> void:
 	btn_enemies.pressed.connect(func():
 		_clear_grid(grid)
 		_populate_grid(grid, ENEMIES))
+
+	btn_items.pressed.connect(func():
+		_clear_grid(grid)
+		_populate_items_grid(grid))
 
 	var btn_back := Button.new()
 	btn_back.text = "返回"
@@ -149,6 +160,31 @@ func _populate_grid(grid: GridContainer, entries: Array) -> void:
 		if unlocked:
 			lbl.text = entry["name"]
 			lbl.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5))
+		else:
+			lbl.text = "???"
+			lbl.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
+		cell.add_child(lbl)
+
+
+func _populate_items_grid(grid: GridContainer) -> void:
+	for item_id in ItemDB.get_all_ids():
+		var item: Dictionary = ItemDB.get_item(item_id)
+		var seen: bool = item_id in _seen_items
+		var cell := PanelContainer.new()
+		cell.custom_minimum_size = Vector2(140, 80)
+		grid.add_child(cell)
+		var lbl := Label.new()
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		lbl.add_theme_font_size_override("font_size", 14)
+		if seen:
+			var tier: int = item.get("tier", 1)
+			if tier >= 2:
+				lbl.text = item.get("name", item_id) + "\n★"
+				lbl.add_theme_color_override("font_color", Color(1.0, 0.8, 0.2))
+			else:
+				lbl.text = item.get("name", item_id)
+				lbl.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5))
 		else:
 			lbl.text = "???"
 			lbl.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))

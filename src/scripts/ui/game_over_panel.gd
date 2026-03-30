@@ -133,7 +133,7 @@ func _save_result(is_win: bool) -> void:
 
 
 func _open_totem_temple() -> void:
-	var temple := Node.new()
+	var temple := CanvasLayer.new()
 	temple.set_script(load("res://scripts/ui/totem_temple_panel.gd"))
 	get_tree().root.add_child(temple)
 

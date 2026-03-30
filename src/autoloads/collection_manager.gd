@@ -17,6 +17,18 @@ func on_enemy_killed(enemy_id: String) -> void:
 	_check_unlock(enemy_id)
 
 
+func on_item_acquired(item_id: String) -> void:
+	var col: Dictionary = SaveLoad.get_value("collection", {"unlocked_entries": [], "unlock_dates": {}, "seen_items": []})
+	var seen: Array = col.get("seen_items", [])
+	if item_id in seen:
+		return
+	seen.append(item_id)
+	col["seen_items"] = seen
+	SaveLoad.set_value("collection", col)
+	SaveLoad.save_game()
+	_show_toast(item_id)
+
+
 func _check_unlock(entry_id: String) -> void:
 	var col: Dictionary = SaveLoad.get_value("collection", {"unlocked_entries": [], "unlock_dates": {}})
 	var entries: Array = col.get("unlocked_entries", [])

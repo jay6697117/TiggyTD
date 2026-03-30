@@ -86,19 +86,19 @@ func _on_state_changed(new_state: GameState.State) -> void:
 
 
 func _on_start_pressed() -> void:
-	var panel := Node.new()
+	var panel := CanvasLayer.new()
 	panel.set_script(load("res://scripts/ui/level_select_panel.gd"))
 	get_tree().root.add_child(panel)
 
 
 func _on_temple_pressed() -> void:
-	var panel := Node.new()
+	var panel := CanvasLayer.new()
 	panel.set_script(load("res://scripts/ui/totem_temple_panel.gd"))
 	get_tree().root.add_child(panel)
 
 
 func _on_collection_pressed() -> void:
-	var panel := Node.new()
+	var panel := CanvasLayer.new()
 	panel.set_script(load("res://scripts/ui/collection_panel.gd"))
 	get_tree().root.add_child(panel)
 

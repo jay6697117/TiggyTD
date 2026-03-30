@@ -35,6 +35,7 @@ func add_item(item_id: String) -> bool:
 	_items.append(item_id)
 	item_added.emit(item_id)
 	inventory_changed.emit()
+	CollectionManager.on_item_acquired(item_id)
 	return true
 
 
