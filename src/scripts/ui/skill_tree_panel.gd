@@ -94,6 +94,8 @@ func _configure_button(btn: Button, node_def: Dictionary) -> void:
 	var nid: String    = node_def["id"]
 	var label: String  = node_def["label"]
 	var cost: int      = node_def["cost"]
+	if GameState.has_meta_node("build_skill_disc"):
+		cost = int(cost * 0.9)
 	var prereq: String = node_def["prereq"]
 	var mutex: String  = node_def["mutex"]
 

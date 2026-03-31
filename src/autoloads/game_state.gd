@@ -76,8 +76,14 @@ func damage_base(amount: int) -> void:
 		change_state(State.LOSE)
 
 
+func has_meta_node(node_id: String) -> bool:
+	var meta: Dictionary = SaveLoad.get_value("meta_progression", {})
+	return node_id in meta.get("unlocked_nodes", [])
+
+
 func reset_run() -> void:
-	gold = 150
+	base_hp_max = 10 + (2 if has_meta_node("combat_base_hp") else 0)
+	gold = 150 + (20 if has_meta_node("eco_gold") else 0)
 	base_hp = base_hp_max
 	current_wave = 0
 	kills_this_run = 0
@@ -88,7 +94,8 @@ func reset_run() -> void:
 
 # 仅重置数值，不发信号（reload_current_scene 前调用）
 func reset_run_data() -> void:
-	gold = 150
+	base_hp_max = 10 + (2 if has_meta_node("combat_base_hp") else 0)
+	gold = 150 + (20 if has_meta_node("eco_gold") else 0)
 	base_hp = base_hp_max
 	current_wave = 0
 	kills_this_run = 0

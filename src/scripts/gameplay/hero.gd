@@ -34,6 +34,7 @@ var _cd_era_judgement: float = 0.0
 # 运行时可被天赋修改的参数
 var _apex_roar_duration: float    = 8.0
 var _apex_roar_cd_max: float      = CD_APEX_ROAR
+var _natures_call_cd_max: float   = CD_NATURES_CALL
 var _natures_call_atk_mult: float = 1.3
 var _natures_call_radius: float   = NATURES_CALL_RADIUS_PX
 var _era_dmg: float               = 300.0
@@ -66,6 +67,12 @@ func _ready() -> void:
 	add_to_group("hero")
 	position = Vector2(64 * 1 + 32, 64 * 7 + 32)
 	_talent_pool = ALL_TALENTS.duplicate()
+	if GameState.has_meta_node("combat_hero_speed"):
+		_hero_speed *= 1.1
+	if GameState.has_meta_node("combat_skill_cd"):
+		_apex_roar_cd_max *= 0.9
+		_natures_call_cd_max *= 0.9
+		_era_cd_max *= 0.9
 
 
 func _process(delta: float) -> void:
@@ -86,7 +93,7 @@ func _tick_cooldowns(delta: float) -> void:
 		skill_cd_updated.emit("apex_roar", _cd_apex_roar, CD_APEX_ROAR)
 	if _cd_natures_call > 0.0:
 		_cd_natures_call = maxf(_cd_natures_call - delta, 0.0)
-		skill_cd_updated.emit("natures_call", _cd_natures_call, CD_NATURES_CALL)
+		skill_cd_updated.emit("natures_call", _cd_natures_call, _natures_call_cd_max)
 	if _cd_era_judgement > 0.0:
 		_cd_era_judgement = maxf(_cd_era_judgement - delta, 0.0)
 		skill_cd_updated.emit("era_judgement", _cd_era_judgement, CD_ERA_JUDGEMENT)
@@ -145,8 +152,8 @@ func _execute_skill(skill: String) -> void:
 			skill_cd_updated.emit("apex_roar", _cd_apex_roar, _apex_roar_cd_max)
 		"natures_call":
 			_do_natures_call()
-			_cd_natures_call = CD_NATURES_CALL
-			skill_cd_updated.emit("natures_call", _cd_natures_call, CD_NATURES_CALL)
+			_cd_natures_call = _natures_call_cd_max
+			skill_cd_updated.emit("natures_call", _cd_natures_call, _natures_call_cd_max)
 		"era_judgement":
 			_do_era_judgement()
 			_cd_era_judgement = _era_cd_max

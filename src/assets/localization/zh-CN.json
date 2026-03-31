@@ -208,5 +208,12 @@
   "ui.paused": "游戏暂停",
   "ui.resume": "继续游戏",
   "ui.return_main_menu": "返回主菜单",
-  "ui.collection_tab_items": "道具（{0}）"
+  "ui.collection_tab_items": "道具（{0}）",
+  "ui.item_shop.title": "道具商店",
+  "ui.gold_amount": "金币：{0}",
+  "ui.shop_refresh": "刷新（{0}g）",
+  "ui.shop_continue": "继续建造",
+  "ui.item_shop.out_of_stock": "— 无货 —",
+  "ui.item_shop.sold_out": "已售",
+  "ui.item_shop.buy": "购买 {0}g"
 }

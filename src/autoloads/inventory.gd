@@ -6,7 +6,7 @@ extends Node
 # 容量6格，存储道具ID列表；reset_run 时清空
 # ---------------------------------------------------------------------------
 
-const CAPACITY := 6
+var CAPACITY: int = 6
 
 # 当前背包内容：Array of String（item_id）
 var _items: Array = []
@@ -17,6 +17,7 @@ signal inventory_changed
 
 
 func _ready() -> void:
+	CAPACITY = 6 + (1 if GameState.has_meta_node("build_bag_slot") else 0)
 	GameState.state_changed.connect(_on_state_changed)
 
 

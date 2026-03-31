@@ -208,5 +208,12 @@
   "ui.paused": "Game Paused",
   "ui.resume": "Resume",
   "ui.return_main_menu": "Return to Main Menu",
-  "ui.collection_tab_items": "Items ({0})"
+  "ui.collection_tab_items": "Items ({0})",
+  "ui.item_shop.title": "Item Shop",
+  "ui.gold_amount": "Gold: {0}",
+  "ui.shop_refresh": "Refresh ({0}g)",
+  "ui.shop_continue": "Continue Building",
+  "ui.item_shop.out_of_stock": "— Out of Stock —",
+  "ui.item_shop.sold_out": "Sold",
+  "ui.item_shop.buy": "Buy {0}g"
 }

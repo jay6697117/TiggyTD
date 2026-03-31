@@ -435,7 +435,7 @@ func _draw() -> void:
 
 
 func _on_die() -> void:
-	var reward := int(_data["reward"])
+	var reward := int(_data["reward"]) + (1 if GameState.has_meta_node("eco_kill_gold") else 0)
 	GameState.add_gold(reward)
 	GameState.kills_this_run += 1
 	var exp_gain: int

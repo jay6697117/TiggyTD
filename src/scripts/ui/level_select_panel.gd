@@ -56,6 +56,8 @@ func _build_ui() -> void:
 
 func _add_level_card(parent: Node, lid: String, entry: Dictionary) -> void:
 	var unlocked: bool = entry.get("status", "LOCKED") == "UNLOCKED"
+	if not unlocked and lid == "lava_canyon" and GameState.has_meta_node("unlock_map2"):
+		unlocked = true
 	var best: Dictionary = entry.get("best_result", {})
 
 	var card := PanelContainer.new()

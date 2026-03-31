@@ -82,7 +82,7 @@ func _settle_marks(is_win: bool) -> int:
 		# 首次通关额外奖励
 		var levels: Array = SaveLoad.get_value("level_progress", [])
 		for entry in levels:
-			if entry.get("level_id") == "ancient_savanna":
+			if entry.get("level_id") == GameState.current_level_id:
 				if entry.get("best_result", {}).get("waves_survived", 0) < GameState.total_waves:
 					earned += 20
 				break
