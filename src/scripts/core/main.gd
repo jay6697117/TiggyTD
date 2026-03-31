@@ -31,6 +31,10 @@ func _ready() -> void:
 	var inv_panel := CanvasLayer.new()
 	inv_panel.set_script(load("res://scripts/ui/inventory_panel.gd"))
 	add_child(inv_panel)
+	# 暂停面板
+	var pause_panel := CanvasLayer.new()
+	pause_panel.set_script(load("res://scripts/ui/pause_panel.gd"))
+	add_child(pause_panel)
 	GameState.change_state(GameState.State.MAIN_MENU)
 
 

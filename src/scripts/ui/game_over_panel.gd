@@ -85,7 +85,7 @@ func _settle_marks(is_win: bool) -> int:
 			if entry.get("level_id") == "ancient_savanna":
 				if entry.get("best_result", {}).get("waves_survived", 0) < GameState.total_waves:
 					earned += 20
-			break
+				break
 	else:
 		if GameState.current_wave >= 5:
 			earned += 10

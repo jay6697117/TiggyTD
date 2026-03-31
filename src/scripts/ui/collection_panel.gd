@@ -7,32 +7,15 @@ extends CanvasLayer
 # ---------------------------------------------------------------------------
 
 const ANIMALS: Array = [
-	{"id": "tiger",       "name": "老虎"},
-	{"id": "lion",        "name": "狮子"},
-	{"id": "elephant",   "name": "大象"},
-	{"id": "cheetah",    "name": "猎豹"},
-	{"id": "eagle",      "name": "鹰"},
-	{"id": "wolf_pack",  "name": "狼群"},
-	{"id": "owl",        "name": "猫头鹰"},
-	{"id": "otter",      "name": "水獭"},
-	{"id": "peacock",    "name": "孔雀"},
-	{"id": "chameleon",  "name": "变色龙"},
-	{"id": "honey_badger","name": "蜜獾"},
-	{"id": "pangolin",   "name": "穿山甲"},
+	"tiger", "lion", "elephant", "cheetah", "eagle",
+	"wolf_pack", "owl", "otter", "peacock", "chameleon",
+	"honey_badger", "pangolin",
 ]
 
 const ENEMIES: Array = [
-	{"id": "raptor",      "name": "迅猛龙"},
-	{"id": "triceratops", "name": "三角龙"},
-	{"id": "mammoth",     "name": "猛犸象"},
-	{"id": "pterodactyl", "name": "翼龙"},
-	{"id": "ankylosaurus","name": "甲龙"},
-	{"id": "sabre_tooth", "name": "剑齿虎"},
-	{"id": "giant_sloth", "name": "大地懒"},
-	{"id": "doedicurus",  "name": "雕齿兽"},
-	{"id": "mosasaurus",  "name": "沧龙"},
-	{"id": "ammonite",    "name": "菊石"},
-	{"id": "trex_king",   "name": "霸王龙王"},
+	"raptor", "triceratops", "mammoth", "pterodactyl", "ankylosaurus",
+	"sabre_tooth", "giant_sloth", "doedicurus", "mosasaurus", "ammonite",
+	"trex_king",
 ]
 
 var _tab: int = 0  # 0=动物 1=敌人 2=道具
@@ -66,26 +49,21 @@ func _build_ui() -> void:
 	panel.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "图  鉴"
+	title.text = Localization.L("ui.collection")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 30)
 	title.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2))
 	vbox.add_child(title)
 
 	var total := ANIMALS.size() + ENEMIES.size()
+	var all_ids := ANIMALS + ENEMIES
 	var unlocked_count := 0
 	for e in _unlocked:
-		for a in ANIMALS:
-			if a["id"] == e:
-				unlocked_count += 1
-				break
-		for en in ENEMIES:
-			if en["id"] == e:
-				unlocked_count += 1
-				break
+		if e in all_ids:
+			unlocked_count += 1
 
 	var progress_lbl := Label.new()
-	progress_lbl.text = "已解锁 %d / %d" % [unlocked_count, total]
+	progress_lbl.text = Localization.L("ui.collection_progress", [str(unlocked_count), str(total)])
 	progress_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	progress_lbl.add_theme_font_size_override("font_size", 16)
 	progress_lbl.add_theme_color_override("font_color", Color(0.7, 1.0, 0.7))
@@ -97,17 +75,17 @@ func _build_ui() -> void:
 	vbox.add_child(tab_hbox)
 
 	var btn_animals := Button.new()
-	btn_animals.text = "动物（%d）" % ANIMALS.size()
+	btn_animals.text = Localization.L("ui.collection_tab_animals", [str(ANIMALS.size())])
 	btn_animals.add_theme_font_size_override("font_size", 16)
 	tab_hbox.add_child(btn_animals)
 
 	var btn_enemies := Button.new()
-	btn_enemies.text = "敌人（%d）" % ENEMIES.size()
+	btn_enemies.text = Localization.L("ui.collection_tab_enemies", [str(ENEMIES.size())])
 	btn_enemies.add_theme_font_size_override("font_size", 16)
 	tab_hbox.add_child(btn_enemies)
 
 	var btn_items := Button.new()
-	btn_items.text = "道具（%d）" % ItemDB.get_all_ids().size()
+	btn_items.text = Localization.L("ui.collection_tab_items", [str(ItemDB.get_all_ids().size())])
 	btn_items.add_theme_font_size_override("font_size", 16)
 	tab_hbox.add_child(btn_items)
 
@@ -122,31 +100,30 @@ func _build_ui() -> void:
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(grid)
 
-	_populate_grid(grid, ANIMALS)
+	_populate_grid(grid, ANIMALS, "animal.")
 
 	btn_animals.pressed.connect(func():
 		_clear_grid(grid)
-		_populate_grid(grid, ANIMALS))
+		_populate_grid(grid, ANIMALS, "animal."))
 
 	btn_enemies.pressed.connect(func():
 		_clear_grid(grid)
-		_populate_grid(grid, ENEMIES))
+		_populate_grid(grid, ENEMIES, "enemy."))
 
 	btn_items.pressed.connect(func():
 		_clear_grid(grid)
 		_populate_items_grid(grid))
 
 	var btn_back := Button.new()
-	btn_back.text = "返回"
+	btn_back.text = Localization.L("ui.back")
 	btn_back.custom_minimum_size = Vector2(160, 40)
 	btn_back.add_theme_font_size_override("font_size", 16)
 	btn_back.pressed.connect(queue_free)
 	vbox.add_child(btn_back)
 
 
-func _populate_grid(grid: GridContainer, entries: Array) -> void:
-	for entry in entries:
-		var eid: String = entry["id"]
+func _populate_grid(grid: GridContainer, entries: Array, prefix: String) -> void:
+	for eid in entries:
 		var unlocked: bool = eid in _unlocked
 
 		var cell := PanelContainer.new()
@@ -158,7 +135,7 @@ func _populate_grid(grid: GridContainer, entries: Array) -> void:
 		lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		lbl.add_theme_font_size_override("font_size", 15)
 		if unlocked:
-			lbl.text = entry["name"]
+			lbl.text = Localization.L(prefix + eid + ".name")
 			lbl.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5))
 		else:
 			lbl.text = "???"

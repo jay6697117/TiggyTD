@@ -7,46 +7,14 @@ extends CanvasLayer
 # ---------------------------------------------------------------------------
 
 const STEPS: Array = [
-	{
-		"text": "欢迎来到 TiggyTD！\n你是部落的图腾守护者，\n指挥史前动物守卫家园。",
-		"advance": "ok",
-		"arrow_pos": Vector2(-1, -1),
-	},
-	{
-		"text": "右键点击地图上的空地，\n移动你的英雄到新位置！",
-		"advance": "hero_moved",
-		"arrow_pos": Vector2(620, 440),
-	},
-	{
-		"text": "从底部面板点击「猎豹」，\n再点击地图空格\n放置第一座动物塔！",
-		"advance": "tower_placed",
-		"arrow_pos": Vector2(100, 870),
-	},
-	{
-		"text": "太棒了！点击右上角\n「开始下一波」按钮，\n召唤史前生物！",
-		"advance": "wave_start",
-		"arrow_pos": Vector2(940, 20),
-	},
-	{
-		"text": "动物塔正在战斗！\n英雄光环可以增强周围\n动物塔的攻击力。\n等待本波结束……",
-		"advance": "wave_clear",
-		"arrow_pos": Vector2(-1, -1),
-	},
-	{
-		"text": "波次结束！\n按 [Q] 键使用英雄技能\n「百兽怒吼」！",
-		"advance": "skill_q",
-		"arrow_pos": Vector2(95, 880),
-	},
-	{
-		"text": "进入商店！\n用「古代印记」购买强力道具，\n关闭商店后继续……",
-		"advance": "shop_exit",
-		"arrow_pos": Vector2(-1, -1),
-	},
-	{
-		"text": "引导完成！\n坚守10波敌人的进攻，\n守护部落的图腾！",
-		"advance": "ok_finish",
-		"arrow_pos": Vector2(-1, -1),
-	},
+	{"key": "tutorial.step_0", "advance": "ok",        "arrow_pos": Vector2(-1, -1)},
+	{"key": "tutorial.step_1", "advance": "hero_moved", "arrow_pos": Vector2(620, 440)},
+	{"key": "tutorial.step_2", "advance": "tower_placed","arrow_pos": Vector2(100, 870)},
+	{"key": "tutorial.step_3", "advance": "wave_start",  "arrow_pos": Vector2(940, 20)},
+	{"key": "tutorial.step_4", "advance": "wave_clear",  "arrow_pos": Vector2(-1, -1)},
+	{"key": "tutorial.step_5", "advance": "skill_q",     "arrow_pos": Vector2(95, 880)},
+	{"key": "tutorial.step_6", "advance": "shop_exit",   "arrow_pos": Vector2(-1, -1)},
+	{"key": "tutorial.step_7", "advance": "ok_finish",   "arrow_pos": Vector2(-1, -1)},
 ]
 
 var _step: int = 0
@@ -97,14 +65,14 @@ func _build_ui() -> void:
 	vbox.add_child(sep)
 
 	_btn_ok = Button.new()
-	_btn_ok.text = "知道了"
+	_btn_ok.text = Localization.L("tutorial.ok")
 	_btn_ok.add_theme_font_size_override("font_size", 18)
 	_btn_ok.pressed.connect(_on_ok)
 	vbox.add_child(_btn_ok)
 
 	# 跳过按钮（右上角固定）
 	_btn_skip = Button.new()
-	_btn_skip.text = "跳过引导"
+	_btn_skip.text = Localization.L("tutorial.skip")
 	_btn_skip.anchor_left   = 0.80
 	_btn_skip.anchor_right  = 1.00
 	_btn_skip.anchor_top    = 0.0
@@ -142,7 +110,7 @@ func _show_step(s: int) -> void:
 		_finish()
 		return
 	var step: Dictionary = STEPS[s]
-	_label.text = step["text"]
+	_label.text = Localization.L(step["key"])
 	var adv: String = step["advance"]
 	_btn_ok.visible = (adv == "ok" or adv == "ok_finish")
 	var ap: Vector2 = step["arrow_pos"]

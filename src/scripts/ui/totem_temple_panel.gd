@@ -97,7 +97,7 @@ func _refresh() -> void:
 	var meta: Dictionary = SaveLoad.get_value("meta_progression", {})
 	var marks: int = meta.get("ancient_marks", GameState.ancient_marks)
 	var unlocked: Array = meta.get("unlocked_nodes", [])
-	_label_marks.text = "古代印记余额：%d" % marks
+	_label_marks.text = Localization.L("ui.totem_marks", [str(marks)])
 	for entry in _buttons:
 		var btn: Button = entry["btn"]
 		var is_unlocked: bool = entry["id"] in unlocked
@@ -107,7 +107,7 @@ func _refresh() -> void:
 			btn.modulate = Color(0.5, 0.5, 0.5)
 			# 已解锁标记
 			if not btn.text.ends_with(" ✓"):
-				btn.text += "\n✓ 已解锁"
+				btn.text += "\n" + Localization.L("ui.totem_node_unlocked")
 		else:
 			btn.modulate = Color.WHITE if can_afford else Color(0.7, 0.7, 0.7)
 

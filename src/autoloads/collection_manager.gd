@@ -49,7 +49,7 @@ func _show_toast(entry_id: String) -> void:
 	var toast := CanvasLayer.new()
 	toast.layer = 120
 	var lbl := Label.new()
-	lbl.text = "[图鉴] 新条目解锁：%s" % entry_id
+	lbl.text = Localization.L("ui.collection_toast", [entry_id])
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	lbl.add_theme_font_size_override("font_size", 18)
 	lbl.add_theme_color_override("font_color", Color(1.0, 0.9, 0.3))

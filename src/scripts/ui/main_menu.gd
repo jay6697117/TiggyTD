@@ -39,7 +39,7 @@ func _build_ui() -> void:
 	center.add_child(title)
 
 	var subtitle := Label.new()
-	subtitle.text = "史前图腾守护者"
+	subtitle.text = Localization.L("ui.main_menu.subtitle")
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitle.add_theme_font_size_override("font_size", 20)
 	subtitle.add_theme_color_override("font_color", Color(0.8, 0.7, 0.5))
@@ -57,10 +57,10 @@ func _build_ui() -> void:
 	spacer.custom_minimum_size = Vector2(0, 30)
 	center.add_child(spacer)
 
-	_add_button(center, "开始游戏",  Color(0.2, 0.8, 0.3),  _on_start_pressed)
-	_add_button(center, "图腾神殿",  Color(1.0, 0.75, 0.1), _on_temple_pressed)
-	_add_button(center, "图  鉴",   Color(0.4, 0.7, 1.0),  _on_collection_pressed)
-	_add_button(center, "退  出",   Color(0.7, 0.3, 0.3),  _on_quit_pressed)
+	_add_button(center, Localization.L("ui.main_menu.start"),  Color(0.2, 0.8, 0.3),  _on_start_pressed)
+	_add_button(center, Localization.L("ui.totem_temple"),       Color(1.0, 0.75, 0.1), _on_temple_pressed)
+	_add_button(center, Localization.L("ui.collection"),          Color(0.4, 0.7, 1.0),  _on_collection_pressed)
+	_add_button(center, Localization.L("ui.main_menu.quit"),     Color(0.7, 0.3, 0.3),  _on_quit_pressed)
 
 
 func _add_button(parent: Node, text: String, color: Color, callback: Callable) -> void:
@@ -76,7 +76,7 @@ func _add_button(parent: Node, text: String, color: Color, callback: Callable) -
 func _refresh_marks() -> void:
 	var meta: Dictionary = SaveLoad.get_value("meta_progression", {})
 	var marks: int = meta.get("ancient_marks", 0)
-	_marks_label.text = "古代印记：%d" % marks
+	_marks_label.text = Localization.L("ui.ancient_marks", [str(marks)])
 
 
 func _on_state_changed(new_state: GameState.State) -> void:
