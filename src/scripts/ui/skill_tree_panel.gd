@@ -38,7 +38,7 @@ func _build_ui() -> void:
 	var title_row := HBoxContainer.new()
 	vbox.add_child(title_row)
 	var title := Label.new()
-	title.text = "技能树 — %s" % _tower.animal_id
+	title.text = Localization.L("ui.skill_tree", [Localization.L("animal." + _tower.animal_id + ".name")])
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_row.add_child(title)
 	var close_btn := Button.new()
@@ -53,10 +53,10 @@ func _build_ui() -> void:
 	var equip_lbl := Label.new()
 	if _tower.equipped_item != "":
 		var item: Dictionary = ItemDB.get_item(_tower.equipped_item)
-		equip_lbl.text = "装备：%s" % item.get("name", _tower.equipped_item)
+		equip_lbl.text = Localization.L("ui.equipped", [item.get("name", _tower.equipped_item)])
 		equip_lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))
 	else:
-		equip_lbl.text = "装备：（无）"
+		equip_lbl.text = Localization.L("ui.no_equip")
 		equip_lbl.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 	vbox.add_child(equip_lbl)
 
@@ -64,11 +64,11 @@ func _build_ui() -> void:
 	var upgrade_btn := Button.new()
 	if _tower.can_upgrade():
 		var ucost := _tower.upgrade_cost()
-		upgrade_btn.text = "升级 → Lv%d  (%dg)" % [_tower.level + 1, ucost]
+		upgrade_btn.text = Localization.L("ui.upgrade_btn", [_tower.level + 1, ucost])
 		upgrade_btn.disabled = GameState.gold < ucost
 		upgrade_btn.pressed.connect(_on_upgrade)
 	else:
-		upgrade_btn.text = "已满级 Lv%d" % _tower.level
+		upgrade_btn.text = Localization.L("ui.max_level_btn", [_tower.level])
 		upgrade_btn.disabled = true
 	vbox.add_child(upgrade_btn)
 
@@ -77,7 +77,7 @@ func _build_ui() -> void:
 
 	if not Tower.SKILL_TREE_DB.has(_tower.animal_id):
 		var lbl := Label.new()
-		lbl.text = "暂无技能树"
+		lbl.text = Localization.L("ui.no_skill_tree")
 		vbox.add_child(lbl)
 		return
 
@@ -103,7 +103,7 @@ func _configure_button(btn: Button, node_def: Dictionary) -> void:
 	var can_afford: bool = GameState.gold >= cost
 
 	if unlocked:
-		btn.text = "[已解锁] %s" % label
+		btn.text = Localization.L("ui.unlocked_skill", [label])
 		btn.disabled = true
 		btn.modulate = Color(0.5, 1.0, 0.5)
 	elif not prereq_ok or not mutex_ok:

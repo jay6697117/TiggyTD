@@ -8,18 +8,18 @@ extends PanelContainer
 const Tower := preload("res://scripts/gameplay/tower.gd")
 
 const ANIMALS: Array = [
-	{"id": "cheetah",      "name": "猎豹"},
-	{"id": "wolf_pack",    "name": "狼群"},
-	{"id": "honey_badger", "name": "蜜獾"},
-	{"id": "elephant",    "name": "大象"},
-	{"id": "pangolin",    "name": "穿山甲"},
-	{"id": "tiger",       "name": "老虎"},
-	{"id": "lion",        "name": "狮子"},
-	{"id": "eagle",       "name": "鹰"},
-	{"id": "owl",         "name": "猫头鹰"},
-	{"id": "otter",       "name": "水獭"},
-	{"id": "peacock",     "name": "孔雀"},
-	{"id": "chameleon",   "name": "变色龙"},
+	{"id": "cheetah"},
+	{"id": "wolf_pack"},
+	{"id": "honey_badger"},
+	{"id": "elephant"},
+	{"id": "pangolin"},
+	{"id": "tiger"},
+	{"id": "lion"},
+	{"id": "eagle"},
+	{"id": "owl"},
+	{"id": "otter"},
+	{"id": "peacock"},
+	{"id": "chameleon"},
 ]
 
 var _selected_id: String = ""
@@ -111,9 +111,9 @@ func _on_tower_focused(tower: Tower) -> void:
 		return
 	var cost := tower.upgrade_cost()
 	if tower.can_upgrade():
-		_info_label.text = "Lv%d → Lv%d  升级费用：%dg" % [tower.level, tower.level + 1, cost]
+		_info_label.text = Localization.L("ui.upgrade_cost", [tower.level, tower.level + 1, cost])
 	else:
-		_info_label.text = "Lv%d 已满级" % tower.level
+		_info_label.text = Localization.L("ui.max_level", [tower.level])
 	_info_label.visible = true
 	# 3秒后自动隐藏
 	var t := get_tree().create_timer(3.0)

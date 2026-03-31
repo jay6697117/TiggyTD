@@ -78,7 +78,7 @@ func recalculate() -> void:
 		if now_active:
 			_apply_synergy(syn, towers)
 			if not was_active:
-				get_tree().call_group("hud", "show_synergy_banner", syn["name"] + " 已激活！")
+				get_tree().call_group("hud", "show_synergy_banner", Localization.L("synergy.activated", [Localization.L("synergy." + syn["id"] + ".name")]))
 
 
 func _check_condition(required: Dictionary, counts: Dictionary) -> bool:

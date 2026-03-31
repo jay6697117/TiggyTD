@@ -34,6 +34,54 @@ const WAVE_CONFIG: Array = [
 	[["trex_king", 1]],
 ]
 
+# lava_canyon — Z形三折道，装甲敌人居多
+const WAVE_CONFIG_LAVA: Array = [
+	# Wave 1
+	[["triceratops", 3]],
+	# Wave 2
+	[["triceratops", 3], ["brachiosaurus", 1]],
+	# Wave 3
+	[["brachiosaurus", 2], ["raptor", 3]],
+	# Wave 4
+	[["brachiosaurus", 2], ["triceratops", 3]],
+	# Wave 5
+	[["mammoth", 2], ["cave_bear", 2]],
+	# Wave 6
+	[["mammoth", 3], ["dunkleosteus", 2]],
+	# Wave 7
+	[["dunkleosteus", 3], ["mammoth", 2], ["cave_bear", 2]],
+	# Wave 8
+	[["mosasaurus", 3], ["dunkleosteus", 4]],
+	# Wave 9
+	[["dunkleosteus", 4], ["mammoth", 3], ["cave_bear", 2]],
+	# Wave 10 (Boss)
+	[["trex_king", 1]],
+]
+
+# frozen_tundra — U形长道，高速敌人频繁突袭
+const WAVE_CONFIG_FROZEN: Array = [
+	# Wave 1
+	[["raptor", 7]],
+	# Wave 2
+	[["raptor", 5], ["pterodactyl", 4]],
+	# Wave 3
+	[["pterodactyl", 5], ["raptor", 4]],
+	# Wave 4
+	[["saber_tooth", 5], ["raptor", 4]],
+	# Wave 5
+	[["pterodactyl", 4], ["saber_tooth", 4], ["raptor", 3]],
+	# Wave 6
+	[["saber_tooth", 5], ["mosasaurus", 3]],
+	# Wave 7
+	[["mosasaurus", 4], ["saber_tooth", 4], ["pterodactyl", 3]],
+	# Wave 8
+	[["ammonite", 8], ["saber_tooth", 4], ["mosasaurus", 2]],
+	# Wave 9
+	[["ammonite", 10], ["mosasaurus", 4], ["saber_tooth", 3]],
+	# Wave 10 (Boss)
+	[["trex_king", 1]],
+]
+
 const EnemyScene := preload("res://scripts/gameplay/enemy.gd")
 
 var _enemies_node: Node2D          # Main/Entities/Enemies
@@ -98,9 +146,16 @@ func _on_state_changed(new_state: GameState.State) -> void:
 		_start_wave_prep()
 
 
+func _get_wave_config() -> Array:
+	match GameState.current_level_id:
+		"lava_canyon":   return WAVE_CONFIG_LAVA
+		"frozen_tundra": return WAVE_CONFIG_FROZEN
+		_:               return WAVE_CONFIG
+
+
 func _start_wave_prep() -> void:
 	var wave_idx := GameState.current_wave  # 0-based
-	if wave_idx >= WAVE_CONFIG.size():
+	if wave_idx >= _get_wave_config().size():
 		return
 	# 发放波次补贴（Boss 波不发）
 	if wave_idx < 9:
@@ -114,7 +169,8 @@ func _start_wave_prep() -> void:
 func _begin_spawn() -> void:
 	var wave_idx := GameState.current_wave
 	_spawn_queue.clear()
-	for group in WAVE_CONFIG[wave_idx]:
+	var config := _get_wave_config()
+	for group in config[wave_idx]:
 		var id: String = group[0]
 		var count: int  = group[1]
 		for _i in count:
@@ -131,7 +187,7 @@ func _spawn_enemy(id: String, pos: Vector2) -> void:
 	e.reached_base.connect(_on_enemy_left)
 	_enemies_node.add_child(e)
 	if id == "trex_king":
-		get_tree().call_group("hud", "show_synergy_banner", "沧龙霸主降临！")
+		get_tree().call_group("hud", "show_synergy_banner", Localization.L("enemy.trex_king.arrival"))
 		e.call_deferred("_notify_hud_boss_bar")
 
 

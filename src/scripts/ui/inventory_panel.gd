@@ -40,7 +40,7 @@ func _build_ui() -> void:
 	panel.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "背  包"
+	title.text = Localization.L("ui.inventory")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 24)
 	title.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2))
@@ -62,7 +62,7 @@ func _build_ui() -> void:
 		_build_slot(hbox, i)
 
 	var btn_close := Button.new()
-	btn_close.text = "关闭  [I]"
+	btn_close.text = Localization.L("ui.close_i")
 	btn_close.custom_minimum_size = Vector2(140, 40)
 	btn_close.add_theme_font_size_override("font_size", 16)
 	btn_close.pressed.connect(_close)
@@ -88,7 +88,7 @@ func _build_slot(parent: Node, index: int) -> void:
 	vb.add_child(lbl)
 
 	var btn := Button.new()
-	btn.text = "装备"
+	btn.text = Localization.L("ui.equip")
 	btn.custom_minimum_size = Vector2(80, 30)
 	btn.add_theme_font_size_override("font_size", 12)
 	btn.visible = false
@@ -111,12 +111,12 @@ func _refresh() -> void:
 			lbl.add_theme_color_override("font_color", Color(1.0, 1.0, 0.8))
 			btn.visible = true
 		else:
-			lbl.text = "— 空 —"
+			lbl.text = Localization.L("ui.empty_slot")
 			lbl.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
 			btn.visible = false
 	# 如果正在选择目标，刷新时保持提示
 	if _pending_item != "":
-		_hint_label.text = "请点击地图上的塔格子以装备道具"
+		_hint_label.text = Localization.L("ui.equip_hint")
 
 
 func _on_equip_pressed(index: int) -> void:
@@ -125,7 +125,7 @@ func _on_equip_pressed(index: int) -> void:
 		return
 	var item_id: String = items[index]
 	_pending_item = item_id
-	_hint_label.text = "请点击地图上的塔格子以装备 [%s]" % ItemDB.get_item(item_id).get("name", item_id)
+	_hint_label.text = Localization.L("ui.equip_hint_item", [ItemDB.get_item(item_id).get("name", item_id)])
 	# 通知 TowerPlacementManager 进入装备模式
 	var tpm := get_tree().get_first_node_in_group("tower_placement")
 	if tpm and tpm.has_method("enter_equip_mode"):

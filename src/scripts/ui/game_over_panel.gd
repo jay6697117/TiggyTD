@@ -31,7 +31,7 @@ func _ready() -> void:
 	vbox.move_child(_label_marks, btn_restart.get_index())
 	# 图腾神殿入口按钮
 	_btn_temple = Button.new()
-	_btn_temple.text = "图腾神殿"
+	_btn_temple.text = Localization.L("ui.totem_temple")
 	_btn_temple.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2))
 	_btn_temple.pressed.connect(_open_totem_temple)
 	vbox.add_child(_btn_temple)
@@ -49,22 +49,22 @@ func _on_state_changed(new_state: GameState.State) -> void:
 
 
 func _show(is_win: bool) -> void:
-	label_title.text  = "胜利！" if is_win else "失败"
+	label_title.text = Localization.L("ui.victory") if is_win else Localization.L("ui.defeat")
 	label_title.modulate = Color(0.2, 1.0, 0.3) if is_win else Color(1.0, 0.3, 0.2)
-	label_hp.text     = "基地残余 HP：%d / %d" % [GameState.base_hp, GameState.base_hp_max]
-	label_kills.text  = "击杀数：%d" % GameState.kills_this_run
-	label_waves.text  = "抵御波次：%d / %d" % [GameState.current_wave, GameState.total_waves]
+	label_hp.text = Localization.L("ui.base_hp_result", [GameState.base_hp, GameState.base_hp_max])
+	label_kills.text = Localization.L("ui.kills", [GameState.kills_this_run])
+	label_waves.text = Localization.L("ui.waves_survived", [GameState.current_wave, GameState.total_waves])
 	_unlocked_level_name = ""
 	if _label_unlock != null:
 		_label_unlock.queue_free()
 		_label_unlock = null
 	var marks_earned := _settle_marks(is_win)
-	_label_marks.text = "获得古代印记：+%d（共 %d）" % [marks_earned, GameState.ancient_marks]
+	_label_marks.text = Localization.L("ui.marks_earned", [marks_earned, GameState.ancient_marks])
 	visible = true
 	_save_result(is_win)
 	if _unlocked_level_name != "":
 		_label_unlock = Label.new()
-		_label_unlock.text = "新关卡解锁：%s！" % _unlocked_level_name
+		_label_unlock.text = Localization.L("ui.new_unlock", [_unlocked_level_name])
 		_label_unlock.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		_label_unlock.add_theme_font_size_override("font_size", 18)
 		_label_unlock.add_theme_color_override("font_color", Color(0.3, 1.0, 0.5))
@@ -100,7 +100,7 @@ func _settle_marks(is_win: bool) -> int:
 
 
 const _LEVEL_ORDER := ["ancient_savanna", "lava_canyon", "frozen_tundra"]
-const _LEVEL_NAMES := {"lava_canyon": "熔岩峡谷", "frozen_tundra": "冰封冻原"}
+
 
 var _unlocked_level_name: String = ""
 
@@ -126,7 +126,7 @@ func _save_result(is_win: bool) -> void:
 			for entry in levels:
 				if entry.get("level_id") == next_id and entry.get("status") == "LOCKED":
 					entry["status"] = "UNLOCKED"
-					_unlocked_level_name = _LEVEL_NAMES.get(next_id, next_id)
+					_unlocked_level_name = Localization.L("level." + next_id + ".name")
 					break
 	SaveLoad.set_value("level_progress", levels)
 	SaveLoad.save_game()

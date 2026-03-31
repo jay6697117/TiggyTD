@@ -35,10 +35,10 @@ func _on_state_changed(new_state: GameState.State) -> void:
 
 
 func _refresh() -> void:
-	label_marks.text = "古代印记：%d" % GameState.ancient_marks
-	btn_hp_up.text    = "全场塔 HP+20%%  （%d印记）" % COST_HP_UP
-	btn_gold_up.text  = "下波金币+50    （%d印记）" % COST_GOLD_UP
-	btn_cd_reset.text = "技能CD全重置   （%d印记）" % COST_CD_RESET
+	label_marks.text = Localization.L("ui.ancient_marks", [GameState.ancient_marks])
+	btn_hp_up.text    = Localization.L("ui.shop_hp_up", [COST_HP_UP])
+	btn_gold_up.text  = Localization.L("ui.shop_gold_up", [COST_GOLD_UP])
+	btn_cd_reset.text = Localization.L("ui.shop_cd_reset", [COST_CD_RESET])
 	_update_btn_states()
 
 
@@ -50,7 +50,7 @@ func _update_btn_states() -> void:
 
 
 func _on_marks_changed(_amount: int) -> void:
-	label_marks.text = "古代印记：%d" % GameState.ancient_marks
+	label_marks.text = Localization.L("ui.ancient_marks", [GameState.ancient_marks])
 	_update_btn_states()
 
 

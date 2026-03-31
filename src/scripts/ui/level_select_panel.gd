@@ -6,17 +6,6 @@ extends CanvasLayer
 # 从存档读取 level_progress，显示3张地图；已解锁可进入，锁定置灰
 # ---------------------------------------------------------------------------
 
-const LEVEL_NAMES: Dictionary = {
-	"ancient_savanna": "远古草原",
-	"lava_canyon":     "熔岩峡谷",
-	"frozen_tundra":   "冰封冻原",
-}
-
-const LEVEL_DESCS: Dictionary = {
-	"ancient_savanna": "10波史前生物，经典入门关卡",
-	"lava_canyon":     "地形复杂，熔岩地带限制建造（待解锁）",
-	"frozen_tundra":   "极寒环境，敌人移速加成（待解锁）",
-}
 
 
 func _ready() -> void:
@@ -42,7 +31,7 @@ func _build_ui() -> void:
 	panel.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "选择关卡"
+	title.text = Localization.L("ui.level_select")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 32)
 	title.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2))
@@ -58,7 +47,7 @@ func _build_ui() -> void:
 		_add_level_card(vbox, lid, entry)
 
 	var btn_back := Button.new()
-	btn_back.text = "返回主菜单"
+	btn_back.text = Localization.L("ui.back")
 	btn_back.custom_minimum_size = Vector2(200, 44)
 	btn_back.add_theme_font_size_override("font_size", 18)
 	btn_back.pressed.connect(queue_free)
@@ -81,14 +70,14 @@ func _add_level_card(parent: Node, lid: String, entry: Dictionary) -> void:
 	hbox.add_child(info)
 
 	var name_lbl := Label.new()
-	name_lbl.text = LEVEL_NAMES.get(lid, lid)
+	name_lbl.text = Localization.L("level." + lid + ".name")
 	name_lbl.add_theme_font_size_override("font_size", 22)
 	name_lbl.add_theme_color_override("font_color",
 		Color(1.0, 0.9, 0.5) if unlocked else Color(0.5, 0.5, 0.5))
 	info.add_child(name_lbl)
 
 	var desc_lbl := Label.new()
-	desc_lbl.text = LEVEL_DESCS.get(lid, "")
+	desc_lbl.text = Localization.L("level." + lid + ".desc")
 	desc_lbl.add_theme_font_size_override("font_size", 14)
 	desc_lbl.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
 	desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -96,8 +85,7 @@ func _add_level_card(parent: Node, lid: String, entry: Dictionary) -> void:
 
 	if unlocked and best.get("waves_survived", 0) > 0:
 		var best_lbl := Label.new()
-		best_lbl.text = "最佳：%d波 基地HP %d" % [
-			best.get("waves_survived", 0), best.get("base_hp_remaining", 0)]
+		best_lbl.text = Localization.L("ui.best", [best.get("waves_survived", 0), best.get("base_hp_remaining", 0)])
 		best_lbl.add_theme_font_size_override("font_size", 13)
 		best_lbl.add_theme_color_override("font_color", Color(0.4, 1.0, 0.6))
 		info.add_child(best_lbl)
@@ -106,11 +94,11 @@ func _add_level_card(parent: Node, lid: String, entry: Dictionary) -> void:
 	btn.custom_minimum_size = Vector2(120, 44)
 	btn.add_theme_font_size_override("font_size", 18)
 	if unlocked:
-		btn.text = "进入"
+		btn.text = Localization.L("ui.enter")
 		btn.add_theme_color_override("font_color", Color(0.2, 1.0, 0.4))
 		btn.pressed.connect(_on_level_selected.bind(lid))
 	else:
-		btn.text = "锁定"
+		btn.text = Localization.L("ui.locked")
 		btn.disabled = true
 		btn.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 	hbox.add_child(btn)

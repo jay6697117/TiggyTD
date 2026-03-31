@@ -141,10 +141,10 @@ func _show_talent_panel(choices: Array[String], hero: Hero) -> void:
 
 
 func _refresh() -> void:
-	label_gold.text  = "金币：%d" % GameState.gold
-	label_hp.text    = "基地：%d / %d" % [GameState.base_hp, GameState.base_hp_max]
-	label_wave.text  = "波次：%d / %d" % [GameState.current_wave, GameState.total_waves]
-	label_marks.text = "印记：%d" % GameState.ancient_marks
+	label_gold.text  = Localization.L("ui.gold") + "：%d" % GameState.gold
+	label_hp.text    = Localization.L("ui.base_hp") + "：%d / %d" % [GameState.base_hp, GameState.base_hp_max]
+	label_wave.text  = Localization.L("ui.wave") + "：%d / %d" % [GameState.current_wave, GameState.total_waves]
+	label_marks.text = Localization.L("ui.ancient_marks", [GameState.ancient_marks])
 	_update_btn_visibility()
 
 
@@ -153,24 +153,24 @@ func _update_btn_visibility() -> void:
 
 
 func _on_gold_changed(amount: int) -> void:
-	label_gold.text = "金币：%d" % amount
+	label_gold.text = Localization.L("ui.gold") + "：%d" % amount
 
 
 func _on_hp_changed(new_hp: int) -> void:
-	label_hp.text = "基地：%d / %d" % [new_hp, GameState.base_hp_max]
+	label_hp.text = Localization.L("ui.base_hp") + "：%d / %d" % [new_hp, GameState.base_hp_max]
 
 
 func _on_wave_changed(new_wave: int) -> void:
-	label_wave.text = "波次：%d / %d" % [new_wave, GameState.total_waves]
+	label_wave.text = Localization.L("ui.wave") + "：%d / %d" % [new_wave, GameState.total_waves]
 
 
 func _on_marks_changed(amount: int) -> void:
-	label_marks.text = "印记：%d" % amount
+	label_marks.text = Localization.L("ui.ancient_marks", [amount])
 
 
 func _on_prepare_tick(seconds_left: int) -> void:
 	if seconds_left > 0:
-		label_countdown.text = "准备：%ds" % seconds_left
+		label_countdown.text = Localization.L("ui.preparing") + " %ds" % seconds_left
 		label_countdown.visible = true
 	else:
 		label_countdown.visible = false
@@ -217,7 +217,7 @@ func show_boss_bar(enemy: Enemy) -> void:
 		_build_boss_bar()
 	_boss_hp_bar.max_value = enemy.max_hp
 	_boss_hp_bar.value = enemy.hp
-	_boss_name_label.text = "沧龙霸主"
+	_boss_name_label.text = Localization.L("enemy.trex_king.name")
 	_boss_bar_container.visible = true
 	enemy.died.connect(_on_boss_died)
 
@@ -253,10 +253,10 @@ func on_boss_shield_changed(active: bool) -> void:
 		return
 	if active:
 		_boss_hp_bar.modulate = Color(0.3, 0.6, 1.0)
-		_boss_name_label.text = "沧龙霸主  【护盾中】"
+		_boss_name_label.text = Localization.L("enemy.trex_king.shielding")
 	else:
 		_boss_hp_bar.modulate = Color.WHITE
-		_boss_name_label.text = "沧龙霸主"
+		_boss_name_label.text = Localization.L("enemy.trex_king.name")
 
 
 func _on_boss_died(_enemy: Enemy) -> void:

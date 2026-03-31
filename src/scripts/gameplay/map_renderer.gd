@@ -10,7 +10,9 @@ extends Node2D
 # 格子颜色（占位色块，后期替换为 TileMapLayer 贴图）
 const COLOR_PATH    := Color(0.55, 0.42, 0.25)  # 泥土棕
 const COLOR_BUILD   := Color(0.35, 0.60, 0.25)  # 草地绿
-const COLOR_BLOCKED := Color(0.20, 0.35, 0.15)  # 深绿（丛林）
+const COLOR_BLOCKED        := Color(0.20, 0.35, 0.15)  # 深绿（丛林）
+const COLOR_BLOCKED_LAVA   := Color(0.70, 0.25, 0.05)  # 橙红（熔岩）
+const COLOR_BLOCKED_FROZEN := Color(0.55, 0.75, 0.95)  # 冰蓝（冻原）
 const COLOR_SPAWN   := Color(0.90, 0.30, 0.20)  # 红色（刷怪点）
 const COLOR_BASE    := Color(0.20, 0.60, 0.90)  # 蓝色（基地）
 const COLOR_GRID    := Color(0.0, 0.0, 0.0, 0.15)  # 网格线（半透明黑）
@@ -96,7 +98,11 @@ func _cell_color(t: MapGrid.CellType) -> Color:
 	match t:
 		MapGrid.CellType.PATH:    return COLOR_PATH
 		MapGrid.CellType.BUILD:   return COLOR_BUILD
-		MapGrid.CellType.BLOCKED: return COLOR_BLOCKED
+		MapGrid.CellType.BLOCKED:
+			match GameState.current_level_id:
+				"lava_canyon":   return COLOR_BLOCKED_LAVA
+				"frozen_tundra": return COLOR_BLOCKED_FROZEN
+				_:               return COLOR_BLOCKED
 		MapGrid.CellType.SPAWN:   return COLOR_SPAWN
 		MapGrid.CellType.BASE:    return COLOR_BASE
 		_:                        return COLOR_BUILD

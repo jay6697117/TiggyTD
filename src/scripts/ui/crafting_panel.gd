@@ -36,7 +36,7 @@ func _build_ui() -> void:
 	panel.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "合  成  台"
+	title.text = Localization.L("ui.crafting")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 26)
 	title.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2))
@@ -58,7 +58,7 @@ func _build_ui() -> void:
 	scroll.add_child(_recipes_container)
 
 	var btn_close := Button.new()
-	btn_close.text = "关闭"
+	btn_close.text = Localization.L("ui.close")
 	btn_close.custom_minimum_size = Vector2(140, 40)
 	btn_close.add_theme_font_size_override("font_size", 16)
 	btn_close.pressed.connect(queue_free)
@@ -69,7 +69,7 @@ func _refresh() -> void:
 	if _label_inv == null:
 		return
 	var items := Inventory.get_items()
-	_label_inv.text = "背包：%d / %d" % [items.size(), Inventory.CAPACITY]
+	_label_inv.text = Localization.L("ui.inventory_slots", [items.size(), Inventory.CAPACITY])
 
 	for child in _recipes_container.get_children():
 		child.queue_free()
@@ -114,14 +114,14 @@ func _build_recipe_row(recipe: Dictionary) -> void:
 	else:
 		lbl.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 		if not has_a:
-			lbl.text += "  [缺 %s]" % name_a
+			lbl.text += Localization.L("ui.missing_a", [name_a])
 		elif not has_b:
-			lbl.text += "  [缺 %s]" % name_b
+			lbl.text += Localization.L("ui.missing_a", [name_b])
 	row.add_child(lbl)
 
 	# 合成按钮
 	var btn := Button.new()
-	btn.text = "合成"
+	btn.text = Localization.L("craft.combine")
 	btn.custom_minimum_size = Vector2(70, 32)
 	btn.disabled = not can_craft
 	btn.pressed.connect(_on_craft_pressed.bind(mat_a, mat_b, result_id))
