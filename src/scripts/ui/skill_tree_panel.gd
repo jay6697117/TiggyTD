@@ -122,6 +122,7 @@ func _configure_button(btn: Button, node_def: Dictionary) -> void:
 func _on_unlock(node_id: String, cost: int) -> void:
 	if not GameState.spend_gold(cost):
 		return
+	AudioSystem.play_sfx("ui_buy")
 	_tower.unlock_skill(node_id)
 	# 重建 UI 刷新状态
 	_build_ui()
@@ -137,5 +138,6 @@ func _on_upgrade() -> void:
 
 
 func _on_close() -> void:
+	AudioSystem.play_sfx("ui_click")
 	visible = false
 	_tower = null

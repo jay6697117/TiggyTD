@@ -73,6 +73,7 @@ func _on_marks_changed(_amount: int) -> void:
 func _on_hp_up() -> void:
 	if not GameState.spend_ancient_marks(COST_HP_UP):
 		return
+	AudioSystem.play_sfx("ui_buy")
 	for t in get_tree().get_nodes_in_group("towers"):
 		if t is Tower:
 			t.hp = minf(t.hp * 1.2, t.max_hp * 1.2)
@@ -82,16 +83,19 @@ func _on_hp_up() -> void:
 func _on_gold_up() -> void:
 	if not GameState.spend_ancient_marks(COST_GOLD_UP):
 		return
+	AudioSystem.play_sfx("ui_buy")
 	GameState.add_gold(50)
 
 
 func _on_cd_reset() -> void:
 	if not GameState.spend_ancient_marks(COST_CD_RESET):
 		return
+	AudioSystem.play_sfx("ui_buy")
 	for h in get_tree().get_nodes_in_group("hero"):
 		if h is Hero:
 			h.reset_cooldowns()
 
 
 func _on_close() -> void:
+	AudioSystem.play_sfx("ui_click")
 	GameState.change_state(GameState.State.BUILD)

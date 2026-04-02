@@ -78,6 +78,7 @@ func recalculate() -> void:
 		if now_active:
 			_apply_synergy(syn, towers)
 			if not was_active:
+				AudioSystem.play_sfx("synergy_activate")
 				get_tree().call_group("hud", "show_synergy_banner", Localization.L("synergy.activated", [Localization.L("synergy." + syn["id"] + ".name")]))
 
 

@@ -52,7 +52,10 @@ var _tutorial_launched: bool = false
 
 func _on_state_changed(new_state: GameState.State) -> void:
 	match new_state:
+		GameState.State.MAIN_MENU:
+			AudioSystem.play_bgm("menu")
 		GameState.State.BUILD:
+			AudioSystem.play_bgm("build")
 			if not _tutorial_launched:
 				_tutorial_launched = true
 				var tutorial_done: bool = SaveLoad.get_value("tutorial", {}).get("tutorial_completed", false)
@@ -60,6 +63,15 @@ func _on_state_changed(new_state: GameState.State) -> void:
 					var overlay := CanvasLayer.new()
 					overlay.set_script(load("res://scripts/ui/tutorial_overlay.gd"))
 					add_child(overlay)
+		GameState.State.WAVE:
+			# Boss 波使用专属 BGM
+			var wave_idx := GameState.current_wave
+			if wave_idx >= 9:
+				AudioSystem.play_bgm("boss")
+			else:
+				AudioSystem.play_bgm("battle")
+		GameState.State.SHOP:
+			AudioSystem.play_bgm("build")
 		GameState.State.WIN:
 			AudioSystem.play_bgm("victory")
 			VFXSystem.play("victory", Vector2(640, 480))

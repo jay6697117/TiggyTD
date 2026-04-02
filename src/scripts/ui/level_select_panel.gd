@@ -108,8 +108,10 @@ func _add_level_card(parent: Node, lid: String, entry: Dictionary) -> void:
 
 
 func _on_level_selected(lid: String) -> void:
+	AudioSystem.play_sfx("ui_click")
 	GameState.current_level_id = lid
-	queue_free()
-	# Reload the gameplay scene so the next run rebuilds from the selected level.
-	GameState.reset_run_data()
-	get_tree().reload_current_scene()
+	# 转场动画：淡出 → 重载场景 → 淡入
+	SceneTransition.transition(func():
+		queue_free()
+		GameState.reset_run_data()
+		get_tree().reload_current_scene())

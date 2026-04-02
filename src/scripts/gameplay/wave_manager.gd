@@ -92,6 +92,10 @@ var _spawning: bool = false
 var _prepare_timer: float = 0.0
 var _preparing: bool = false
 
+# 敌人对象池（性能优化）
+var _pool: Array = []  # Array[Enemy]
+const POOL_MAX_SIZE := 30
+
 signal prepare_tick(seconds_left: int)
 
 func _ready() -> void:
@@ -175,6 +179,7 @@ func _begin_spawn() -> void:
 		var count: int  = group[1]
 		for _i in count:
 			_spawn_queue.append(id)
+	AudioSystem.play_sfx("wave_start")
 	_alive_count = _spawn_queue.size()
 	_spawning = true
 	_spawn_timer = 0.0  # 立即生成第一个
@@ -187,11 +192,18 @@ func _spawn_enemy(id: String, pos: Vector2) -> void:
 	e.reached_base.connect(_on_enemy_left)
 	_enemies_node.add_child(e)
 	if id == "trex_king":
+		AudioSystem.play_sfx("boss_appear")
 		get_tree().call_group("hud", "show_synergy_banner", Localization.L("enemy.trex_king.arrival"))
 		e.call_deferred("_notify_hud_boss_bar")
 
 
 func _create_enemy(id: String) -> Enemy:
+	# 对象池复用（Boss 不复用，避免池中存在超大节点）
+	if id != "trex_king" and _pool.size() > 0:
+		var e: Enemy = _pool.pop_back()
+		e.reuse(id)
+		return e
+	# 新建敌人节点
 	var e := CharacterBody2D.new()
 	e.set_script(EnemyScene)
 	var col := CollisionShape2D.new()
@@ -207,6 +219,11 @@ func _create_enemy(id: String) -> Enemy:
 
 func _on_enemy_left(_enemy: Enemy) -> void:
 	_alive_count -= 1
+	# 回收到对象池（非 Boss，池未满）
+	if is_instance_valid(_enemy) and not _enemy.is_boss and _pool.size() < POOL_MAX_SIZE:
+		_pool.append(_enemy)
+	elif is_instance_valid(_enemy):
+		_enemy.queue_free()
 	if _alive_count <= 0 and not _spawning:
 		_wave_cleared()
 

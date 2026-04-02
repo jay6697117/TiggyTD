@@ -139,6 +139,7 @@ func upgrade() -> void:
 	if not can_upgrade():
 		return
 	level += 1
+	AudioSystem.play_sfx("tower_upgrade")
 	_atk   *= 1.3
 	max_hp *= 1.2
 	hp      = minf(hp * 1.2, max_hp)
@@ -266,13 +267,20 @@ func _fire() -> void:
 	var eff_armor := clampf(_current_target._armor_rate * (1.0 - eff_pierce) - _synergy_armor_bonus, 0.0, 1.0)
 	var final_dmg := eff_atk * (1.0 - eff_armor)
 	var crit_chance := maxf(_skill_crit_chance, _item_crit_chance)
+	var is_crit := false
 	if crit_chance > 0.0 and randf() < crit_chance:
 		var crit_mult := 2.0 + _item_crit_mult_bonus
 		final_dmg *= crit_mult
+		is_crit = true
 	if _skill_wolf_rampage_chance > 0.0 and randf() < _skill_wolf_rampage_chance:
 		final_dmg *= 1.5
 	_current_target.take_damage(final_dmg)
 	_apply_on_hit_effect()
+	# 攻击音效（暴击/普通区分）
+	if is_crit:
+		AudioSystem.play_sfx("hit_crit")
+	else:
+		AudioSystem.play_sfx("hit_normal", 0.6)
 
 
 func _apply_on_hit_effect() -> void:

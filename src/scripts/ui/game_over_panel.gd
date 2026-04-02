@@ -139,6 +139,9 @@ func _open_totem_temple() -> void:
 
 
 func _on_restart_pressed() -> void:
-	visible = false
-	GameState.reset_run_data()
-	get_tree().reload_current_scene()
+	AudioSystem.play_sfx("ui_click")
+	# 转场动画：淡出 → 重载场景 → 淡入
+	SceneTransition.transition(func():
+		visible = false
+		GameState.reset_run_data()
+		get_tree().reload_current_scene())

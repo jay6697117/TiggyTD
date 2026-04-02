@@ -435,8 +435,14 @@ func _draw() -> void:
 
 
 func _on_die() -> void:
+	# 死亡音效（Boss/普通区分）
+	if is_boss:
+		AudioSystem.play_sfx("boss_death")
+	else:
+		AudioSystem.play_sfx("enemy_death", 0.5)
 	var reward := int(_data["reward"]) + (1 if GameState.has_meta_node("eco_kill_gold") else 0)
 	GameState.add_gold(reward)
+	AudioSystem.play_sfx("gold_gain", 0.4)
 	GameState.kills_this_run += 1
 	var exp_gain: int
 	if enemy_id == "trex_king":
@@ -453,7 +459,7 @@ func _on_die() -> void:
 		_spawn_death_particles(parent)
 	CollectionManager.on_enemy_killed(enemy_id)
 	died.emit(self)
-	queue_free()
+	recycle()
 
 
 static var _death_vfx_this_frame: int = 0
@@ -495,7 +501,57 @@ func _on_reach_base() -> void:
 	GameState.damage_base(_base_dmg)
 	GameState.enemies_leaked += 1
 	reached_base.emit(self)
-	queue_free()
+	recycle()
+
+
+# ── 对象池支持 ──────────────────────────────────────────────────────────────
+
+# 回收：隐藏并重置状态，准备复用
+func recycle() -> void:
+	visible = false
+	set_physics_process(false)
+	set_process(false)
+	remove_from_group("enemies")
+	# 重置全部运行时状态
+	hp = 0.0
+	max_hp = 0.0
+	_speed_base = 0.0
+	_speed_current = 0.0
+	_atk = 0.0
+	_armor_rate = 0.0
+	_base_dmg = 0
+	_waypoint_index = 0
+	_attack_timer = 0.0
+	_attack_target = null
+	_is_attacking = false
+	_ability_timer = 0.0
+	is_flying = false
+	_dash_active = false
+	_dash_timer = 0.0
+	_charge_triggered = false
+	_boss_phase = 0
+	is_boss = false
+	_shield_active = false
+	_shield_timer = 0.0
+	active_effects.clear()
+	_is_slowed = false
+	_is_feared = false
+	_is_stunned = false
+	_armor_broken = false
+	_poison_stacks = 0
+	_poison_tick_timer = 0.0
+	# 移除旧 sprite
+	for child in get_children():
+		if child is Sprite2D:
+			child.queue_free()
+
+
+# 复用：重新初始化为新敌人
+func reuse(id: String) -> void:
+	visible = true
+	set_physics_process(true)
+	set_process(true)
+	setup(id)
 
 
 # ── 工具函数 ────────────────────────────────────────────────────────────────

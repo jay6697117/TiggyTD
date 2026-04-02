@@ -70,6 +70,7 @@ func _on_btn_pressed(animal_id: String) -> void:
 	var cost: int = Tower.ANIMAL_DB[animal_id]["cost"]
 	if GameState.gold < cost:
 		return
+	AudioSystem.play_sfx("ui_click")
 	if _selected_id == animal_id:
 		_selected_id = ""
 	else:

@@ -122,6 +122,7 @@ func _try_place(animal_id: String, cell: Vector2i) -> void:
 	if not GameState.spend_gold(cost):
 		placement_failed.emit("金币不足")
 		return
+	AudioSystem.play_sfx("tower_place")
 	var tower := _create_tower(animal_id, cell)
 	_towers_node.add_child(tower)
 	_placed_towers[cell] = tower

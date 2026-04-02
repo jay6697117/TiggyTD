@@ -32,6 +32,7 @@ SynergyManager="*res://autoloads/synergy_manager.gd"
 CollectionManager="*res://autoloads/collection_manager.gd"
 ItemDB="*res://autoloads/item_db.gd"
 Inventory="*res://autoloads/inventory.gd"
+SceneTransition="*res://autoloads/scene_transition.gd"
 
 [display]
 

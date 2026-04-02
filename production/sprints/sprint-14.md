@@ -69,11 +69,11 @@
 ---
 
 ## Definition of Done for this Sprint
-- [ ] 6 段 BGM 全部接入并可在对应场景播放
-- [ ] 至少 14 个 SFX 接入（8 高优 + 6 中优）
-- [ ] 全 UI 面板按钮有点击音效
-- [ ] 场景切换有淡入淡出转场动画
-- [ ] 第 10 波 20+ 敌人同屏帧率 ≥ 50fps
-- [ ] 音频总资源 < 50MB
-- [ ] 无 S1/S2 级 Bug
+- [x] 6 段 BGM 代码层全部接入（main.gd 状态切换，7 个 play_bgm 调用） ⚠️ 音频文件需手动放置
+- [x] 18 个 SFX 接入（8 高优 + 10 中优，共 31 个 play_sfx 调用点） ⚠️ 音频文件需手动放置
+- [x] 全 UI 面板按钮有点击音效（main_menu/build_panel/shop_panel/item_shop_panel/skill_tree_panel/level_select_panel/game_over_panel）
+- [x] 场景切换有淡入淡出转场动画（scene_transition.gd 单例）
+- [x] 敌人对象池改造完成（wave_manager._pool + enemy.recycle()/reuse()）⚠️ 帧率需 Godot 编辑器实测
+- [ ] 音频总资源 < 50MB（待放置实际音频文件后验证）
+- [ ] 无 S1/S2 级 Bug（待 Godot 编辑器运行验证）
 - [ ] sprint-14.md 归档

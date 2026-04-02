@@ -25,7 +25,7 @@ func _build_ui() -> void:
 	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
-	
+
 	# 半透明遮罩，保证文字可读
 	var overlay := ColorRect.new()
 	overlay.color = Color(0.0, 0.0, 0.0, 0.45)
@@ -83,7 +83,9 @@ func _add_button(parent: Node, text: String, color: Color, callback: Callable) -
 	btn.custom_minimum_size = Vector2(260, 52)
 	btn.add_theme_font_size_override("font_size", 20)
 	btn.add_theme_color_override("font_color", color)
-	btn.pressed.connect(callback)
+	btn.pressed.connect(func():
+		AudioSystem.play_sfx("ui_click")
+		callback.call())
 	parent.add_child(btn)
 
 

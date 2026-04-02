@@ -75,7 +75,7 @@ func _ready() -> void:
 		_apex_roar_cd_max *= 0.9
 		_natures_call_cd_max *= 0.9
 		_era_cd_max *= 0.9
-	
+
 	_add_sprite()
 
 
@@ -101,15 +101,24 @@ func _process(delta: float) -> void:
 
 
 func _tick_cooldowns(delta: float) -> void:
+	var prev_apex := _cd_apex_roar
+	var prev_natures := _cd_natures_call
+	var prev_era := _cd_era_judgement
 	if _cd_apex_roar > 0.0:
 		_cd_apex_roar = maxf(_cd_apex_roar - delta, 0.0)
 		skill_cd_updated.emit("apex_roar", _cd_apex_roar, CD_APEX_ROAR)
+		if prev_apex > 0.0 and _cd_apex_roar == 0.0:
+			AudioSystem.play_sfx("skill_ready")
 	if _cd_natures_call > 0.0:
 		_cd_natures_call = maxf(_cd_natures_call - delta, 0.0)
 		skill_cd_updated.emit("natures_call", _cd_natures_call, _natures_call_cd_max)
+		if prev_natures > 0.0 and _cd_natures_call == 0.0:
+			AudioSystem.play_sfx("skill_ready")
 	if _cd_era_judgement > 0.0:
 		_cd_era_judgement = maxf(_cd_era_judgement - delta, 0.0)
 		skill_cd_updated.emit("era_judgement", _cd_era_judgement, CD_ERA_JUDGEMENT)
+		if prev_era > 0.0 and _cd_era_judgement == 0.0:
+			AudioSystem.play_sfx("skill_ready")
 
 
 func _input(event: InputEvent) -> void:
@@ -160,14 +169,17 @@ func activate_skill(skill: String) -> void:
 func _execute_skill(skill: String) -> void:
 	match skill:
 		"apex_roar":
+			AudioSystem.play_sfx("skill_apex_roar")
 			_do_apex_roar()
 			_cd_apex_roar = _apex_roar_cd_max
 			skill_cd_updated.emit("apex_roar", _cd_apex_roar, _apex_roar_cd_max)
 		"natures_call":
+			AudioSystem.play_sfx("skill_natures_call")
 			_do_natures_call()
 			_cd_natures_call = _natures_call_cd_max
 			skill_cd_updated.emit("natures_call", _cd_natures_call, _natures_call_cd_max)
 		"era_judgement":
+			AudioSystem.play_sfx("skill_era_judgement")
 			_do_era_judgement()
 			_cd_era_judgement = _era_cd_max
 			skill_cd_updated.emit("era_judgement", _cd_era_judgement, _era_cd_max)
@@ -237,6 +249,7 @@ func gain_exp(amount: int) -> void:
 
 
 func _trigger_level_up() -> void:
+	AudioSystem.play_sfx("level_up")
 	var count := mini(3, _talent_pool.size())
 	if count == 0:
 		return

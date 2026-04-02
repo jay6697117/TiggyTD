@@ -70,7 +70,7 @@ func _build_ui() -> void:
 	var gold_hbox = HBoxContainer.new()
 	gold_hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	vbox.add_child(gold_hbox)
-	
+
 	var gold_icon = TextureRect.new()
 	gold_icon.texture = load("res://assets/art/ui/icon_gold.png")
 	gold_icon.custom_minimum_size = Vector2(20, 20)
@@ -262,6 +262,7 @@ func _on_buy_pressed(index: int) -> void:
 		if not is_free:
 			GameState.add_gold(price)
 		return
+	AudioSystem.play_sfx("ui_buy")
 	if is_free:
 		_first_free_used = true
 	_shop_items[index] = ""
@@ -272,10 +273,12 @@ func _on_buy_pressed(index: int) -> void:
 func _on_refresh_pressed() -> void:
 	if not GameState.spend_gold(_refresh_cost):
 		return
+	AudioSystem.play_sfx("ui_click")
 	_generate_items()
 	_refresh_slots()
 	_refresh_slot_states()
 
 
 func _on_close_pressed() -> void:
+	AudioSystem.play_sfx("ui_click")
 	GameState.change_state(GameState.State.BUILD)

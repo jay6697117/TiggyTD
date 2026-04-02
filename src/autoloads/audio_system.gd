@@ -43,7 +43,7 @@ func play_sfx(sfx_id: String, volume_scale: float = 1.0) -> void:
 
 
 func play_bgm(bgm_id: String, fade_duration: float = BGM_FADE_DURATION) -> void:
-	var stream := _load_stream("res://assets/audio/bgm/" + bgm_id + ".ogg")
+	var stream := _load_stream("res://assets/audio/bgm/" + bgm_id + ".wav")
 	if stream == null:
 		return
 	if _bgm_tween and _bgm_tween.is_valid():
