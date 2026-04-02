@@ -108,5 +108,6 @@ func _add_level_card(parent: Node, lid: String, entry: Dictionary) -> void:
 
 func _on_level_selected(lid: String) -> void:
 	GameState.current_level_id = lid
-	queue_free()
-	GameState.change_state(GameState.State.BUILD)
+	# 重新加载场景，让 MapRenderer._ready() 用新 level_id 加载背景和 tileset
+	GameState.reset_run_data()
+	get_tree().reload_current_scene()
