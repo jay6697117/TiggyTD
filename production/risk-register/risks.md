@@ -19,3 +19,5 @@
 |----|---------|------|------|----------|
 | R-07 | 暂停面板 `get_tree().paused` 会暂停所有非 PROCESS_MODE_ALWAYS 节点，可能影响 CanvasLayer UI 响应 | 中 | 低 | pause_panel 已设置 PROCESS_MODE_ALWAYS；其他 UI 面板在暂停时本应不响应，行为符合预期 |
 | R-08 | 本地化 key 缺失时 `Localization.L()` 返回 key 字符串，英文模式下可能出现 key 名称显示 | 低 | 低 | Sprint 12 结束时执行 grep 全量验证，确认所有 key 存在于两份 JSON |
+| R-09 | 音频资源体积超过 50MB 预算，导致包体膨胀 | 中 | 低 | OGG-Vorbis q5 压缩，SFX 限制 ≤2s；定期检查 `assets/audio/` 总大小 |
+| R-10 | 敌人对象池改造后状态属性残留，回收的敌人在复用时携带旧 HP/状态效果 | 中 | 高 | 对象池 `recycle()` 时强制重置全部属性；添加 `assert` 验证初始状态 |
