@@ -102,7 +102,7 @@ func _connect_wave_manager() -> void:
 
 
 const TalentPanelScript := preload("res://scripts/ui/talent_panel.gd")
-var _talent_panel: Control = null
+var _talent_panel: CanvasLayer = null
 var _exp_bar: ProgressBar = null
 var _level_label: Label = null
 
@@ -157,9 +157,9 @@ func _on_exp_changed(cur: int, threshold: int) -> void:
 
 func _show_talent_panel(choices: Array[String], hero: Hero) -> void:
 	if _talent_panel == null:
-		_talent_panel = Control.new()
+		_talent_panel = CanvasLayer.new()
 		_talent_panel.set_script(TalentPanelScript)
-		add_child(_talent_panel)
+		get_parent().add_child(_talent_panel)
 	_talent_panel.show_choices(choices, hero)
 
 

@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 # ---------------------------------------------------------------------------
 # TalentPanel — 英雄升级天赋选择面板
@@ -24,8 +24,8 @@ var _hero: Hero = null
 
 
 func _ready() -> void:
+	layer = 110
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	set_anchors_preset(Control.PRESET_FULL_RECT)
 	visible = false
 
 
