@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj6c11pewsa8a"
-valid=false
+uid="uid://bl0naa6oc2gt1"
+path="res://.godot/imported/tileset_lava_canyon.png-ef9dd71034f50d22c1db07f435a81757.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/art/maps/tileset_lava_canyon.png"
+dest_files=["res://.godot/imported/tileset_lava_canyon.png-ef9dd71034f50d22c1db07f435a81757.ctex"]
 
 [params]
 

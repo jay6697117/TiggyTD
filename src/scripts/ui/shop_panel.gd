@@ -23,7 +23,23 @@ func _ready() -> void:
 	btn_gold_up.pressed.connect(_on_gold_up)
 	btn_cd_reset.pressed.connect(_on_cd_reset)
 	btn_close.pressed.connect(_on_close)
+	_build_icons()
 	visible = false
+
+func _build_icons() -> void:
+	var vbox = $Panel/VBox
+	var mark_hbox = HBoxContainer.new()
+	mark_hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	var mark_icon = TextureRect.new()
+	mark_icon.texture = load("res://assets/art/ui/icon_mark.png")
+	mark_icon.custom_minimum_size = Vector2(32, 32)
+	mark_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	mark_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	mark_hbox.add_child(mark_icon)
+	vbox.add_child(mark_hbox)
+	vbox.move_child(mark_hbox, label_marks.get_index())
+	label_marks.get_parent().remove_child(label_marks)
+	mark_hbox.add_child(label_marks)
 
 
 func _on_state_changed(new_state: GameState.State) -> void:

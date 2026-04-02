@@ -1,0 +1,73 @@
+# Codex execution rules for the generated compatibility layer.
+
+prefix_rule(
+    pattern = ["git", "status"],
+    decision = "allow",
+    justification = "Read-only repository status checks are safe.",
+)
+
+prefix_rule(
+    pattern = ["git", "diff"],
+    decision = "allow",
+    justification = "Read-only repository diffs are safe.",
+)
+
+prefix_rule(
+    pattern = ["git", "log"],
+    decision = "allow",
+    justification = "Read-only git history inspection is safe.",
+)
+
+prefix_rule(
+    pattern = ["git", "branch"],
+    decision = "allow",
+    justification = "Read-only branch inspection is safe.",
+)
+
+prefix_rule(
+    pattern = ["git", "rev-parse"],
+    decision = "allow",
+    justification = "Read-only revision parsing is safe.",
+)
+
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "forbidden",
+    justification = "Destructive recursive deletion is blocked.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "--force"],
+    decision = "forbidden",
+    justification = "Force-push is blocked for this repository.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "-f"],
+    decision = "forbidden",
+    justification = "Force-push is blocked for this repository.",
+)
+
+prefix_rule(
+    pattern = ["git", "reset", "--hard"],
+    decision = "forbidden",
+    justification = "Hard reset is blocked for this repository.",
+)
+
+prefix_rule(
+    pattern = ["git", "clean", "-f"],
+    decision = "forbidden",
+    justification = "Destructive clean is blocked for this repository.",
+)
+
+prefix_rule(
+    pattern = ["sudo"],
+    decision = "forbidden",
+    justification = "Privilege escalation is blocked for this repository.",
+)
+
+prefix_rule(
+    pattern = ["chmod", "777"],
+    decision = "forbidden",
+    justification = "Overly permissive chmod is blocked for this repository.",
+)

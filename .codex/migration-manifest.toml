@@ -1,0 +1,1587 @@
+schema_version = "1"
+generated_by = ".codex/scripts/generate_codex_layer.py"
+source_runtime = ".claude"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/hooks/session-start.sh"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/session_start.sh"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/hooks/detect-gaps.sh"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/detect_gaps.sh"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/hooks/validate-commit.sh"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/validate_commit.sh"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/hooks/validate-push.sh"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/validate_push.sh"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/hooks/validate-assets.sh"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/validate_assets.sh"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/hooks/pre-compact.sh"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/save_session_context.sh"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/hooks/session-stop.sh"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/wrap_session.sh"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/hooks/log-agent.sh"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/log_agent.sh"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "generated:preflight"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/preflight.sh"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.codex/scripts/generate_codex_layer.py"
+target = "/private/tmp/codex-layer-debug.JP43Tb/scripts/generate_codex_layer.py"
+transform = "copy"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/CLAUDE-local-template.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/CLAUDE-local-template.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/agent-coordination-map.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/agent-coordination-map.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/agent-roster.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/agent-roster.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/coding-standards.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/coding-standards.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/context-management.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/context-management.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/coordination-rules.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/coordination-rules.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/directory-structure.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/directory-structure.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/hooks-reference/hook-input-schemas.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/hooks-reference/hook-input-schemas.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/hooks-reference/post-merge-asset-validation.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/hooks-reference/post-merge-asset-validation.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/hooks-reference/post-sprint-retrospective.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/hooks-reference/post-sprint-retrospective.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/hooks-reference/pre-commit-code-quality.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/hooks-reference/pre-commit-code-quality.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/hooks-reference/pre-commit-design-check.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/hooks-reference/pre-commit-design-check.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/hooks-reference/pre-push-test-gate.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/hooks-reference/pre-push-test-gate.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/hooks-reference.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/hooks-reference.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/quick-start.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/quick-start.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/review-workflow.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/review-workflow.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/rules-reference.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules-reference.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/settings-local-template.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/settings-local-template.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/setup-requirements.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/setup-requirements.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/skills-reference.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/skills-reference.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/technical-preferences.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/technical-preferences.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/ai-code.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/ai-code.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/data-files.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/data-files.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/design-docs.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/design-docs.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/engine-code.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/engine-code.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/gameplay-code.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/gameplay-code.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/narrative.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/narrative.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/network-code.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/network-code.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/prototype-code.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/prototype-code.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/shader-code.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/shader-code.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/test-standards.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/test-standards.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/rules/ui-code.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/rules/ui-code.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/WORKFLOW-GUIDE.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/WORKFLOW-GUIDE.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/COLLABORATIVE-DESIGN-PRINCIPLE.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/reference/COLLABORATIVE-DESIGN-PRINCIPLE.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/architecture-decision-record.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/architecture-decision-record.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/architecture-doc-from-code.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/architecture-doc-from-code.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/art-bible.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/art-bible.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/changelog-template.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/changelog-template.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/collaborative-protocols/design-agent-protocol.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/collaborative-protocols/design-agent-protocol.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/collaborative-protocols/implementation-agent-protocol.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/collaborative-protocols/implementation-agent-protocol.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/collaborative-protocols/leadership-agent-protocol.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/collaborative-protocols/leadership-agent-protocol.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/concept-doc-from-prototype.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/concept-doc-from-prototype.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/design-doc-from-implementation.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/design-doc-from-implementation.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/economy-model.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/economy-model.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/faction-design.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/faction-design.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/game-concept.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/game-concept.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/game-design-document.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/game-design-document.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/game-pillars.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/game-pillars.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/incident-response.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/incident-response.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/level-design-document.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/level-design-document.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/milestone-definition.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/milestone-definition.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/narrative-character-sheet.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/narrative-character-sheet.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/pitch-document.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/pitch-document.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/post-mortem.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/post-mortem.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/project-stage-report.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/project-stage-report.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/release-checklist-template.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/release-checklist-template.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/release-notes.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/release-notes.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/risk-register-entry.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/risk-register-entry.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/sound-bible.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/sound-bible.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/sprint-plan.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/sprint-plan.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/systems-index.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/systems-index.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/technical-design-document.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/technical-design-document.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/docs/templates/test-plan.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/templates/test-plan.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/README.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/README.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/VERSION.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/VERSION.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/breaking-changes.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/breaking-changes.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/current-best-practices.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/current-best-practices.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/deprecated-apis.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/deprecated-apis.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/modules/animation.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/modules/animation.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/modules/audio.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/modules/audio.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/modules/input.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/modules/input.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/modules/navigation.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/modules/navigation.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/modules/networking.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/modules/networking.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/modules/physics.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/modules/physics.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/modules/rendering.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/modules/rendering.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/godot/modules/ui.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/godot/modules/ui.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/PLUGINS.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/PLUGINS.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/VERSION.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/VERSION.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/breaking-changes.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/breaking-changes.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/current-best-practices.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/current-best-practices.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/deprecated-apis.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/deprecated-apis.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/modules/animation.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/modules/animation.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/modules/audio.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/modules/audio.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/modules/input.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/modules/input.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/modules/navigation.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/modules/navigation.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/modules/networking.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/modules/networking.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/modules/physics.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/modules/physics.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/modules/rendering.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/modules/rendering.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/modules/ui.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/modules/ui.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/plugins/addressables.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/plugins/addressables.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/plugins/cinemachine.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/plugins/cinemachine.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unity/plugins/dots-entities.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unity/plugins/dots-entities.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/PLUGINS.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/PLUGINS.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/VERSION.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/VERSION.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/breaking-changes.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/breaking-changes.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/current-best-practices.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/current-best-practices.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/deprecated-apis.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/deprecated-apis.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/modules/animation.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/modules/animation.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/modules/audio.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/modules/audio.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/modules/input.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/modules/input.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/modules/navigation.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/modules/navigation.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/modules/networking.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/modules/networking.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/modules/physics.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/modules/physics.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/modules/rendering.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/modules/rendering.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/modules/ui.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/modules/ui.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/plugins/common-ui.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/plugins/common-ui.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/plugins/gameplay-ability-system.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/plugins/gameplay-ability-system.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/plugins/gameplay-camera-system.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/plugins/gameplay-camera-system.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/engine-reference/unreal/plugins/pcg.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/engine-reference/unreal/plugins/pcg.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/examples/README.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/examples/README.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/examples/reverse-document-workflow-example.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/examples/reverse-document-workflow-example.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/examples/session-design-crafting-system.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/examples/session-design-crafting-system.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/examples/session-implement-combat-damage.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/examples/session-implement-combat-damage.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/docs/examples/session-scope-crisis-decision.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/knowledge/examples/session-scope-crisis-decision.md"
+transform = "copy+rewrite"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/accessibility-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/accessibility-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/accessibility-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/accessibility-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ai-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/ai-programmer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ai-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/ai-programmer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/analytics-engineer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/analytics-engineer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/analytics-engineer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/analytics-engineer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/art-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/art-director.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/art-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/art-director.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/audio-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/audio-director.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/audio-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/audio-director.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/community-manager.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/community-manager.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/community-manager.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/community-manager.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/creative-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/creative-director.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/creative-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/creative-director.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/devops-engineer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/devops-engineer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/devops-engineer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/devops-engineer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/economy-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/economy-designer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/economy-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/economy-designer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/engine-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/engine-programmer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/engine-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/engine-programmer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/game-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/game-designer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/game-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/game-designer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/gameplay-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/gameplay-programmer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/gameplay-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/gameplay-programmer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/godot-gdextension-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/godot-gdextension-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/godot-gdextension-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/godot-gdextension-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/godot-gdscript-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/godot-gdscript-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/godot-gdscript-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/godot-gdscript-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/godot-shader-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/godot-shader-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/godot-shader-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/godot-shader-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/godot-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/godot-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/godot-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/godot-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/lead-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/lead-programmer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/lead-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/lead-programmer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/level-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/level-designer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/level-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/level-designer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/live-ops-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/live-ops-designer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/live-ops-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/live-ops-designer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/localization-lead.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/localization-lead.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/localization-lead.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/localization-lead.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/narrative-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/narrative-director.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/narrative-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/narrative-director.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/network-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/network-programmer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/network-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/network-programmer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/performance-analyst.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/performance-analyst.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/performance-analyst.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/performance-analyst.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/producer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/producer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/producer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/producer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/prototyper.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/prototyper.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/prototyper.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/prototyper.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/qa-lead.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/qa-lead.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/qa-lead.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/qa-lead.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/qa-tester.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/qa-tester.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/qa-tester.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/qa-tester.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/release-manager.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/release-manager.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/release-manager.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/release-manager.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/security-engineer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/security-engineer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/security-engineer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/security-engineer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/sound-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/sound-designer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/sound-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/sound-designer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/systems-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/systems-designer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/systems-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/systems-designer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/technical-artist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/technical-artist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/technical-artist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/technical-artist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/technical-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/technical-director.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/technical-director.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/technical-director.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/tools-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/tools-programmer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/tools-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/tools-programmer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ue-blueprint-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/ue-blueprint-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ue-blueprint-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/ue-blueprint-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ue-gas-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/ue-gas-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ue-gas-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/ue-gas-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ue-replication-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/ue-replication-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ue-replication-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/ue-replication-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ue-umg-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/ue-umg-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ue-umg-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/ue-umg-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ui-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/ui-programmer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ui-programmer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/ui-programmer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-addressables-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/unity-addressables-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-addressables-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/unity-addressables-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-dots-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/unity-dots-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-dots-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/unity-dots-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-shader-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/unity-shader-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-shader-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/unity-shader-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/unity-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/unity-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-ui-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/unity-ui-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unity-ui-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/unity-ui-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unreal-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/unreal-specialist.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/unreal-specialist.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/unreal-specialist.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ux-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/ux-designer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/ux-designer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/ux-designer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/world-builder.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/world-builder.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/world-builder.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/world-builder.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/writer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/roles/writer.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/agents/writer.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/agents/writer.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/architecture-decision/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/architecture-decision/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/asset-audit/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/asset-audit/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/balance-check/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/balance-check/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/brainstorm/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/brainstorm/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/bug-report/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/bug-report/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/changelog/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/changelog/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/code-review/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/code-review/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/design-review/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/design-review/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/design-system/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/design-system/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/estimate/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/estimate/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/gate-check/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/gate-check/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/hotfix/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/hotfix/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/launch-checklist/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/launch-checklist/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/localize/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/localize/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/map-systems/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/map-systems/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/milestone-review/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/milestone-review/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/onboard/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/onboard/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/patch-notes/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/patch-notes/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/perf-profile/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/perf-profile/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/playtest-report/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/playtest-report/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/project-stage-detect/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/project-stage-detect/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/prototype/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/prototype/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/release-checklist/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/release-checklist/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/retrospective/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/retrospective/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/reverse-document/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/reverse-document/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/scope-check/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/scope-check/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/setup-engine/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/setup-engine/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/sprint-plan/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/sprint-plan/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/start/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/start/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/team-audio/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/team-audio/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/team-combat/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/team-combat/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/team-level/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/team-level/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/team-narrative/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/team-narrative/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/team-polish/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/team-polish/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/team-release/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/team-release/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/team-ui/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/team-ui/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "/Users/zhangjinhui/Desktop/Codex-Game-Studios/.claude/skills/tech-debt/SKILL.md"
+target = "/private/tmp/codex-layer-debug.JP43Tb/skills/tech-debt/SKILL.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "generated"
+target = "/private/tmp/codex-layer-debug.JP43Tb/config.toml"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "generated"
+target = "/private/tmp/codex-layer-debug.JP43Tb/README.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "generated"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/project-instructions.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "generated"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/usage.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "generated"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/command-map.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "generated"
+target = "/private/tmp/codex-layer-debug.JP43Tb/docs/migration-map.md"
+transform = "generated"
+owner = "generator"
+
+[[entries]]
+source = "generated"
+target = "/private/tmp/codex-layer-debug.JP43Tb/rules/default.rules"
+transform = "generated"
+owner = "generator"

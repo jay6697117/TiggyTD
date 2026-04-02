@@ -16,10 +16,21 @@ func _ready() -> void:
 
 
 func _build_ui() -> void:
-	var bg := ColorRect.new()
-	bg.color = Color(0.08, 0.06, 0.04, 1.0)
+	# 背景图
+	var bg := TextureRect.new()
+	var bg_tex = load("res://assets/art/backgrounds/bg_main_menu.png")
+	if bg_tex:
+		bg.texture = bg_tex
+	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
+	
+	# 半透明遮罩，保证文字可读
+	var overlay := ColorRect.new()
+	overlay.color = Color(0.0, 0.0, 0.0, 0.45)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(overlay)
 
 	var center := VBoxContainer.new()
 	center.set_anchor_and_offset(SIDE_LEFT,   0.3,  0.0)

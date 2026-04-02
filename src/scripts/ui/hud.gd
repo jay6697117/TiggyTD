@@ -69,7 +69,30 @@ func _ready() -> void:
 	btn_start.pressed.connect(_on_btn_start_pressed)
 	call_deferred("_connect_wave_manager")
 	call_deferred("_connect_hero")
+	_build_icons()
 	_refresh()
+
+
+func _build_icons() -> void:
+	var hbox = $Panel/HBox
+	
+	var gold_icon = TextureRect.new()
+	gold_icon.texture = load("res://assets/art/ui/icon_gold.png")
+	gold_icon.custom_minimum_size = Vector2(28, 28)
+	gold_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	gold_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	
+	var mark_icon = TextureRect.new()
+	mark_icon.texture = load("res://assets/art/ui/icon_mark.png")
+	mark_icon.custom_minimum_size = Vector2(28, 28)
+	mark_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	mark_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+
+	hbox.add_child(gold_icon)
+	hbox.move_child(gold_icon, label_gold.get_index())
+	
+	hbox.add_child(mark_icon)
+	hbox.move_child(mark_icon, label_marks.get_index())
 
 
 func _connect_wave_manager() -> void:

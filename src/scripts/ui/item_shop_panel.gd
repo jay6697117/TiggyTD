@@ -67,12 +67,23 @@ func _build_ui() -> void:
 	title.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2))
 	vbox.add_child(title)
 
+	var gold_hbox = HBoxContainer.new()
+	gold_hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_child(gold_hbox)
+	
+	var gold_icon = TextureRect.new()
+	gold_icon.texture = load("res://assets/art/ui/icon_gold.png")
+	gold_icon.custom_minimum_size = Vector2(20, 20)
+	gold_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	gold_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	gold_hbox.add_child(gold_icon)
+
 	_label_gold = Label.new()
 	_label_gold.text = Localization.L("ui.gold_amount", [GameState.gold])
 	_label_gold.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label_gold.add_theme_font_size_override("font_size", 16)
 	_label_gold.add_theme_color_override("font_color", Color(1.0, 0.9, 0.3))
-	vbox.add_child(_label_gold)
+	gold_hbox.add_child(_label_gold)
 
 	var hbox := HBoxContainer.new()
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER

@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpqtbe6id3lnd"
-valid=false
+uid="uid://cf0k0jycgdmnw"
+path="res://.godot/imported/tileset_frozen_tundra.png-e1cfa03854891b5914469e8f9897d451.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/art/maps/tileset_frozen_tundra.png"
+dest_files=["res://.godot/imported/tileset_frozen_tundra.png-e1cfa03854891b5914469e8f9897d451.ctex"]
 
 [params]
 

@@ -33,6 +33,8 @@ const REGION_BASE := Rect2(512 + 64, 512 + 80, 384, 384)
 signal cell_clicked(cell: Vector2i, cell_type: MapGrid.CellType)
 signal cell_hovered(cell: Vector2i)
 
+var _bg_tex: Texture2D
+
 
 func _ready() -> void:
 	_grid = GridManager.grid
@@ -42,6 +44,10 @@ func _ready() -> void:
 	var tex_path := "res://assets/art/maps/tileset_%s.png" % level_id
 	if ResourceLoader.exists(tex_path):
 		_tileset_tex = load(tex_path)
+	# 加载关卡背景图
+	var bg_path := "res://assets/art/backgrounds/bg_%s.png" % level_id
+	if ResourceLoader.exists(bg_path):
+		_bg_tex = load(bg_path)
 	GridManager.obstacle_changed.connect(_on_grid_changed)
 	queue_redraw()
 
@@ -71,6 +77,11 @@ func _draw() -> void:
 	if _grid == null:
 		return
 	var tile := float(Constants.TILE_SIZE)
+	# 0. 绘制背景图（铺满整个地图区域）
+	if _bg_tex != null:
+		var map_w := MapGrid.WIDTH * tile
+		var map_h := MapGrid.HEIGHT * tile
+		draw_texture_rect(_bg_tex, Rect2(0, 0, map_w, map_h), false)
 	# 1. 绘制所有格子
 	for x in MapGrid.WIDTH:
 		for y in MapGrid.HEIGHT:
