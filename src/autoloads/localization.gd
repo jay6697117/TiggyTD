@@ -15,8 +15,9 @@ var _current_language: String = DEFAULT_LANGUAGE
 
 
 func _ready() -> void:
-	# 语言由 SaveLoad 初始化后调用 load_language()
-	load_language(DEFAULT_LANGUAGE)
+	var settings: Dictionary = SaveLoad.get_value("settings", {})
+	var lang: String = settings.get("language_code", DEFAULT_LANGUAGE)
+	load_language(lang)
 
 
 func load_language(language_code: String) -> void:

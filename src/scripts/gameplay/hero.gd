@@ -62,6 +62,8 @@ signal level_up_ready(choices: Array[String])
 signal exp_changed(cur: int, threshold: int)
 signal hero_moved
 
+var _sprite: Sprite2D
+
 
 func _ready() -> void:
 	add_to_group("hero")
@@ -73,6 +75,17 @@ func _ready() -> void:
 		_apex_roar_cd_max *= 0.9
 		_natures_call_cd_max *= 0.9
 		_era_cd_max *= 0.9
+	
+	_add_sprite()
+
+
+func _add_sprite() -> void:
+	_sprite = Sprite2D.new()
+	_sprite.texture = load("res://assets/art/heroes/hero_tiger.png")
+	var s := float(Constants.TILE_SIZE * 1.5) / 1024.0 # generated image is 1024x1024
+	_sprite.scale = Vector2(s, s)
+	_sprite.position = Vector2(0, -10) # offset slightly upward
+	add_child(_sprite)
 
 
 func _process(delta: float) -> void:
@@ -311,9 +324,6 @@ func _move_along_path(delta: float) -> void:
 
 
 func _draw() -> void:
-	# 英雄色块
-	draw_circle(Vector2.ZERO, 18.0, Color(1.0, 0.55, 0.0))
-	draw_arc(Vector2.ZERO, 18.0, 0.0, TAU, 32, Color.WHITE, 2.0)
 	# TARGET_SELECT 状态：准星颜色提示
 	if _state == State.TARGET_SELECT:
 		draw_arc(Vector2.ZERO, 24.0, 0.0, TAU, 32, Color.RED, 3.0)

@@ -60,6 +60,9 @@ func _build_ui() -> void:
 	_add_button(center, Localization.L("ui.main_menu.start"),  Color(0.2, 0.8, 0.3),  _on_start_pressed)
 	_add_button(center, Localization.L("ui.totem_temple"),       Color(1.0, 0.75, 0.1), _on_temple_pressed)
 	_add_button(center, Localization.L("ui.collection"),          Color(0.4, 0.7, 1.0),  _on_collection_pressed)
+	var btn_settings_text = Localization.L("ui.settings")
+	if btn_settings_text == "ui.settings": btn_settings_text = "设置"
+	_add_button(center, btn_settings_text, Color(0.6, 0.6, 0.6), _on_settings_pressed)
 	_add_button(center, Localization.L("ui.main_menu.quit"),     Color(0.7, 0.3, 0.3),  _on_quit_pressed)
 
 
@@ -100,6 +103,12 @@ func _on_temple_pressed() -> void:
 func _on_collection_pressed() -> void:
 	var panel := CanvasLayer.new()
 	panel.set_script(load("res://scripts/ui/collection_panel.gd"))
+	get_tree().root.add_child(panel)
+
+
+func _on_settings_pressed() -> void:
+	var panel := CanvasLayer.new()
+	panel.set_script(load("res://scripts/ui/settings_panel.gd"))
 	get_tree().root.add_child(panel)
 
 

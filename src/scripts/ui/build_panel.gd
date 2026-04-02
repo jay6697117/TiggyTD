@@ -56,7 +56,8 @@ func _build_buttons() -> void:
 	for entry in ANIMALS:
 		var btn := Button.new()
 		var cost: int = Tower.ANIMAL_DB[entry["id"]]["cost"]
-		btn.text = "%s\n%dg" % [entry["name"], cost]
+		var animal_name = Localization.L("animal." + entry["id"] + ".name")
+		btn.text = "%s\n%dg" % [animal_name, cost]
 		btn.custom_minimum_size = Vector2(100, 80)
 		btn.pressed.connect(_on_btn_pressed.bind(entry["id"]))
 		hbox.add_child(btn)

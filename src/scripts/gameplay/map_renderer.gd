@@ -17,13 +17,18 @@ const COLOR_SPAWN   := Color(0.90, 0.30, 0.20)  # 红色（刷怪点）
 const COLOR_BASE    := Color(0.20, 0.60, 0.90)  # 蓝色（基地）
 const COLOR_GRID    := Color(0.0, 0.0, 0.0, 0.15)  # 网格线（半透明黑）
 
-# 悬停高亮
 const COLOR_HOVER_BUILD   := Color(0.50, 0.90, 0.30, 0.5)  # 绿色高亮（可建造）
 const COLOR_HOVER_INVALID := Color(0.90, 0.20, 0.20, 0.5)  # 红色高亮（不可建造）
 
 var _grid: MapGrid
 var _hover_cell: Vector2i = Vector2i(-1, -1)
 var _show_hover: bool = false
+var _tileset_tex: Texture2D
+
+const REGION_PATH := Rect2(64, 80, 384, 384)
+const REGION_BUILD := Rect2(512 + 64, 80, 384, 384)
+const REGION_BLOCKED := Rect2(64, 512 + 80, 384, 384)
+const REGION_BASE := Rect2(512 + 64, 512 + 80, 384, 384)
 
 signal cell_clicked(cell: Vector2i, cell_type: MapGrid.CellType)
 signal cell_hovered(cell: Vector2i)
@@ -31,6 +36,12 @@ signal cell_hovered(cell: Vector2i)
 
 func _ready() -> void:
 	_grid = GridManager.grid
+	var level_id := GameState.current_level_id
+	if level_id == "":
+		level_id = "ancient_savanna"
+	var tex_path := "res://assets/art/maps/tileset_%s.png" % level_id
+	if ResourceLoader.exists(tex_path):
+		_tileset_tex = load(tex_path)
 	GridManager.obstacle_changed.connect(_on_grid_changed)
 	queue_redraw()
 
@@ -64,8 +75,22 @@ func _draw() -> void:
 	for x in MapGrid.WIDTH:
 		for y in MapGrid.HEIGHT:
 			var rect := Rect2(x * tile, y * tile, tile, tile)
-			var col := _cell_color(_grid.get_cell_type(x, y))
-			draw_rect(rect, col)
+			var type := _grid.get_cell_type(x, y)
+			
+			if _tileset_tex != null:
+				var src_region: Rect2
+				match type:
+					MapGrid.CellType.PATH:    src_region = REGION_PATH
+					MapGrid.CellType.BUILD:   src_region = REGION_BUILD
+					MapGrid.CellType.BLOCKED: src_region = REGION_BLOCKED
+					MapGrid.CellType.SPAWN:   src_region = REGION_BASE
+					MapGrid.CellType.BASE:    src_region = REGION_BASE
+					_:                        src_region = REGION_BUILD
+				draw_texture_rect_region(_tileset_tex, rect, src_region)
+			else:
+				var col := _cell_color(type)
+				draw_rect(rect, col)
+			
 			# 网格线
 			draw_rect(rect, COLOR_GRID, false, 1.0)
 	# 2. 悬停高亮
