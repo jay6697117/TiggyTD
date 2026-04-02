@@ -19,7 +19,7 @@
 |----|------|-------------|------|------|----------|
 | S13-01 | **~~动物塔 Sprite 替换~~** — 12 种动物塔（tiger/lion/ elephant/cheetah/eagle/wolf_pack/owl/otter/peacock/ chameleon/honey_badger/pangolin）使用像素贴图替换纯色块渲染 | 美术+Claude | 3天 | 贴图资源 | 放置后显示动物塔像素图，非纯色块 |
 | S13-02 | **~~敌人 Sprite 替换~~** — 11 种史前生物（raptor/triceratops/ mammoth/pterodactyl/ankylosaurus/sabre_tooth/giant_sloth/ doedicurus/mosasaurus/ammonite/trex_king）使用像素贴图 | 美术+Claude | 3天 | 贴图资源 | 敌人行走、攻击时显示像素动画，非纯色块 |
-| S13-03 | **地图 Tileset 贴图** — ancient_savanna/lava_canyon/frozen_tundra 三张地图的路径格/建造格/障碍格使用 Tileset 贴图 | 美术+Claude | 2天 | 贴图资源 | 三张地图有明确主题视觉区分 |
+| S13-03 | **~~地图 Tileset 贴图~~** — ancient_savanna/lava_canyon/frozen_tundra 三张地图的路径格/建造格/障碍格使用 Tileset 贴图 | 美术+Claude | 2天 | 贴图资源 | 三张地图有明确主题视觉区分 |
 
 ### Should Have
 
@@ -57,7 +57,7 @@
 ## Definition of Done for this Sprint
 - [x] 动物塔在游戏中显示像素贴图
 - [x] 敌人在游戏中显示像素贴图
-- [ ] 三张地图使用 Tileset 贴图
+- [x] 三张地图使用 Tileset 贴图
 - [ ] 设置面板可用
 - [ ] 无 S1/S2 级 Bug
 - [ ] sprint-13.md 归档

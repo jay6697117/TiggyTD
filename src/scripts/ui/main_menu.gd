@@ -102,7 +102,11 @@ func _on_state_changed(new_state: GameState.State) -> void:
 func _on_start_pressed() -> void:
 	var panel := CanvasLayer.new()
 	panel.set_script(load("res://scripts/ui/level_select_panel.gd"))
-	get_tree().root.add_child(panel)
+	var scene_root := get_tree().current_scene
+	if scene_root != null:
+		scene_root.add_child(panel)
+	else:
+		add_child(panel)
 
 
 func _on_temple_pressed() -> void:

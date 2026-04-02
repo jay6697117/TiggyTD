@@ -35,7 +35,8 @@ func _ready() -> void:
 	var pause_panel := CanvasLayer.new()
 	pause_panel.set_script(load("res://scripts/ui/pause_panel.gd"))
 	add_child(pause_panel)
-	GameState.change_state(GameState.State.MAIN_MENU)
+	# Re-emit the current state so freshly created scene nodes sync on cold boot and reloads.
+	GameState.change_state(GameState.current_state)
 
 
 func _connect_signals() -> void:

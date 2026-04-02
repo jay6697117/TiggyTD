@@ -55,7 +55,8 @@ func _build_ui() -> void:
 
 
 func _add_level_card(parent: Node, lid: String, entry: Dictionary) -> void:
-	var unlocked: bool = entry.get("status", "LOCKED") == "UNLOCKED"
+	var status: String = entry.get("status", "LOCKED")
+	var unlocked: bool = status == "UNLOCKED" or status == "CLEARED"
 	if not unlocked and lid == "lava_canyon" and GameState.has_meta_node("unlock_map2"):
 		unlocked = true
 	var best: Dictionary = entry.get("best_result", {})
@@ -108,6 +109,7 @@ func _add_level_card(parent: Node, lid: String, entry: Dictionary) -> void:
 
 func _on_level_selected(lid: String) -> void:
 	GameState.current_level_id = lid
-	# 重新加载场景，让 MapRenderer._ready() 用新 level_id 加载背景和 tileset
+	queue_free()
+	# Reload the gameplay scene so the next run rebuilds from the selected level.
 	GameState.reset_run_data()
 	get_tree().reload_current_scene()
