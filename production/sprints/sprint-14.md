@@ -76,4 +76,4 @@
 - [x] 敌人对象池改造完成（wave_manager._pool + enemy.recycle()/reuse()）⚠️ 帧率需 Godot 编辑器实测
 - [ ] 音频总资源 < 50MB（待放置实际音频文件后验证）
 - [ ] 无 S1/S2 级 Bug（待 Godot 编辑器运行验证）
-- [ ] sprint-14.md 归档
+- [x] sprint-14.md 归档
